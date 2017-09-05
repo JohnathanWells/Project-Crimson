@@ -19,12 +19,12 @@ public class AutoSaveScene
 
 		// Register for autosaves.
 		// Change this number to modify the autosave interval.
-		RegisterOnEditorUpdate(5);
+		RegisterOnEditorUpdate(10);
 	}
 
 	public static void RegisterOnEditorUpdate(int interval)
 	{
-		Debug.Log ("Enabling AutoSave");
+		//Debug.Log ("Enabling AutoSave");
 
 		updateInterval = new TimeSpan(0, interval, 0);
 		EditorApplication.update += OnUpdate;

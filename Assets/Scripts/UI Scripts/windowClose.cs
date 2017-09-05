@@ -24,16 +24,8 @@ public class windowClose : MonoBehaviour {
     void OnMouseDown()
     {
         if (!simple)
-            StartCoroutine(closeWindow());
+            thisWindowManager.gameObject.SendMessage(closingFunction);
         else
             window.gameObject.SetActive(false);
-    }
-
-    IEnumerator closeWindow()
-    {
-        animator.Play(closeAnimationName);
-        yield return new WaitForSeconds(closeAnimation.length);
-        thisWindowManager.gameObject.SendMessage(closingFunction);
-        window.gameObject.SetActive(false);
     }
 }

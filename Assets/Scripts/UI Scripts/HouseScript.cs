@@ -17,7 +17,8 @@ public class HouseScript : MonoBehaviour {
     public Transform[] medicationIcons = new Transform[4];
         //House Menu
     public Transform window;
-    private GameObject windowObject;
+    public AnimationClip windowOpenClip;
+    public AnimationClip windowCloseClip;
     private bool openWindow = false;
     private Animator windowAnimations;
 
@@ -25,8 +26,7 @@ public class HouseScript : MonoBehaviour {
 	void Start () {
         //This hides the notification and the status symbols
         notificationIcon.gameObject.SetActive(false);
-        windowObject = window.gameObject;
-        windowObject.SetActive(false);
+        window.gameObject.SetActive(false);
         drawerAnimations = familyDrawer.gameObject.GetComponent<Animator>();
         windowAnimations = window.gameObject.GetComponent<Animator>();
         for (int a = 0; a < 4; a++)
@@ -39,7 +39,7 @@ public class HouseScript : MonoBehaviour {
     void OnMouseOver()
     {
         //If you click on the house, it will open the quick summary of the family. If you click on it again it will hide it.
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             if (!openDrawer)
             {
@@ -52,19 +52,17 @@ public class HouseScript : MonoBehaviour {
                 openDrawer = false;
             }
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (Input.GetMouseButtonDown(0))
         {
             if (!openWindow)
             {
                 window.gameObject.SetActive(true);
-                windowAnimations.Play("OpenHouseMenu");
+                windowAnimations.Play(windowOpenClip.name);
                 openWindow = true;
             }
             else
             {
-                windowAnimations.Play("CloseHouseMenu");
-                openWindow = false;
-                //window.gameObject.SetActive(false);
+                closeHouseMenu();
             }
         }
     }
@@ -99,8 +97,18 @@ public class HouseScript : MonoBehaviour {
         }
     }
 
+    //This function and coroutine close the window
     public void closeHouseMenu()
     {
+
+        StartCoroutine(closeWindow());
+    }
+
+    IEnumerator closeWindow()
+    {
+        windowAnimations.Play(windowCloseClip.name);
+        yield return new WaitForSeconds(windowCloseClip.length);
         openWindow = false;
+        window.gameObject.SetActive(false);
     }
 }

@@ -54,7 +54,8 @@
      <Compile Include="Assets\Scripts\Classes\FamilyMembers.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseScript.cs" />
-     <Compile Include="Assets\windowClose.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\phoneScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\windowClose.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
