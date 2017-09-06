@@ -19,6 +19,13 @@ public class phoneScript : MonoBehaviour {
         phoneScreen.gameObject.SetActive(false);
     }
 
+    //Update phone information
+    public void updatePhone()
+    {
+
+    }
+
+    //Window Phone Stuff
     void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(0))

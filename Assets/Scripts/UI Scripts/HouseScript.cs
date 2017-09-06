@@ -5,6 +5,7 @@ using UnityEngine;
 public class HouseScript : MonoBehaviour {
 
     //References to other Scripts
+    public GameManager manager;
 
     //Icons and such
     public Transform notificationIcon;
@@ -26,13 +27,28 @@ public class HouseScript : MonoBehaviour {
 	void Start () {
         //This hides the notification and the status symbols
         notificationIcon.gameObject.SetActive(false);
+
+        //The animators related to the house icon
         window.gameObject.SetActive(false);
         drawerAnimations = familyDrawer.gameObject.GetComponent<Animator>();
         windowAnimations = window.gameObject.GetComponent<Animator>();
+
         for (int a = 0; a < 4; a++)
         {
-            sicknessIcons[a].gameObject.SetActive(false);
-            medicationIcons[a].gameObject.SetActive(false);
+            //Dad is 0, Mom is 1, Son is 2, Dau is 3
+
+            //Sickness is checked
+            if (manager.Family[a].status != FamilyMembers.sickness.Healthy)
+                sicknessIcons[a].gameObject.SetActive(true);
+            else
+                sicknessIcons[a].gameObject.SetActive(false);
+
+
+            //Medicine is checked
+            if (manager.Family[a].medicine == 0)
+                medicationIcons[a].gameObject.SetActive(false);
+            else
+                medicationIcons[a].gameObject.SetActive(true);
         }
 	}
 	
@@ -68,7 +84,7 @@ public class HouseScript : MonoBehaviour {
     }
 
     //This function is called to update the family icons with the current information
-    public void updateFamilyIcons(FamilyMembers[] familyArray)
+    public void familyUpdate(FamilyMembers[] familyArray)
     {
         for (int a = 0; a < 4; a++)
         {

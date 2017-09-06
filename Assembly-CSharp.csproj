@@ -51,6 +51,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ActivityMenuScript.cs" />
+     <Compile Include="Assets\CategoryScript.cs" />
+     <Compile Include="Assets\Scripts\Classes\ActivityClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\DayClass.cs" />
      <Compile Include="Assets\Scripts\Classes\FamilyMembers.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseScript.cs" />

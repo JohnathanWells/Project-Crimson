@@ -4,7 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class FamilyMembers
 {
-    public enum famMember {Dad, Mom, Son, Dau};
+    public enum famMember {Dad, Mom, Son, Dau, unknown};
     public enum sickness { Healthy, Flu, Porcine, Dengue, Cholera, Rabies }
     public enum emotionalHealth { Healthy, Depressed, Unstable };
     public famMember member;
@@ -17,9 +17,9 @@ public class FamilyMembers
     public bool mourning;
     public bool gone;
 
-    FamilyMembers(famMember type)
+    public FamilyMembers()
     {
-        member = type;
+        member = famMember.unknown;
         morale = 100;
         health = 100;
         medicine = 0;
