@@ -2,15 +2,12 @@
 using UnityEngine;
 
 public class DayClass{
+    public int month;
+    public int day;
 
-    public ActivityClass[] MorningActivities;
-    public ActivityClass[] AfternoonActivities;
-    public ActivityClass[] EveningActivities;
-
-    public DayClass(int MornActN, int AfternoonActN, int EvenActN)
+    public DayClass(int Month, int Day)
     {
-        MorningActivities = new ActivityClass[MornActN];
-        AfternoonActivities = new ActivityClass[AfternoonActN];
-        EveningActivities = new ActivityClass[EvenActN];
+        month = Month;
+        day = Day;
     }
 }

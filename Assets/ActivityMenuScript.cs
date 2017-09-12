@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class ActivityMenuScript : MonoBehaviour {
 
+    [Header("Buttons")]
     public TextMesh[] ActivityButtons;
     public CategoryScript[] categoryButtons;
+
+    [Header("References")]
     public GameManager Manager;
+
+    [Header("Time Stuff")]
     private DayClass currentDay;
     private GameManager.timeOfDay time;
     private ActivityClass.category selectedCategory;
+
+    [Header("Activities")]
+    private ActivityClass[] mornAct;
+    private ActivityClass[] noonAct;
+    private ActivityClass[] evnAct;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +36,10 @@ public class ActivityMenuScript : MonoBehaviour {
                 break;
             }
         }
-        currentDay = Manager.currentDay;
+        mornAct = Manager.mornActivities.ToArray();
+        noonAct = Manager.noonActivities.ToArray();
+        evnAct = Manager.evenActivities.ToArray();
+
         time = Manager.currentTime;
         changeActCat(ActivityClass.category.Work);
     }
@@ -41,15 +54,15 @@ public class ActivityMenuScript : MonoBehaviour {
 
         if (time == GameManager.timeOfDay.Morning)
         {
-            temp = currentDay.MorningActivities;
+            temp = mornAct;
         }
         else if (time == GameManager.timeOfDay.Afternoon)
         {
-            temp = currentDay.AfternoonActivities;
+            temp = noonAct;
         }
         else /*if (time == GameManager.timeOfDay.Evening)*/
         {
-            temp = currentDay.EveningActivities;
+            temp = evnAct;
         }
 
         for (int n = 0; n < temp.Length; n++)

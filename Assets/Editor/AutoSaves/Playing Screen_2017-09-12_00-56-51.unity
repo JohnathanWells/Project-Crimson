@@ -1208,7 +1208,6 @@ MonoBehaviour:
     gone: 0
   houseNotification: 0
   phoneNotification: 0
-  activityFile: {fileID: 4900000, guid: ac20ad614e617eb418105138d54586fa, type: 3}
   currentTime: 1
 --- !u!1 &567378007
 GameObject:
