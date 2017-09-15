@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class HouseScript : MonoBehaviour {
 
-    //References to other Scripts
+    [Header("References")]
     public GameManager manager;
 
-    //Icons and such
+    [Header("Icons")]
     public Transform notificationIcon;
-        //Family Drawer
+
+    [Header("Drawer")]
     public Transform familyDrawer;
     private Animator drawerAnimations;
     private bool openDrawer = false;
     public Transform[] familyIcons = new Transform[4];
     public Transform[] sicknessIcons = new Transform[4];
     public Transform[] medicationIcons = new Transform[4];
-        //House Menu
+    
+    [Header("House Menu")]
     public Transform window;
     public AnimationClip windowOpenClip;
     public AnimationClip windowCloseClip;

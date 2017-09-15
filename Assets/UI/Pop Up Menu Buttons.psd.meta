@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8ca7c09cb51334b45abbb6c7f87d9946
-timeCreated: 1504569039
+timeCreated: 1505334725
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -15,6 +15,7 @@ TextureImporter:
     21300016: Pop Up Menu Buttons_8
     21300018: Pop Up Menu Buttons_9
     21300020: Pop Up Menu Buttons_10
+    21300022: Pop Up Menu Buttons_11
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -184,13 +185,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pop Up Menu Buttons_7
+      name: Pop Up Menu Buttons_8
       rect:
         serializedVersion: 2
-        x: 81
-        y: 49
-        width: 15
-        height: 8
+        x: 84
+        y: 20
+        width: 8
+        height: 53
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -198,13 +199,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Pop Up Menu Buttons_8
+      name: Pop Up Menu Buttons_7
       rect:
         serializedVersion: 2
-        x: 80
-        y: 36
-        width: 17
-        height: 10
+        x: 71
+        y: 1
+        width: 28
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,24 +216,10 @@ TextureImporter:
       name: Pop Up Menu Buttons_9
       rect:
         serializedVersion: 2
-        x: 80
-        y: 60
-        width: 17
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Pop Up Menu Buttons_10
-      rect:
-        serializedVersion: 2
-        x: 84
-        y: 5
-        width: 9
-        height: 29
+        x: 34
+        y: 7
+        width: 11
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
