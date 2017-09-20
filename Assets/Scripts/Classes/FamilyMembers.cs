@@ -12,22 +12,29 @@ public class FamilyMembers
     public int morale;
     public int health;
     public int medicine;
+    public int food;
     public sickness status;
     public emotionalHealth psyche;
     public bool mourning;
     public bool gone;
 
-    public FamilyMembers()
+    public FamilyMembers(famMember member)
     {
         member = famMember.unknown;
         morale = 100;
         health = 100;
         medicine = 0;
+        food = 3;
         mourning = false;
         gone = false;
         status = sickness.Healthy;
         psyche = emotionalHealth.Healthy;
 
+    }
+
+    public void setName(string newName)
+    {
+        name = newName;
     }
     //WIP
 }

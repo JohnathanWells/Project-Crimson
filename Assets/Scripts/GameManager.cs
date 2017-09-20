@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 
     public enum timeOfDay { Morning, Afternoon, Evening };
 
+
     [Header("References")]
     public phoneScript Phone;
     public HouseScript House;
@@ -14,11 +15,15 @@ public class GameManager : MonoBehaviour {
 
     [Header("Data to Pass")]
     public FamilyMembers[] Family = new FamilyMembers[4];
+    public houseClass houseStats;
+    public cityClass City;
     public bool houseNotification = false;
     public bool phoneNotification = false;
 
-    [Header("Fucking show up")]
+    [Header("Files")]
     public TextAsset activityFile;
+    public TextAsset statChangesFile;
+    public TextAsset districtStatsFile;
     
     [Header("Day Stuff")]
     public DayClass currentDay;
@@ -32,16 +37,14 @@ public class GameManager : MonoBehaviour {
     public List<ActivityClass> evenActivities = new List<ActivityClass>();
 
 
+
+
     void Start()
     {
-        loadSession();
+        newSession();
 
         //TODO
         //Remember to change this with a load thing once I get to that
-        Family[0].member = FamilyMembers.famMember.Dad;
-        Family[1].member = FamilyMembers.famMember.Mom;
-        Family[2].member = FamilyMembers.famMember.Son;
-        Family[3].member = FamilyMembers.famMember.Dau;
 
         transitionDay();
     }
@@ -56,8 +59,12 @@ public class GameManager : MonoBehaviour {
         Activities.SendMessage("updateMenu");
     }
 
-    void loadSession()
+    void newSession()
     {
+        City = new cityClass(districtStatsFile, statChangesFile);
+        houseStats = new houseClass();
+
+        #region activityRelated
         ActivityClass tempActivity;
         ActivityClass.sector tempSec;
         ActivityClass.category tempCat;
@@ -180,6 +187,16 @@ public class GameManager : MonoBehaviour {
                 evenActivities.Add(tempActivity);
             }
         }
+        #endregion
+
+        Family[0] = new FamilyMembers(FamilyMembers.famMember.Dad);
+        Family[0].setName("Pedro Perez");
+        Family[1] = new FamilyMembers(FamilyMembers.famMember.Mom);
+        Family[1].setName("Maria Perez");
+        Family[2] = new FamilyMembers(FamilyMembers.famMember.Son);
+        Family[2].setName("Jose Perez");
+        Family[3] = new FamilyMembers(FamilyMembers.famMember.Dau);
+        Family[3].setName("Juana Perez");
     }
 
     int calculateArrayPos(int month, int day)

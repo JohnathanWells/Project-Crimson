@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HouseScript : MonoBehaviour {
 
+
+
     [Header("References")]
     public GameManager manager;
 
@@ -19,11 +21,16 @@ public class HouseScript : MonoBehaviour {
     public Transform[] medicationIcons = new Transform[4];
     
     [Header("House Menu")]
+    //Opening Window
     public Transform window;
     public AnimationClip windowOpenClip;
     public AnimationClip windowCloseClip;
     private bool openWindow = false;
     private Animator windowAnimations;
+    //Menu
+    public Transform MenuManagementScript; 
+
+
 
 
 	void Start () {
@@ -77,6 +84,8 @@ public class HouseScript : MonoBehaviour {
                 window.gameObject.SetActive(true);
                 windowAnimations.Play(windowOpenClip.name);
                 openWindow = true;
+                MenuManagementScript.SendMessage("openMenu", manager.Family);
+                MenuManagementScript.SendMessage("updateHouseInfo", manager.houseStats);
             }
             else
             {
@@ -90,24 +99,32 @@ public class HouseScript : MonoBehaviour {
     {
         for (int a = 0; a < 4; a++)
         {
-            //If the member is sick, display the thermometer
-            if (familyArray[a].status != FamilyMembers.sickness.Healthy)
-            {
-                sicknessIcons[a].gameObject.SetActive(true);
-                notificationIcon.gameObject.SetActive(true);
-                            
-                //If the member is being medicated, display the pill
-                if (familyArray[a].medicine > 0)
+            familyIcons[a].gameObject.SetActive(true);
+
+            if (!familyArray[a].gone)
+            {//If the member is sick, display the thermometer
+                if (familyArray[a].status != FamilyMembers.sickness.Healthy)
                 {
-                    medicationIcons[a].gameObject.SetActive(true);
+                    sicknessIcons[a].gameObject.SetActive(true);
+                    notificationIcon.gameObject.SetActive(true);
+
+                    //If the member is being medicated, display the pill
+                    if (familyArray[a].medicine > 0)
+                    {
+                        medicationIcons[a].gameObject.SetActive(true);
+                    }
+                    else
+                        medicationIcons[a].gameObject.SetActive(false);
                 }
                 else
+                {
+                    sicknessIcons[a].gameObject.SetActive(false);
                     medicationIcons[a].gameObject.SetActive(false);
+                }
             }
             else
             {
-                sicknessIcons[a].gameObject.SetActive(false);
-                medicationIcons[a].gameObject.SetActive(false);
+                familyIcons[a].gameObject.SetActive(false);
             }
 
             //Change the color of the figure depending on the health

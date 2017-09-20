@@ -51,19 +51,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ActivityMenuScript.cs" />
-     <Compile Include="Assets\CategoryScript.cs" />
-     <Compile Include="Assets\HouseMenuScript.cs" />
      <Compile Include="Assets\Scripts\Classes\ActivityClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\CategoryScript.cs" />
+     <Compile Include="Assets\Scripts\Classes\cityClass.cs" />
      <Compile Include="Assets\Scripts\Classes\DayClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\districtClass.cs" />
      <Compile Include="Assets\Scripts\Classes\FamilyMembers.cs" />
+     <Compile Include="Assets\Scripts\Classes\houseClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ItemClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ShopClass.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\ActivityMenuScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\buttonScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\HouseMenuScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\phoneScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\tabKeeperScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\windowClose.cs" />
      <None Include="Assets\gameData\activities.txt" />
+     <None Include="Assets\gameData\changes.txt" />
+     <None Include="Assets\gameData\districts.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
