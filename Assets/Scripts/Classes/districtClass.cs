@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[System.Serializable]
 public class districtClass{
     public enum sector { A, B, C, D, E };
 

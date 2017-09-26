@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
 public class houseClass{
 
         //Inventory
@@ -62,6 +64,12 @@ public class houseClass{
 
 
             plagueRate = accumulative;
+        }
+
+        public float getPlagueRate(cityClass city)
+        {
+            calculatePlagueRate(city);
+            return plagueRate;
         }
 
         //Food Related

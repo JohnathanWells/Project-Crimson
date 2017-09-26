@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 
 [System.Serializable]
@@ -8,7 +9,8 @@ public class FamilyMembers
     public enum sickness { Healthy, Flu, Porcine, Dengue, Cholera, Rabies }
     public enum emotionalHealth { Healthy, Depressed, Unstable };
     public famMember member;
-    public string name;
+    public string firstName;
+    public string lastName;
     public int morale;
     public int health;
     public int medicine;
@@ -32,9 +34,10 @@ public class FamilyMembers
 
     }
 
-    public void setName(string newName)
+    public void setName(string newName, string newLName)
     {
-        name = newName;
+        firstName = newName;
+        lastName = newLName;
     }
     //WIP
 }

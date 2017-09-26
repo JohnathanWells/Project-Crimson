@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[System.Serializable]
 public class ActivityClass{
     public enum sector { A, B, C, D, E };
     public enum category { Work, Shopping, Family, Personal };

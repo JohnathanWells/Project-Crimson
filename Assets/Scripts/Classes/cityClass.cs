@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class cityClass{
 
+    [System.Serializable]
     public struct changeOfStats
     {
         public DayClass date;

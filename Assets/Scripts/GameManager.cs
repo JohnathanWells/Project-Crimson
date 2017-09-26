@@ -28,23 +28,22 @@ public class GameManager : MonoBehaviour {
     [Header("Day Stuff")]
     public DayClass currentDay;
     public timeOfDay currentTime;
-    private int currentDayNum;
 
     [Header("Permanent Stuff")]
-    public DayClass[] sessionCalendar;
+    //public DayClass[] sessionCalendar;
+    public bool createSessionAtStart = false;
     public List<ActivityClass> mornActivities = new List<ActivityClass>();
     public List<ActivityClass> noonActivities = new List<ActivityClass>();
     public List<ActivityClass> evenActivities = new List<ActivityClass>();
-
-
+    savefileClass savedObject = new savefileClass();
 
 
     void Start()
     {
-        newSession();
-
-        //TODO
-        //Remember to change this with a load thing once I get to that
+        if (createSessionAtStart)
+            newSession();
+        else
+            loadData();
 
         transitionDay();
     }
@@ -59,10 +58,13 @@ public class GameManager : MonoBehaviour {
         Activities.SendMessage("updateMenu");
     }
 
+
+    //Data and saving management stuff
     void newSession()
     {
         City = new cityClass(districtStatsFile, statChangesFile);
         houseStats = new houseClass();
+        currentDay = new DayClass(10, 1);
 
         #region activityRelated
         ActivityClass tempActivity;
@@ -190,49 +192,24 @@ public class GameManager : MonoBehaviour {
         #endregion
 
         Family[0] = new FamilyMembers(FamilyMembers.famMember.Dad);
-        Family[0].setName("Pedro Perez");
+        Family[0].setName("Pedro", "Perez");
         Family[1] = new FamilyMembers(FamilyMembers.famMember.Mom);
-        Family[1].setName("Maria Perez");
+        Family[1].setName("Maria", "Perez");
         Family[2] = new FamilyMembers(FamilyMembers.famMember.Son);
-        Family[2].setName("Jose Perez");
+        Family[2].setName("Jose", "Perez");
         Family[3] = new FamilyMembers(FamilyMembers.famMember.Dau);
-        Family[3].setName("Juana Perez");
+        Family[3].setName("Juana", "Perez");
+
+        saveData();
     }
 
-    int calculateArrayPos(int month, int day)
+    public void saveData()
     {
-        int result = 0;
-        int n = 10;
+        savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities);
+    }
 
-        while (true)
-        {
-            if (n == month)
-            {
-                return result + day;
-            }
-            else
-            {
-                if (month == 10 || month == 12 || month == 1 || month == 3)
-                {
-                    result += 31;
-                }
-                else if (month == 2)
-                {
-                    result += 28;
-                }
-                else
-                {
-                    result += 30;
-                }
-            }
-
-            //Add 1 to n to change month, if it is 0 then we turn it into 1 to start counting from there
-            n = (n + 1) % 12;
-
-            if (n == 0)
-            {
-                n++;
-            }
-        }
+    public void loadData()
+    {
+        savedObject.loadData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities);
     }
 }

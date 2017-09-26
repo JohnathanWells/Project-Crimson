@@ -85,7 +85,7 @@ public class HouseScript : MonoBehaviour {
                 windowAnimations.Play(windowOpenClip.name);
                 openWindow = true;
                 MenuManagementScript.SendMessage("openMenu", manager.Family);
-                MenuManagementScript.SendMessage("updateHouseInfo", manager.houseStats);
+                MenuManagementScript.SendMessage("updateHouseInfo", manager);
             }
             else
             {

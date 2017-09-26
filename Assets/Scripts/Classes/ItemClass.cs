@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[System.Serializable]
 public class ItemClass{
 
     public enum itemType { Food, Cleaning, Hygiene, Medicines };

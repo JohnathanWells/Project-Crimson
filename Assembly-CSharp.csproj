@@ -59,8 +59,10 @@
      <Compile Include="Assets\Scripts\Classes\FamilyMembers.cs" />
      <Compile Include="Assets\Scripts\Classes\houseClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ItemClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\savefileClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ShopClass.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\SaveLoad.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\ActivityMenuScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\buttonScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseMenuScript.cs" />
