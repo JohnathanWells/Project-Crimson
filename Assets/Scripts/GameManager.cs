@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour {
     }
 
 
+
+
     //Data and saving management stuff
     void newSession()
     {
@@ -172,7 +174,7 @@ public class GameManager : MonoBehaviour {
             {
                 //Here I will assign it a shop
             }
-            
+
             //This section choices what lists will be receiving the activities
             if (tempAva[0])
             {

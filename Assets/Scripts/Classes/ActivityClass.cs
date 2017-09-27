@@ -28,8 +28,13 @@ public class ActivityClass{
         area = ar;
         activityCategory = cat;
         cost = ActCost;
-        moraleChange = morale;
-        timeOfDayAvailability = ava;
+
+        for (int n = 0; n < morale.Length; n++)
+            moraleChange[n] = morale[n];
+
+        for (int n = 0; n < ava.Length; n++)
+            timeOfDayAvailability[n] = ava[n];
+
         isItShop = isShop;
     }
 

@@ -23,8 +23,8 @@ public class HouseMenuScript : MonoBehaviour {
     public TextMesh[] familyNames = new TextMesh[4];
     public TextMesh[] healthStatus = new TextMesh[4];
     public Color[] healthColors = new Color[5];
-    public TextMesh[] medicationNumber = new TextMesh[4];
-    public TextMesh[] foodNumber = new TextMesh[4];
+    public Transform[] medicationButton = new Transform[4];
+    public Transform[] foodButton = new Transform[4];
     public TextMesh[] moraleStatus = new TextMesh[4];
     public Color[] moraleColors = new Color[5];
 
@@ -41,7 +41,7 @@ public class HouseMenuScript : MonoBehaviour {
     public void openMenu(FamilyMembers [] members)
     {
         FamilyMembers = members;
-        updateFamilyInfo(members);
+        updateFamilyInfo();
 
         updateTab(0);
     }
@@ -102,7 +102,7 @@ public class HouseMenuScript : MonoBehaviour {
         
     }
 
-    public void updateFamilyInfo(FamilyMembers[] members)
+    public void updateFamilyInfo()
     {
         for (int n = 0; n < 4; n++)
         {
@@ -191,11 +191,15 @@ public class HouseMenuScript : MonoBehaviour {
             }
             #endregion
 
-            medicationNumber[number].text = "" + FamilyMembers[number].medicine;
-            foodNumber[number].text = "" + FamilyMembers[number].food;
-
+            updateFamilyMemberInv(number);
         }
         
+    }
+
+    public void updateFamilyMemberInv(int number)
+    {
+        medicationButton[number].SendMessage("updateNumber", FamilyMembers[number].medicine);
+        foodButton[number].SendMessage("updateNumber", FamilyMembers[number].food);
     }
 
     //These functions deal with changing tabs

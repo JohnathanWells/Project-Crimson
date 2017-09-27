@@ -51,7 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\actInfoBox.cs" />
      <Compile Include="Assets\Scripts\Classes\ActivityClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\arrowButtonClass.cs" />
      <Compile Include="Assets\Scripts\Classes\CategoryScript.cs" />
      <Compile Include="Assets\Scripts\Classes\cityClass.cs" />
      <Compile Include="Assets\Scripts\Classes\DayClass.cs" />
@@ -63,7 +65,9 @@
      <Compile Include="Assets\Scripts\Classes\ShopClass.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\SaveLoad.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\activityButtonScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\ActivityMenuScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\amountButton.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\buttonScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseMenuScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseScript.cs" />

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ActivityMenuScript : MonoBehaviour {
 
     [Header("Buttons")]
-    public TextMesh[] ActivityButtons;
+    public Transform[] ActivityButtons;
     public CategoryScript[] categoryButtons;
 
     [Header("References")]
@@ -28,14 +28,15 @@ public class ActivityMenuScript : MonoBehaviour {
 
     public void updateMenu()
     {
-        for (int n = 0; n < categoryButtons.Length; n++ )
-        {
-            if (categoryButtons[n].Category == ActivityClass.category.Work)
-            {
-                categoryButtons[n].SendMessage("turnOn");
-                break;
-            }
-        }
+        //for (int n = 0; n < categoryButtons.Length; n++ )
+        //{
+        //    if (categoryButtons[n].Category == ActivityClass.category.Work)
+        //    {
+        //        categoryButtons[n].SendMessage("turnOn");
+        //        break;
+        //    }
+        //}
+
         mornAct = Manager.mornActivities.ToArray();
         noonAct = Manager.noonActivities.ToArray();
         evnAct = Manager.evenActivities.ToArray();
@@ -50,7 +51,7 @@ public class ActivityMenuScript : MonoBehaviour {
         selectedCategory = Category;
         int count = 0;
 
-        Debug.Log(time);
+        //Debug.Log(time);
 
         if (time == GameManager.timeOfDay.Morning)
         {
@@ -65,18 +66,19 @@ public class ActivityMenuScript : MonoBehaviour {
             temp = evnAct;
         }
 
-        for (int n = 0; n < temp.Length; n++)
+        for (int n = 0; n < temp.Length && count < ActivityButtons.Length; n++)
         {
             if (temp[n].activityCategory == selectedCategory)
             {
-                ActivityButtons[count].text = temp[n].activityName;
+                ActivityButtons[count].SendMessage("setActivity", temp[n]);
                 count++;
             }
+
         }
 
         for (; count < ActivityButtons.Length; count++)
         {
-            ActivityButtons[count].text = " ";
+            ActivityButtons[count].SendMessage("setEmpty");
         }
 
             return;

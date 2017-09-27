@@ -81,11 +81,7 @@ public class HouseScript : MonoBehaviour {
         {
             if (!openWindow)
             {
-                window.gameObject.SetActive(true);
-                windowAnimations.Play(windowOpenClip.name);
-                openWindow = true;
-                MenuManagementScript.SendMessage("openMenu", manager.Family);
-                MenuManagementScript.SendMessage("updateHouseInfo", manager);
+                openHouseMenu();
             }
             else
             {
@@ -132,6 +128,40 @@ public class HouseScript : MonoBehaviour {
         }
     }
 
+    //This function open the window
+    public void openHouseMenu()
+    {
+        window.gameObject.SetActive(true);
+        windowAnimations.Play(windowOpenClip.name);
+        openWindow = true;
+        MenuManagementScript.SendMessage("openMenu", manager.Family);
+        MenuManagementScript.SendMessage("updateHouseInfo", manager);
+    }
+
+    public void manipulateFoodConsumption(arrowButtonClass information)
+    {
+        if (manager.houseStats.getFoodQ() - information.change >= 0)
+        {
+            manager.Family[information.id].food += information.change;
+            manager.houseStats.modFood(-information.change);
+
+            MenuManagementScript.SendMessage("updateFamilyInfo", manager.Family);
+            MenuManagementScript.SendMessage("updateHouseInfo", manager);
+        }
+    }
+
+    public void manipulateMedicineReserve(arrowButtonClass information)
+    {
+        if (manager.houseStats.getMedicines() - information.change >= 0)
+        {
+            manager.Family[information.id].medicine += information.change;
+            manager.houseStats.modMed(-information.change);
+
+            MenuManagementScript.SendMessage("updateFamilyInfo", manager.Family);
+            MenuManagementScript.SendMessage("updateHouseInfo", manager);
+        }
+    }
+
     //This function and coroutine close the window
     public void closeHouseMenu()
     {
@@ -144,6 +174,7 @@ public class HouseScript : MonoBehaviour {
         windowAnimations.Play(windowCloseClip.name);
         yield return new WaitForSeconds(windowCloseClip.length);
         openWindow = false;
+        manager.saveData();
         window.gameObject.SetActive(false);
     }
 }
