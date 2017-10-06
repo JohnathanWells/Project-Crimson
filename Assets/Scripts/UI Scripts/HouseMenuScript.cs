@@ -67,9 +67,34 @@ public class HouseMenuScript : MonoBehaviour {
         }
 
         foodQuantity.text = "" + yourHouse.getFoodQ() + " Kg.";
+
+        if (yourHouse.getFoodQ() == 0)
+            foodQuantity.color = badColor;
+        else
+            foodQuantity.color = new Color(1, 1, 1, 1);
+
         medicineQuantity.text = "" + yourHouse.getMedicines() + " Mg.";
+
+        if (yourHouse.getMedicines() == 0)
+            medicineQuantity.color = badColor;
+        else
+            medicineQuantity.color = new Color(1, 1, 1, 1);
+
         hygieneQuantity.text = "" + yourHouse.getHygiene() + " items.";
+
+        if (yourHouse.getHygiene() == 0)
+            hygieneQuantity.color = badColor;
+        else
+            hygieneQuantity.color = new Color(1, 1, 1, 1);
+        
         cleanQuantity.text = "" + yourHouse.getCleaningQ() + " Liters.";
+
+        if (yourHouse.getCleaningQ() == 0)
+            cleanQuantity.color = badColor;
+        else
+            cleanQuantity.color = new Color(1, 1, 1, 1);
+
+
 
         //plagueRateDisplay.text = "PLAGUE RATE: " + yourHouse.getPlagueRate(city) + "%";
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public enum timeOfDay { Morning, Afternoon, Evening };
 
-    public enum timeOfDay { Morning, Afternoon, Evening };
+public class GameManager : MonoBehaviour {
 
 
     [Header("References")]
@@ -45,20 +45,113 @@ public class GameManager : MonoBehaviour {
         else
             loadData();
 
-        transitionDay();
+        updateComponents();
     }
 
-    void transitionDay()
+    public void transitionDay()
     {
-        //TODO
-        //Everything else
+        if (currentTime == timeOfDay.Evening)
+        {
+            currentDay.advanceDay();
+            currentTime = timeOfDay.Morning;
+        }
+        else
+        {
+            currentTime += 1;
+            saveData();
+        }
 
+
+        //Family members consume food and medicines
+        dailyFoodConsumption();
+        dailyHealthDrift();
+
+        updateComponents();
+    }
+
+    public void updateComponents()
+    {
         Phone.SendMessage("updatePhone");
         House.SendMessage("familyUpdate", Family);
         Activities.SendMessage("updateMenu");
     }
 
+    //Family stats changes with time
+    public void dailyFoodConsumption()
+    {
+        int foodConsumed;
 
+        for (int n = 0; n < 4; n++)
+        {
+            if (houseStats.getFoodQ() > 0)
+            {
+                if (houseStats.getFoodQ() - Family[n].food > 0)
+                {
+                    houseStats.modFood(-Family[n].food);
+
+                    foodConsumed = Family[n].food;
+
+                    if (foodConsumed == 3)
+                    {
+                        Family[n].meanHealth = 100;
+                    }
+                    else if (foodConsumed == 2)
+                    {
+                        Family[n].meanHealth = 66;
+                    }
+                    else if (foodConsumed == 1)
+                    {
+                        Family[n].meanHealth = 33;
+                    }
+                    else if (foodConsumed == 0)
+                    {
+                        Family[n].meanHealth = 0;
+                    }
+                }
+                else
+                {
+                    foodConsumed = houseStats.getFoodQ();
+
+                    houseStats.modFood(-houseStats.getFoodQ());
+
+                    if (foodConsumed == 3)
+                    {
+                        Family[n].meanHealth = 100;
+                    }
+                    else if (foodConsumed == 2)
+                    {
+                        Family[n].meanHealth = 66;
+                    }
+                    else if (foodConsumed == 1)
+                    {
+                        Family[n].meanHealth = 33;
+                    }
+                    else if (foodConsumed == 0)
+                    {
+                        Family[n].meanHealth = 0;
+                    }
+                }
+            }
+            else
+            {
+                foodConsumed = houseStats.getFoodQ();
+            }
+
+        }
+    }
+
+    public void dailyHealthDrift()
+    {
+        for (int n = 0; n < 4; n++)
+        {
+            Family[n].healthDrift();
+        }
+    }
+
+    public void dailyMedicineConsumption()
+    {
+
+    }
 
 
     //Data and saving management stuff
@@ -67,6 +160,7 @@ public class GameManager : MonoBehaviour {
         City = new cityClass(districtStatsFile, statChangesFile);
         houseStats = new houseClass();
         currentDay = new DayClass(10, 1);
+        currentTime = timeOfDay.Morning;
 
         #region activityRelated
         ActivityClass tempActivity;
@@ -212,6 +306,9 @@ public class GameManager : MonoBehaviour {
 
     public void loadData()
     {
-        savedObject.loadData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities);
+        SaveLoad.Load();
+        SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities);
+        currentTime = SaveLoad.savedGame.getSavedTime();
+        //Debug.Log(currentTime);
     }
 }

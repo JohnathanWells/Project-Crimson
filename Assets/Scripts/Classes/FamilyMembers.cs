@@ -13,12 +13,16 @@ public class FamilyMembers
     public string lastName;
     public int morale;
     public int health;
+    public int meanHealth;
     public int medicine;
     public int food;
     public sickness status;
     public emotionalHealth psyche;
     public bool mourning;
     public bool gone;
+
+    int[] healthDecreaseRates = {20, 5, 2, 0};
+    int[] healthIncreaseRates = { 0, 2, 5, 10 };
 
     public FamilyMembers(famMember member)
     {
@@ -31,13 +35,37 @@ public class FamilyMembers
         gone = false;
         status = sickness.Healthy;
         psyche = emotionalHealth.Healthy;
-
+        meanHealth = 100;
     }
 
     public void setName(string newName, string newLName)
     {
         firstName = newName;
         lastName = newLName;
+    }
+
+    public void healthDrift()
+    {
+        food %= 3;
+        
+        if (health > meanHealth)
+        {
+            health -= healthDecreaseRates[food];
+        }
+        else if (health < meanHealth)
+        {
+            health += healthIncreaseRates[food];
+        }
+
+        if (health <= 0)
+        {
+            dies();
+        }
+    }
+
+    public void dies()
+    {
+        gone = true;
     }
     //WIP
 }

@@ -138,6 +138,7 @@ public class HouseScript : MonoBehaviour {
         MenuManagementScript.SendMessage("updateHouseInfo", manager);
     }
 
+    //This functions manipulate resource distribution
     public void manipulateFoodConsumption(arrowButtonClass information)
     {
         if (manager.houseStats.getFoodQ() - information.change >= 0)

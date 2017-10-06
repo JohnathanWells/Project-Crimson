@@ -13,9 +13,9 @@ public class savefileClass{
     List<ActivityClass> noonActivities;
     List<ActivityClass> eveningActivities;
     FamilyMembers[] savedFamily;
-    GameManager.timeOfDay savedTime;
+    timeOfDay savedTime;
 
-    public void saveData(cityClass city, houseClass house, DayClass day, GameManager.timeOfDay time, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc)
+    public void saveData(cityClass city, houseClass house, DayClass day, timeOfDay time, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc)
     {
         savedCity = city;
         savedHouse = house;
@@ -30,40 +30,41 @@ public class savefileClass{
         SaveLoad.Save();
     }
 
-    public void loadData(cityClass city, houseClass house, DayClass day, GameManager.timeOfDay time, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc)
+    public void copyData(cityClass city, houseClass house, DayClass day, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc)
     {
-        SaveLoad.Load();
-        savefileClass temp = SaveLoad.savedGame;
+        city = savedCity;
+        house = savedHouse;
+        currentDay.copyTo(day);
 
-        city = temp.savedCity;
-        house = temp.savedHouse;
-        day = temp.currentDay;
-        time = temp.savedTime;
+        //Debug.Log((int)savedTime + " vs " + (int)savedTime);
 
         //Copying the family
         for (int n = 0; n < 4; n++)
         {
-            family[n] = temp.savedFamily[n];
+            family[n] = savedFamily[n];
         }
-
 
         //Copying the activities
-        for (int n = 0; n < temp.morningActivities.Count; n++)
+        for (int n = 0; n < morningActivities.Count; n++)
         {
-            mAc.Add(temp.morningActivities[n]);
+            mAc.Add(morningActivities[n]);
         }
 
-        for (int n = 0; n < temp.noonActivities.Count; n++)
+        for (int n = 0; n < noonActivities.Count; n++)
         {
-            nAc.Add(temp.noonActivities[n]);
+            nAc.Add(noonActivities[n]);
         }
 
-        for (int n = 0; n < temp.eveningActivities.Count; n++)
+        for (int n = 0; n < eveningActivities.Count; n++)
         {
-            eAc.Add(temp.eveningActivities[n]);
+            eAc.Add(eveningActivities[n]);
         }
 
         //Debug.Log(tempFamily[0].firstName + "\n" + tempFamily[1].firstName);
     }
 
+    public timeOfDay getSavedTime()
+    {
+        return savedTime;
+    }
 }

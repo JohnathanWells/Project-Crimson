@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8ca7c09cb51334b45abbb6c7f87d9946
-timeCreated: 1505334725
+timeCreated: 1507313035
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -220,6 +220,34 @@ TextureImporter:
         y: 7
         width: 11
         height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pop Up Menu Buttons_10
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 11
+        width: 17
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Pop Up Menu Buttons_11
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 79
+        width: 11
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

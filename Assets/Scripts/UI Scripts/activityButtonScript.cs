@@ -5,7 +5,7 @@ using UnityEngine;
 public class activityButtonScript : MonoBehaviour {
 
     public Transform statDisplay;
-
+    public ActivityMenuScript menuManager;
     public TextMesh textDisplay;
     bool active = false;
     ActivityClass assignedActivity;
@@ -15,7 +15,29 @@ public class activityButtonScript : MonoBehaviour {
         textDisplay = gameObject.GetComponentInChildren<TextMesh>();
     }
 
-    public void setEmpty()
+    void OnMouseOver()
+    {
+        if (active)
+        {
+            statDisplay.gameObject.SetActive(true);
+            statDisplay.SendMessage("setActivity", assignedActivity);
+        }
+    }
+
+    void OnMouseDown()
+    {
+        if (active)
+        {
+            menuManager.SendMessage("executeActivity", assignedActivity);
+        }
+    }
+
+    void OnMouseExit()
+    {
+        statDisplay.gameObject.SetActive(false);
+    }
+
+        public void setEmpty()
     {
         active = false;
         textDisplay.text = " ";
@@ -30,17 +52,8 @@ public class activityButtonScript : MonoBehaviour {
         //statDisplay.SendMessage("setActivity", assignedActivity);
     }
 
-    void OnMouseOver()
+    public void enhanceActivity(ActivityClass activity)
     {
-        if (active)
-        {
-            statDisplay.gameObject.SetActive(true);
-            statDisplay.SendMessage("setActivity", assignedActivity);
-        }
-    }
 
-    void OnMouseExit()
-    {
-        statDisplay.gameObject.SetActive(false);
     }
 }

@@ -13,7 +13,7 @@ public class ActivityMenuScript : MonoBehaviour {
 
     [Header("Time Stuff")]
     private DayClass currentDay;
-    private GameManager.timeOfDay time;
+    private timeOfDay time;
     private ActivityClass.category selectedCategory;
 
     [Header("Activities")]
@@ -53,15 +53,15 @@ public class ActivityMenuScript : MonoBehaviour {
 
         //Debug.Log(time);
 
-        if (time == GameManager.timeOfDay.Morning)
+        if (time == timeOfDay.Morning)
         {
             temp = mornAct;
         }
-        else if (time == GameManager.timeOfDay.Afternoon)
+        else if (time == timeOfDay.Afternoon)
         {
             temp = noonAct;
         }
-        else /*if (time == GameManager.timeOfDay.Evening)*/
+        else /*if (time == timeOfDay.Evening)*/
         {
             temp = evnAct;
         }
@@ -82,5 +82,10 @@ public class ActivityMenuScript : MonoBehaviour {
         }
 
             return;
+    }
+
+    public void executeActivity(ActivityClass activity)
+    {
+        Manager.SendMessage("transitionDay");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -14,6 +15,58 @@ public class DayClass{
         day = Day;
 
         dayCount = calculateCurrentDay();
+    }
+
+    public void changeDayTo(int Month, int Day)
+    {
+        if (month > 0 && month < 13 && day > 0 && day < 32)
+        {
+            month = Month;
+            day = Day;
+            dayCount = calculateCurrentDay();
+        }
+    }
+
+    public void advanceDay()
+    {
+        dayCount++;
+
+        if (month == 10 || month == 12 || month == 1 || month == 3)
+        {
+            if (day + 1 > 31)
+            {
+                if (month + 1 > 12)
+                {
+                    month = 1;
+                }
+                else
+                    month++;
+
+                day = 1;
+            }
+            else
+                day++;
+        }
+        else if (month == 11 || month == 4 || month == 6 || month == 9)
+        {
+            if (day + 1 > 30)
+            {
+                month++;
+                day = 1;
+            }
+            else
+                day++;
+        }
+        else if (month == 2)
+        {
+            if (day + 1 > 28)
+            {
+                month++;
+                day = 1;
+            }
+            else
+                day++;
+        }
     }
 
     public int calculateCurrentDay()
@@ -46,5 +99,12 @@ public class DayClass{
         ac += day;
 
         return ac;
+    }
+
+    public void copyTo(DayClass to)
+    {
+        to.day = day;
+        to.month = month;
+        to.dayCount = dayCount;
     }
 }
