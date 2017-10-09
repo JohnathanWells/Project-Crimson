@@ -101,6 +101,11 @@ public class DayClass{
         return ac;
     }
 
+    public int calculateDayOfWeek()
+    {
+        return dayCount % 7;
+    }
+
     public void copyTo(DayClass to)
     {
         to.day = day;

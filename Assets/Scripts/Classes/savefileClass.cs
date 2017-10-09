@@ -13,9 +13,10 @@ public class savefileClass{
     List<ActivityClass> noonActivities;
     List<ActivityClass> eveningActivities;
     FamilyMembers[] savedFamily;
+    List<sicknessClass> illnesses;
     timeOfDay savedTime;
 
-    public void saveData(cityClass city, houseClass house, DayClass day, timeOfDay time, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc)
+    public void saveData(cityClass city, houseClass house, DayClass day, timeOfDay time, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc, List<sicknessClass> ill)
     {
         savedCity = city;
         savedHouse = house;
@@ -25,12 +26,13 @@ public class savefileClass{
         morningActivities = mAc;
         noonActivities = nAc;
         eveningActivities = eAc;
+        illnesses = ill;
 
         SaveLoad.savedGame = this;
         SaveLoad.Save();
     }
 
-    public void copyData(cityClass city, houseClass house, DayClass day, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc)
+    public void copyData(cityClass city, houseClass house, DayClass day, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc, List<sicknessClass> ill)
     {
         city = savedCity;
         house = savedHouse;
@@ -60,6 +62,10 @@ public class savefileClass{
             eAc.Add(eveningActivities[n]);
         }
 
+        for (int n = 0; n < illnesses.Count; n++)
+        {
+            ill.Add(illnesses[n]);
+        }
         //Debug.Log(tempFamily[0].firstName + "\n" + tempFamily[1].firstName);
     }
 

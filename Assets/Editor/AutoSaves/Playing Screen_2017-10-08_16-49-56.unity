@@ -1274,11 +1274,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 219308242}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 36.959564, y: -7.700001, z: 0}
-  m_LocalScale: {x: 0.819672, y: 1, z: 1}
+  m_LocalPosition: {x: 1.7, y: 0.2, z: -2.3725972}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
-  m_Father: {fileID: 1530031931}
-  m_RootOrder: 2
+  m_Father: {fileID: 376582412}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!102 &219308244
 TextMesh:
@@ -1293,7 +1293,7 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 1
+  m_Anchor: 5
   m_Alignment: 0
   m_TabSize: 4
   m_FontSize: 92
@@ -1434,7 +1434,7 @@ Transform:
   m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
   m_Father: {fileID: 376582412}
-  m_RootOrder: 3
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!102 &227012548
 TextMesh:
@@ -2253,7 +2253,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &376582412
 Transform:
   m_ObjectHideFlags: 0
@@ -2267,6 +2267,10 @@ Transform:
   - {fileID: 710508253}
   - {fileID: 667526701}
   - {fileID: 1530031931}
+  - {fileID: 1169719423}
+  - {fileID: 798485150}
+  - {fileID: 219308243}
+  - {fileID: 500905197}
   - {fileID: 227012547}
   m_Father: {fileID: 1640230538}
   m_RootOrder: 0
@@ -3094,11 +3098,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 500905196}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 56.085247, y: -7.700001, z: 0}
-  m_LocalScale: {x: 0.819672, y: 1, z: 1}
+  m_LocalPosition: {x: 2.4, y: 0.2, z: -2.3725972}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
-  m_Father: {fileID: 1530031931}
-  m_RootOrder: 3
+  m_Father: {fileID: 376582412}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!102 &500905198
 TextMesh:
@@ -3113,7 +3117,7 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 1
+  m_Anchor: 5
   m_Alignment: 0
   m_TabSize: 4
   m_FontSize: 92
@@ -3423,14 +3427,7 @@ MonoBehaviour:
     meanHealth: 0
     medicine: 0
     food: 0
-    status:
-      ID: 0
-      name: 
-      moralePerDay: 0
-      healthPerDay: 0
-      recoveryTimeM: 0
-      recoveryTimeN: 0
-      minPRCheck: 0
+    status: 0
     psyche: 0
     mourning: 0
     gone: 0
@@ -3442,14 +3439,7 @@ MonoBehaviour:
     meanHealth: 0
     medicine: 1
     food: 0
-    status:
-      ID: 0
-      name: 
-      moralePerDay: 0
-      healthPerDay: 0
-      recoveryTimeM: 0
-      recoveryTimeN: 0
-      minPRCheck: 0
+    status: 1
     psyche: 0
     mourning: 0
     gone: 0
@@ -3461,14 +3451,7 @@ MonoBehaviour:
     meanHealth: 0
     medicine: 0
     food: 0
-    status:
-      ID: 0
-      name: 
-      moralePerDay: 0
-      healthPerDay: 0
-      recoveryTimeM: 0
-      recoveryTimeN: 0
-      minPRCheck: 0
+    status: 0
     psyche: 0
     mourning: 0
     gone: 0
@@ -3480,21 +3463,13 @@ MonoBehaviour:
     meanHealth: 0
     medicine: 0
     food: 0
-    status:
-      ID: 0
-      name: 
-      moralePerDay: 0
-      healthPerDay: 0
-      recoveryTimeM: 0
-      recoveryTimeN: 0
-      minPRCheck: 0
+    status: 2
     psyche: 0
     mourning: 0
     gone: 0
   houseStats:
     servicesPaid: 1
     plagueRate: 0
-    timeLeftForPayment: 0
   City:
     districts: []
     currentInflation: 0
@@ -3503,11 +3478,9 @@ MonoBehaviour:
     currentChaos: 0
   houseNotification: 0
   phoneNotification: 0
-  costOfServices: 20000
   activityFile: {fileID: 4900000, guid: ac20ad614e617eb418105138d54586fa, type: 3}
   statChangesFile: {fileID: 4900000, guid: 098709989ae6f9c44925d1e59c504529, type: 3}
   districtStatsFile: {fileID: 4900000, guid: 986fea3f5cf3b4f4aabd869598a488b4, type: 3}
-  sicknessFile: {fileID: 4900000, guid: b6ed2176788d83e4aae3a25623b7cad1, type: 3}
   currentDay:
     month: 0
     day: 0
@@ -3517,7 +3490,6 @@ MonoBehaviour:
   mornActivities: []
   noonActivities: []
   evenActivities: []
-  sicknesses: []
 --- !u!1 &567378007
 GameObject:
   m_ObjectHideFlags: 0
@@ -5855,11 +5827,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 798485149}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.2, y: -7.7, z: 0}
-  m_LocalScale: {x: 0.819672, y: 1, z: 1}
+  m_LocalPosition: {x: 1.05, y: 0.2, z: -2.3725972}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
-  m_Father: {fileID: 1530031931}
-  m_RootOrder: 1
+  m_Father: {fileID: 376582412}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!102 &798485151
 TextMesh:
@@ -5874,7 +5846,7 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 1
+  m_Anchor: 5
   m_Alignment: 0
   m_TabSize: 4
   m_FontSize: 92
@@ -9174,11 +9146,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1169719422}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.4404397, y: -7.700001, z: 0}
-  m_LocalScale: {x: 0.819672, y: 1, z: 1}
+  m_LocalPosition: {x: 0.4, y: 0.2, z: -2.3725972}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 1}
   m_Children: []
-  m_Father: {fileID: 1530031931}
-  m_RootOrder: 0
+  m_Father: {fileID: 376582412}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!102 &1169719424
 TextMesh:
@@ -9193,7 +9165,7 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 1
+  m_Anchor: 5
   m_Alignment: 0
   m_TabSize: 4
   m_FontSize: 92
@@ -10942,11 +10914,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.287, y: 0.719, z: -2.3725972}
   m_LocalScale: {x: 0.0366, y: 0.03, z: 1}
-  m_Children:
-  - {fileID: 1169719423}
-  - {fileID: 798485150}
-  - {fileID: 219308243}
-  - {fileID: 500905197}
+  m_Children: []
   m_Father: {fileID: 376582412}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

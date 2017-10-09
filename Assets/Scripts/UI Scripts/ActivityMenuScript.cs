@@ -86,6 +86,6 @@ public class ActivityMenuScript : MonoBehaviour {
 
     public void executeActivity(ActivityClass activity)
     {
-        Manager.SendMessage("transitionDay");
+        Manager.SendMessage("executeActivity", activity);
     }
 }

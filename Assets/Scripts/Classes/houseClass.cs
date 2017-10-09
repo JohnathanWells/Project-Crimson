@@ -16,18 +16,62 @@ public class houseClass{
         //Stats
         public bool servicesPaid = true;
         public float plagueRate = 0;
+        public int timeLeftForPayment;
 
-        
+
         //Constructor
         public houseClass()
         {
             money = 100;
-            foodQuantity = 20;
+            foodQuantity = 100;
             cleaningItems = 5;
             hygieneItems = 5;
             medicineQuantity = 5;
         }
 
+        //Service related
+        public void payServices(int serviceCost, DayClass currentDay)
+        {
+            if (money >= serviceCost)
+            {
+                servicesPaid = true;
+                money -= serviceCost;
+            }
+            else
+            {
+                servicesPaid = false;
+            }
+
+            timeLeftForPayment = calculateDaysLeftForServices(currentDay);
+        }
+
+        public int calculateDaysLeftForServices(DayClass currentDay)
+        {
+            int finalDay = 31;
+
+            if (currentDay.month == 10 || currentDay.month == 12 || currentDay.month == 1 || currentDay.month == 3)
+            {
+                finalDay = 31;
+            }
+            else if (currentDay.month == 11)
+            {
+                finalDay = 30;
+            }
+            else if (currentDay.month == 2)
+            {
+                finalDay = 28;
+            }
+
+            int daysLeft = finalDay - currentDay.day;
+
+            while ((currentDay.dayCount + daysLeft) % 7 != 0)
+            {
+                daysLeft++;
+            }
+
+            return daysLeft;
+
+        }
 
 
         //Money Related

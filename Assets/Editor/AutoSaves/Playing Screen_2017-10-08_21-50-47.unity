@@ -3432,7 +3432,7 @@ MonoBehaviour:
       recoveryTimeN: 0
       minPRCheck: 0
     psyche: 0
-    mourning: 0
+    mourningLevel: 0
     gone: 0
   - member: 1
     firstName: 
@@ -3451,7 +3451,7 @@ MonoBehaviour:
       recoveryTimeN: 0
       minPRCheck: 0
     psyche: 0
-    mourning: 0
+    mourningLevel: 0
     gone: 0
   - member: 2
     firstName: 
@@ -3470,7 +3470,7 @@ MonoBehaviour:
       recoveryTimeN: 0
       minPRCheck: 0
     psyche: 0
-    mourning: 0
+    mourningLevel: 0
     gone: 0
   - member: 3
     firstName: 
@@ -3489,7 +3489,7 @@ MonoBehaviour:
       recoveryTimeN: 0
       minPRCheck: 0
     psyche: 0
-    mourning: 0
+    mourningLevel: 0
     gone: 0
   houseStats:
     servicesPaid: 1

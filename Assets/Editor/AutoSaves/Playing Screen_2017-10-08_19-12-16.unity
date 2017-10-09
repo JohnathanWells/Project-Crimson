@@ -3503,7 +3503,6 @@ MonoBehaviour:
     currentChaos: 0
   houseNotification: 0
   phoneNotification: 0
-  costOfServices: 20000
   activityFile: {fileID: 4900000, guid: ac20ad614e617eb418105138d54586fa, type: 3}
   statChangesFile: {fileID: 4900000, guid: 098709989ae6f9c44925d1e59c504529, type: 3}
   districtStatsFile: {fileID: 4900000, guid: 986fea3f5cf3b4f4aabd869598a488b4, type: 3}

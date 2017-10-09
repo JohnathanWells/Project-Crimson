@@ -3423,14 +3423,7 @@ MonoBehaviour:
     meanHealth: 0
     medicine: 0
     food: 0
-    status:
-      ID: 0
-      name: 
-      moralePerDay: 0
-      healthPerDay: 0
-      recoveryTimeM: 0
-      recoveryTimeN: 0
-      minPRCheck: 0
+    status: 0
     psyche: 0
     mourning: 0
     gone: 0
@@ -3442,14 +3435,7 @@ MonoBehaviour:
     meanHealth: 0
     medicine: 1
     food: 0
-    status:
-      ID: 0
-      name: 
-      moralePerDay: 0
-      healthPerDay: 0
-      recoveryTimeM: 0
-      recoveryTimeN: 0
-      minPRCheck: 0
+    status: 1
     psyche: 0
     mourning: 0
     gone: 0
@@ -3461,14 +3447,7 @@ MonoBehaviour:
     meanHealth: 0
     medicine: 0
     food: 0
-    status:
-      ID: 0
-      name: 
-      moralePerDay: 0
-      healthPerDay: 0
-      recoveryTimeM: 0
-      recoveryTimeN: 0
-      minPRCheck: 0
+    status: 0
     psyche: 0
     mourning: 0
     gone: 0
@@ -3480,21 +3459,13 @@ MonoBehaviour:
     meanHealth: 0
     medicine: 0
     food: 0
-    status:
-      ID: 0
-      name: 
-      moralePerDay: 0
-      healthPerDay: 0
-      recoveryTimeM: 0
-      recoveryTimeN: 0
-      minPRCheck: 0
+    status: 2
     psyche: 0
     mourning: 0
     gone: 0
   houseStats:
     servicesPaid: 1
     plagueRate: 0
-    timeLeftForPayment: 0
   City:
     districts: []
     currentInflation: 0
@@ -3503,11 +3474,9 @@ MonoBehaviour:
     currentChaos: 0
   houseNotification: 0
   phoneNotification: 0
-  costOfServices: 20000
   activityFile: {fileID: 4900000, guid: ac20ad614e617eb418105138d54586fa, type: 3}
   statChangesFile: {fileID: 4900000, guid: 098709989ae6f9c44925d1e59c504529, type: 3}
   districtStatsFile: {fileID: 4900000, guid: 986fea3f5cf3b4f4aabd869598a488b4, type: 3}
-  sicknessFile: {fileID: 4900000, guid: b6ed2176788d83e4aae3a25623b7cad1, type: 3}
   currentDay:
     month: 0
     day: 0
@@ -3517,7 +3486,6 @@ MonoBehaviour:
   mornActivities: []
   noonActivities: []
   evenActivities: []
-  sicknesses: []
 --- !u!1 &567378007
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ using System.Collections;
 public class FamilyMembers
 {
     public enum famMember {Dad, Mom, Son, Dau, unknown};
-    public enum sickness { Healthy, Flu, Porcine, Dengue, Cholera, Rabies }
     public enum emotionalHealth { Healthy, Depressed, Unstable };
     public famMember member;
     public string firstName;
@@ -16,24 +15,25 @@ public class FamilyMembers
     public int meanHealth;
     public int medicine;
     public int food;
-    public sickness status;
+    public sicknessClass status;
     public emotionalHealth psyche;
-    public bool mourning;
+    public int mourningLevel;
     public bool gone;
 
+    int maxMorale = 100;
     int[] healthDecreaseRates = {20, 5, 2, 0};
     int[] healthIncreaseRates = { 0, 2, 5, 10 };
 
-    public FamilyMembers(famMember member)
+    public FamilyMembers(famMember familyMember)
     {
-        member = famMember.unknown;
+        member = familyMember;
         morale = 100;
         health = 100;
         medicine = 0;
         food = 3;
-        mourning = false;
+        mourningLevel = 0;
         gone = false;
-        status = sickness.Healthy;
+        status = new sicknessClass();
         psyche = emotionalHealth.Healthy;
         meanHealth = 100;
     }
@@ -44,28 +44,65 @@ public class FamilyMembers
         lastName = newLName;
     }
 
-    public void healthDrift()
+    public int healthDrift()
     {
-        food %= 3;
-        
-        if (health > meanHealth)
+        if (!gone)
         {
-            health -= healthDecreaseRates[food];
-        }
-        else if (health < meanHealth)
-        {
-            health += healthIncreaseRates[food];
-        }
+            //food %= 4;
 
-        if (health <= 0)
-        {
-            dies();
+            if (health > meanHealth)
+            {
+                health -= healthDecreaseRates[food];
+            }
+            else if (health < meanHealth)
+            {
+                health += healthIncreaseRates[food];
+            }
+
+            Mathf.Clamp(health, 0, 100);
+
+            if (health <= 0)
+            {
+                dies();
+                return 1;
+            }
+            else
+                return 0;
         }
+        else
+            return 0;
     }
 
-    public void dies()
+    public int dies()
     {
         gone = true;
+        return 1;
     }
-    //WIP
+    
+    public void moraleChange(int change)
+    {
+        morale += change;
+        Mathf.Clamp(morale, 0, maxMorale);
+    }
+
+    public void mourningAdd(int levels)
+    {
+        mourningLevel += levels;
+
+        switch (mourningLevel)
+        {
+            case 0:
+                maxMorale = 100;
+                break;
+            case 1:
+                maxMorale = 80;
+                break;
+            case 2:
+                maxMorale = 60;
+                break;
+            default:
+                maxMorale = 40;
+                break;
+        }
+    }
 }

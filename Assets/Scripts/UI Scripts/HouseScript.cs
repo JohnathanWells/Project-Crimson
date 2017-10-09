@@ -47,7 +47,7 @@ public class HouseScript : MonoBehaviour {
             //Dad is 0, Mom is 1, Son is 2, Dau is 3
 
             //Sickness is checked
-            if (manager.Family[a].status != FamilyMembers.sickness.Healthy)
+            if (manager.Family[a].status.ID != 0)
                 sicknessIcons[a].gameObject.SetActive(true);
             else
                 sicknessIcons[a].gameObject.SetActive(false);
@@ -99,7 +99,7 @@ public class HouseScript : MonoBehaviour {
 
             if (!familyArray[a].gone)
             {//If the member is sick, display the thermometer
-                if (familyArray[a].status != FamilyMembers.sickness.Healthy)
+                if (familyArray[a].status.ID != 0)
                 {
                     sicknessIcons[a].gameObject.SetActive(true);
                     notificationIcon.gameObject.SetActive(true);

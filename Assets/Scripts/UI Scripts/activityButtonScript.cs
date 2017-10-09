@@ -29,6 +29,7 @@ public class activityButtonScript : MonoBehaviour {
         if (active)
         {
             menuManager.SendMessage("executeActivity", assignedActivity);
+            //menuManager.executeActivity(assignedActivity);
         }
     }
 
@@ -50,10 +51,5 @@ public class activityButtonScript : MonoBehaviour {
 
         textDisplay.text = assignedActivity.activityName;
         //statDisplay.SendMessage("setActivity", assignedActivity);
-    }
-
-    public void enhanceActivity(ActivityClass activity)
-    {
-
     }
 }

@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\Classes\ItemClass.cs" />
      <Compile Include="Assets\Scripts\Classes\savefileClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ShopClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\sicknessClass.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\SaveLoad.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\activityButtonScript.cs" />
@@ -75,6 +76,7 @@
      <Compile Include="Assets\Scripts\UI Scripts\tabKeeperScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\windowClose.cs" />
      <None Include="Assets\gameData\activities.txt" />
+     <None Include="Assets\gameData\illnesses.txt" />
      <None Include="Assets\gameData\changes.txt" />
      <None Include="Assets\gameData\districts.txt" />
  <Reference Include="UnityEngine.UI">

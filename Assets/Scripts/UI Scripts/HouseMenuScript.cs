@@ -57,12 +57,12 @@ public class HouseMenuScript : MonoBehaviour {
 
         if (yourHouse.servicesPaid)
         {
-            serviceStatusDisplay.text = "PAID\n(Next Bill in " + calculateDaysLeftForServices(currentDay) + " Days)";
+            serviceStatusDisplay.text = "PAID\n(Next Bill in " + yourHouse.timeLeftForPayment + " Days)";
             serviceStatusDisplay.color = goodColor;
         }
         else
         {
-            serviceStatusDisplay.text = "NOT PAID";
+            serviceStatusDisplay.text = "NOT PAID/n(Next Bill in " + yourHouse.timeLeftForPayment + " Days)";
             serviceStatusDisplay.color = badColor;
         }
 
@@ -99,34 +99,6 @@ public class HouseMenuScript : MonoBehaviour {
         //plagueRateDisplay.text = "PLAGUE RATE: " + yourHouse.getPlagueRate(city) + "%";
     }
 
-    public int calculateDaysLeftForServices(DayClass currentDay)
-    {
-        int finalDay = 31;
-
-        if (currentDay.month == 10 || currentDay.month == 12 || currentDay.month == 1 || currentDay.month == 3)
-        {
-            finalDay = 31;
-        }
-        else if (currentDay.month == 11)
-        {
-            finalDay = 30;
-        }
-        else if (currentDay.month == 2)
-        {
-            finalDay = 28;
-        }
-
-        int daysLeft = finalDay - currentDay.day;
-
-        while ((currentDay.dayCount + daysLeft ) % 7 != 0)
-        {
-            daysLeft++;
-        }
-
-        return daysLeft;
-        
-    }
-
     public void updateFamilyInfo()
     {
         for (int n = 0; n < 4; n++)
@@ -143,7 +115,7 @@ public class HouseMenuScript : MonoBehaviour {
         {
             familyIcons[number].gameObject.SetActive(true);
             familyNames[number].text = FamilyMembers[number].firstName;
-            sickStatuses[number].gameObject.SetActive(FamilyMembers[number].status != global::FamilyMembers.sickness.Healthy);
+            sickStatuses[number].gameObject.SetActive(FamilyMembers[number].status.ID != 0);
             unstableStatuses[number].gameObject.SetActive(FamilyMembers[number].psyche == global::FamilyMembers.emotionalHealth.Unstable);
 
             #region healthStatus
@@ -216,7 +188,14 @@ public class HouseMenuScript : MonoBehaviour {
             }
             #endregion
 
+            healthStatus[number].text = "" + FamilyMembers[number].health;
+            moraleStatus[number].text = "" + FamilyMembers[number].morale;
+
             updateFamilyMemberInv(number);
+        }
+        else
+        {
+            familyIcons[number].gameObject.SetActive(false);
         }
         
     }
