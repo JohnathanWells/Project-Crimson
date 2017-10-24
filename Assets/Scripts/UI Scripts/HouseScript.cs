@@ -33,7 +33,7 @@ public class HouseScript : MonoBehaviour {
 
 
 
-	void Start () {
+	void Awake () {
         //This hides the notification and the status symbols
         notificationIcon.gameObject.SetActive(false);
 
@@ -97,7 +97,7 @@ public class HouseScript : MonoBehaviour {
         {
             familyIcons[a].gameObject.SetActive(true);
 
-            if (!familyArray[a].gone)
+            if (!familyArray[a].dead)
             {//If the member is sick, display the thermometer
                 if (familyArray[a].status.ID != 0)
                 {

@@ -35,7 +35,7 @@ public class savefileClass{
     public void copyData(cityClass city, houseClass house, DayClass day, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc, List<sicknessClass> ill)
     {
         city = savedCity;
-        house = savedHouse;
+        savedHouse.copyData(house);
         currentDay.copyTo(day);
 
         //Debug.Log((int)savedTime + " vs " + (int)savedTime);

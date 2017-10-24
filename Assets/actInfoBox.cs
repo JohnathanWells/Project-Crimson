@@ -14,6 +14,7 @@ public class actInfoBox : MonoBehaviour {
     public TextMesh name;
     public TextMesh[] moraleChanges = new TextMesh[4];
     public TextMesh shopStatus;
+    public TextMesh cost;
 
     Vector2 mousePos;
 
@@ -63,5 +64,20 @@ public class actInfoBox : MonoBehaviour {
             shopStatus.text = "SHOP";
         else
             shopStatus.text = " ";
+
+        cost.text = -highlightedActivity.cost + "$";
+
+        if (highlightedActivity.cost >= 0)
+        {
+            cost.color = badColor;
+        }
+        else if (highlightedActivity.cost < 0)
+        {
+            cost.color = goodColor;
+        }
+        else
+        {
+            cost.color = neutralColor;
+        }
     }
 }

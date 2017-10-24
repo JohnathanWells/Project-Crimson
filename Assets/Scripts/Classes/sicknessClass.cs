@@ -12,8 +12,9 @@ public class sicknessClass {
     public int recoveryTimeM;
     public int recoveryTimeN;
     public float minPRCheck;
+    public string symptoms;
 
-    public sicknessClass(int id, string Name, int mpd, int hpd, int rtN, int rtM, float mPR)
+    public sicknessClass(int id, string Name, int mpd, int hpd, int rtN, int rtM, float mPR, string syms)
     {
         ID = id;
         name = Name;
@@ -22,6 +23,8 @@ public class sicknessClass {
         recoveryTimeN = rtN;
         recoveryTimeM = rtM;
         minPRCheck = mPR;
+        symptoms = syms;
+
     }
 
     public sicknessClass()
@@ -37,6 +40,6 @@ public class sicknessClass {
 
     public sicknessClass healthy()
     {
-        return new sicknessClass(0, "Health", 0, 0, 0, 0, 0);
+        return new sicknessClass(0, "Health", 0, 0, 0, 0, 0, "None");
     }
 }

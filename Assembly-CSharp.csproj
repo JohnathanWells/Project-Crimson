@@ -75,6 +75,8 @@
      <Compile Include="Assets\Scripts\UI Scripts\phoneScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\tabKeeperScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\windowClose.cs" />
+     <Compile Include="Assets\sickAlertScript.cs" />
+     <Compile Include="Assets\SymptomsDisplay.cs" />
      <None Include="Assets\gameData\activities.txt" />
      <None Include="Assets\gameData\illnesses.txt" />
      <None Include="Assets\gameData\changes.txt" />

@@ -8,6 +8,7 @@ public class HouseMenuScript : MonoBehaviour {
     public TextMesh familyNameDisplay;
     public TextMesh moneyDisplay;
     public TextMesh serviceStatusDisplay;
+    public activityButtonScript servicePayActivityButton;
     public Color goodColor = new Color(0, 1, 0, 1);
     public Color badColor = new Color(1, 0, 0, 1);
     public TextMesh plagueRateDisplay;
@@ -37,7 +38,7 @@ public class HouseMenuScript : MonoBehaviour {
     public Transform[] tabKeepers;
     int currentTab = -1;
 
-
+    //Menu Open
     public void openMenu(FamilyMembers [] members)
     {
         FamilyMembers = members;
@@ -45,7 +46,8 @@ public class HouseMenuScript : MonoBehaviour {
 
         updateTab(0);
     }
-
+    
+    //Updates
     public void updateHouseInfo(GameManager manager)
     {
         houseClass yourHouse = manager.houseStats;
@@ -59,11 +61,17 @@ public class HouseMenuScript : MonoBehaviour {
         {
             serviceStatusDisplay.text = "PAID\n(Next Bill in " + yourHouse.timeLeftForPayment + " Days)";
             serviceStatusDisplay.color = goodColor;
+
+            servicePayActivityButton.gameObject.SetActive(false);
         }
         else
         {
-            serviceStatusDisplay.text = "NOT PAID/n(Next Bill in " + yourHouse.timeLeftForPayment + " Days)";
+            serviceStatusDisplay.text = "NOT PAID\n(Next Bill in " + yourHouse.timeLeftForPayment + " Days)";
             serviceStatusDisplay.color = badColor;
+
+            servicePayActivityButton.gameObject.SetActive(true);
+            servicePayActivityButton.SendMessage("setActivity", manager.servicePayActivity);
+            servicePayActivityButton.SendMessage("updateActivityStatus", manager.currentTime);
         }
 
         foodQuantity.text = "" + yourHouse.getFoodQ() + " Kg.";
@@ -111,11 +119,21 @@ public class HouseMenuScript : MonoBehaviour {
     {
         int tempInt;
 
-        if (!FamilyMembers[number].gone)
+        if (!FamilyMembers[number].dead)
         {
             familyIcons[number].gameObject.SetActive(true);
             familyNames[number].text = FamilyMembers[number].firstName;
-            sickStatuses[number].gameObject.SetActive(FamilyMembers[number].status.ID != 0);
+
+            if (FamilyMembers[number].status.ID != 0)
+            {
+                sickStatuses[number].gameObject.SetActive(true);
+                sickStatuses[number].gameObject.SendMessage("setSickness", FamilyMembers[number].status);
+            }
+            else
+            {
+                sickStatuses[number].gameObject.SetActive(false);
+            }
+
             unstableStatuses[number].gameObject.SetActive(FamilyMembers[number].psyche == global::FamilyMembers.emotionalHealth.Unstable);
 
             #region healthStatus
@@ -188,6 +206,7 @@ public class HouseMenuScript : MonoBehaviour {
             }
             #endregion
 
+            //Take these out later
             healthStatus[number].text = "" + FamilyMembers[number].health;
             moraleStatus[number].text = "" + FamilyMembers[number].morale;
 
@@ -202,8 +221,11 @@ public class HouseMenuScript : MonoBehaviour {
 
     public void updateFamilyMemberInv(int number)
     {
-        medicationButton[number].SendMessage("updateNumber", FamilyMembers[number].medicine);
-        foodButton[number].SendMessage("updateNumber", FamilyMembers[number].food);
+        if (foodButton[number].gameObject.activeInHierarchy && medicationButton[number].gameObject.activeInHierarchy)
+        {
+            medicationButton[number].SendMessage("updateNumber", FamilyMembers[number].medicine);
+            foodButton[number].SendMessage("updateNumber", FamilyMembers[number].food);
+        }
     }
 
     //These functions deal with changing tabs

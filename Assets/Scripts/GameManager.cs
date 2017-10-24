@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour {
     public bool houseNotification = false;
     public bool phoneNotification = false;
     public int costOfServices = 100;
+    public ActivityClass servicePayActivity;
     int membersAlive = 4;
+    int membersInHouse = 4;
 
     [Header("Files")]
     public TextAsset activityFile;
@@ -35,7 +37,7 @@ public class GameManager : MonoBehaviour {
     int[] daysLeftForHealing = { 0, 0, 0, 0 };
 
     [Header("Permanent Stuff")]
-    //public DayClass[] sessionCalendar;
+    public bool dadStartsSick = false;
     public bool createSessionAtStart = false;
     public List<ActivityClass> mornActivities = new List<ActivityClass>();
     public List<ActivityClass> noonActivities = new List<ActivityClass>();
@@ -52,6 +54,12 @@ public class GameManager : MonoBehaviour {
             loadData();
 
         updateComponents();
+
+        initializeServicePayActivity();
+
+        //Debug
+        if (dadStartsSick)
+            Family[0].status = sicknesses[5];
     }
 
     //Time stuff
@@ -103,12 +111,12 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        //Family members consume food and medicines
+        //Family members consume food and medicines. Their morale also is affected by their psyche
         dailyFoodConsumption();
-        dailyHealthDrift();
+        dailyHealthAndMoraleDrift();
+        dailySickEffect();
 
-        //Morale is affected
-        dailyMoraleAndHealthDrop();
+        saveData();
     }
 
     public void updateComponents()
@@ -129,7 +137,7 @@ public class GameManager : MonoBehaviour {
         int chosenFamilyMember = Random.Range(0, 3);
         int tempH = Family[chosenFamilyMember].health;
 
-        if (Random.Range(1, 100) > (tempH * (2 / 3)) && Random.Range(1, 100) <= currentPlagueRate)
+        if (Family[chosenFamilyMember].status.ID != 0 && Random.Range(1, 100) > (tempH * (2 / 3)) && Random.Range(1, 100) <= currentPlagueRate)
         {
             for (int n = 0; n < sicknesses.Count;  n++)
             {
@@ -158,7 +166,7 @@ public class GameManager : MonoBehaviour {
 
         for (int n = 3; n >= 0; n--)
         {
-            if (!Family[n].gone)
+            if (!Family[n].dead && !Family[n].gone)
             {
                 foodConsumed = Family[n].food;
 
@@ -222,31 +230,104 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void dailyHealthDrift()
+    public void dailyHealthAndMoraleDrift()
     {
         int mourningLevel = 0;
+        int missingLevel = 0;
+
+        int temp;
 
         for (int n = 0; n < 4; n++)
         {
-            mourningLevel += Family[n].healthDrift();
+            if (!Family[n].gone && !Family[n].dead)
+            {
+                temp = Family[n].moraleHealthDrop(houseStats.servicesPaid, houseStats.getHygiene() > 0);
+
+                if (n != 1) //This can never happen to the father
+                {
+                    if (temp == 1) //The member of the family gets in a fight with other characters. 50% chance.
+                    {
+                        if (membersInHouse >= 3) //If there are three or more people in the house, the character gets in fight with two
+                        {
+                            Family[n].moraleChange(-2); //The unstable character loses 2 morale
+                            int temp2;
+
+                            for (int j = 0; j < 2; j++)
+                            {
+                                do
+                                {
+                                    temp2 = Random.Range(0, 3);
+                                } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //This dowhile makes sure they dont get in a fight with dead people or is the one we are looking at
+
+                                Family[temp2].moraleChange(-5); //The people they get i na fight with lose 5 morale
+                            }
+                        }
+                    }
+                    else if (temp == 2) //There is a 25% chance the character leaves the house.
+                    {
+                        missingLevel += Family[n].leavesTheHouse();
+                    }
+                    else if (temp == 3) //There is a 10% chance the character kills themselves
+                    {
+                        mourningLevel += Family[n].dies();
+                        missingLevel += 1;
+                    }
+                    else if (temp == 4 || temp == 5) //There is a 5% chance they kill someone else
+                    {
+                        if (temp == 5) //If the character is a kid, they leave the house 
+                            missingLevel += Family[n].leavesTheHouse();
+                        else
+                        {
+                            mourningLevel += Family[n].dies(); //If a character is the mother, they kill themselves
+                            missingLevel += 1;
+                        }
+
+
+                        if (membersInHouse >= 3) //If there are more than 2 people in the house
+                        {
+                            int temp2;
+
+                            do
+                            {
+                                temp2 = Random.Range(1, 3);
+                            } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //We make sure the selected member isnt dead or gone or is the character we are currently looking at
+
+                            mourningLevel += Family[temp2].dies(); //The selected character dies
+                        }
+                        else //If there are only two people in the house, game over
+                            gameOver();
+                    }
+                }
+            }
         }
 
-        if (mourningLevel > 0)
+
+        for (int n = 0; n < 4; n++) //We go through each member
+            if (!Family[n].dead && !Family[n].gone) //If the member is in the house and alive
+                mourningLevel += Family[n].healthDrift(); //Their health drifts as usual
+
+        if (mourningLevel > 0 || missingLevel > 0)
         {
             membersAlive -= mourningLevel;
+            membersInHouse -= missingLevel;
+
             for (int i = 0; i < 4; i++)
             {
                 Family[i].mourningAdd(mourningLevel);
+                Family[i].missingAdd(missingLevel);
             }
         }
     }
 
-    public void dailyMedicineConsumption()
+    public void dailySickEffect()
     {
-
+        for (int n = 0; n < 4; n++)
+        {
+            houseStats.modMed(Family[n].sickDayPasses());
+        }
     }
 
-    public void dailyMoraleAndHealthDrop()
+    public void gameOver()
     {
 
     }
@@ -254,7 +335,7 @@ public class GameManager : MonoBehaviour {
     //Activity and stuff
     public void executeActivity(ActivityClass activity)
     {
-        if (!activity.isItShop)
+        if (!activity.isItShop && !activity.paysService)
         {
             houseStats.addMoney(-activity.cost);
 
@@ -262,9 +343,24 @@ public class GameManager : MonoBehaviour {
             {
                 Family[n].moraleChange(activity.moraleChange[n]);
             }
+
+            transitionTime();
+        }
+        else if (activity.paysService)
+        {
+            houseStats.addMoney(-activity.cost);
+            houseStats.servicesPaid = true;
+
+            transitionTime();
         }
 
-        transitionTime();
+
+    }
+
+    void initializeServicePayActivity()
+    {
+        servicePayActivity = new ActivityClass("Pay Services", ActivityClass.sector.B, ActivityClass.category.Family, costOfServices, new int[] { 0, 0, 0, 0 }, new bool[] { true, true, false }, false);
+        servicePayActivity.paysService = true;
     }
 
     //Data and saving management stuff
@@ -298,7 +394,7 @@ public class GameManager : MonoBehaviour {
         #region sicknessRelated
         string[] lines = sicknessFile.text.Split('\n');
         string[] numbers;
-        sicknessClass tempS = new sicknessClass(0, "Healthy", 0, 0, 0, 0, 0);
+        sicknessClass tempS = new sicknessClass(0, "Healthy", 0, 0, 0, 0, 0, " ");
 
         sicknesses.Add(tempS);
 
@@ -306,7 +402,7 @@ public class GameManager : MonoBehaviour {
         {
             numbers = lines[n].Split('\t');
 
-            tempS = new sicknessClass(n + 1, numbers[0], int.Parse(numbers[1]), int.Parse(numbers[2]), int.Parse(numbers[3]), int.Parse(numbers[4]), float.Parse(numbers[5]));
+            tempS = new sicknessClass(n + 1, numbers[0], int.Parse(numbers[1]), int.Parse(numbers[2]), int.Parse(numbers[3]), int.Parse(numbers[4]), float.Parse(numbers[5]), numbers[6]);
 
             sicknesses.Add(tempS);
         }

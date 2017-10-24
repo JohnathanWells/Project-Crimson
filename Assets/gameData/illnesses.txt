@@ -1,5 +1,5 @@
-Flu	-1	-2	4	2	4
-AH1N1	-2	-3	10	5	28
-Dengue	-3	-3	20	10	36
-Cholera	-5	-10	6	3	60
-Rabies	-10	-20	4	2	80
+Flu 	-1	-2	4	2	4	Cough,Headache,Fever
+AH1N1	-2	-3	10	5	28	Cough,Headache,Fever
+Dengue	-3	-3	20	10	36	Headache,Fever,Vomit
+Cholera	-5	-10	6	3	60	Vomit,Diarrhea
+Rabies	-10	-20	4	2	80	Headache,Fever,Vomit,Paranoia

@@ -7,7 +7,10 @@ public class activityButtonScript : MonoBehaviour {
     public Transform statDisplay;
     public ActivityMenuScript menuManager;
     public TextMesh textDisplay;
+    public Color enabledColor = new Color(1, 1, 1, 1);
+    public Color disabledColor = new Color(1, 1, 1, 1);
     bool active = false;
+    bool isAvailable = true;
     ActivityClass assignedActivity;
 
     void Start()
@@ -26,7 +29,7 @@ public class activityButtonScript : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (active)
+        if (active && isAvailable)
         {
             menuManager.SendMessage("executeActivity", assignedActivity);
             //menuManager.executeActivity(assignedActivity);
@@ -38,7 +41,7 @@ public class activityButtonScript : MonoBehaviour {
         statDisplay.gameObject.SetActive(false);
     }
 
-        public void setEmpty()
+    public void setEmpty()
     {
         active = false;
         textDisplay.text = " ";
@@ -49,7 +52,35 @@ public class activityButtonScript : MonoBehaviour {
         active = true;
         assignedActivity = newAssign;
 
-        textDisplay.text = assignedActivity.activityName;
+        if (textDisplay != null && !assignedActivity.paysService)
+            textDisplay.text = assignedActivity.activityName;
+
+        if (assignedActivity.cost <= menuManager.getHouseMoney())
+        {
+            isAvailable = true;
+
+            textDisplay.color = enabledColor;
+        }
+        else
+        {
+            isAvailable = false;
+
+            textDisplay.color = disabledColor;
+        }
         //statDisplay.SendMessage("setActivity", assignedActivity);
+    }
+
+    public void updateActivityStatus(timeOfDay currentTime)
+    {
+        if (assignedActivity.cost <= menuManager.getHouseMoney() && assignedActivity.timeOfDayAvailability[(int)currentTime])
+        {
+            textDisplay.color = enabledColor;
+            active = true;
+        }
+        else
+        {
+            textDisplay.color = disabledColor;
+            active = false;
+        }
     }
 }

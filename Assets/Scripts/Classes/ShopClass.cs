@@ -7,4 +7,5 @@ public class ShopClass {
     string shopName;
     public ItemClass[] inventory;
 
+
 }

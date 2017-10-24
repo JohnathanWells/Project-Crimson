@@ -13,6 +13,7 @@ public class ActivityClass{
     public int[] moraleChange = new int [4];
     public bool[] timeOfDayAvailability = new bool [3];
     public bool isItShop = false;
+    public bool paysService = false;
     public ShopClass shopAttached;
 
     public ActivityClass()

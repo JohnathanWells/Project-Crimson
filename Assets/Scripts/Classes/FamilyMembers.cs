@@ -18,11 +18,18 @@ public class FamilyMembers
     public sicknessClass status;
     public emotionalHealth psyche;
     public int mourningLevel;
+    public int missingLevel;
+    public bool dead;
     public bool gone;
+    int daysLeftOfSickness = 0;
+    int daysUnstable = 0;
 
-    int maxMorale = 100;
+    int maxMorale;
+    int maxHealth;
     int[] healthDecreaseRates = {20, 5, 2, 0};
     int[] healthIncreaseRates = { 0, 2, 5, 10 };
+    int[] healthDropsAccordingToPsyche = { 0, -1, -1 };
+    int[] moraleDropsAccordingToPsyche = { 0, -1, -1 };
 
     public FamilyMembers(famMember familyMember)
     {
@@ -32,10 +39,14 @@ public class FamilyMembers
         medicine = 0;
         food = 3;
         mourningLevel = 0;
-        gone = false;
+        missingLevel = 0;
+        dead = false;
         status = new sicknessClass();
         psyche = emotionalHealth.Healthy;
         meanHealth = 100;
+        maxMorale = 100;
+        maxHealth = 100;
+        daysLeftOfSickness = 0;
     }
 
     public void setName(string newName, string newLName)
@@ -46,20 +57,18 @@ public class FamilyMembers
 
     public int healthDrift()
     {
-        if (!gone)
+        if (!dead)
         {
             //food %= 4;
 
             if (health > meanHealth)
             {
-                health -= healthDecreaseRates[food];
+                health = Mathf.Clamp(health - healthDecreaseRates[food], 0, maxHealth);
             }
             else if (health < meanHealth)
             {
-                health += healthIncreaseRates[food];
+                health = Mathf.Clamp(health + healthIncreaseRates[food], 0, maxHealth);
             }
-
-            Mathf.Clamp(health, 0, 100);
 
             if (health <= 0)
             {
@@ -73,7 +82,118 @@ public class FamilyMembers
             return 0;
     }
 
+    public void cureIllness()
+    {
+        daysLeftOfSickness = 0;
+        status = new sicknessClass();
+    }
+
+    public void getsSick(sicknessClass illness)
+    {
+        status = illness;
+        daysLeftOfSickness = illness.recoveryTimeN;
+    }
+
+    public int sickDayPasses() //Takes care of health and morale drop for sickness as well as medicine consumption
+    {
+        int medicineConsumed = 0;
+        
+        if (status.ID != 0)
+        {
+            if (medicine > 0)
+            {
+                medicine--;
+                medicineConsumed = -1;
+                daysLeftOfSickness -= 2;
+            }
+            else
+            {
+                daysLeftOfSickness -= 1;
+            }
+
+            if (daysLeftOfSickness <= 0)
+            {
+                cureIllness();
+                medicineConsumed = medicine;
+                medicine = 0;
+            }
+            else
+            {
+                maxHealth = 75;
+                healthChange(status.healthPerDay);
+                moraleChange(status.moralePerDay);
+            }
+
+            return medicineConsumed;
+        }
+        else
+            return 0;
+    }
+
+    public int moraleHealthDrop(bool servicesPaid, bool personalHygiene) //Takes care of health and morale drop due to famine, unpaid services, etc
+    {
+        int moraleDropQuantity = 0;
+
+        if (!servicesPaid)
+            moraleDropQuantity += 2;
+
+        if (!personalHygiene)
+            moraleDropQuantity += 2;
+
+        healthChange(healthDropsAccordingToPsyche[(int)psyche]);
+        moraleChange(moraleDropsAccordingToPsyche[(int)psyche]);
+
+        moraleChange(-missingLevel);
+
+        if (psyche == emotionalHealth.Unstable)
+        {
+            int randomnum = Random.Range(0, 100);
+
+            if (randomnum < 50)
+            {
+                if (randomnum < 25)
+                {
+                    if (randomnum < 10)
+                    {
+                        if (randomnum < 5)
+                        {
+                            if (member == famMember.Mom)
+                            {
+                                return 4;
+                            }
+                            else
+                            {
+                                return 5;
+                            }
+                        }
+                        else
+                        {
+                            return 3;
+                        }
+                    }
+                    else
+                    {
+                        leavesTheHouse();
+                        return 2;
+                    }
+                }
+                else
+                    return 1;
+            }
+            else
+                return 0;
+        }
+        else
+            return 0;
+    }
+
     public int dies()
+    {
+        dead = true;
+        return 1;
+    }
+
+    public int leavesTheHouse()
     {
         gone = true;
         return 1;
@@ -81,13 +201,25 @@ public class FamilyMembers
     
     public void moraleChange(int change)
     {
-        morale += change;
-        Mathf.Clamp(morale, 0, maxMorale);
+        morale = Mathf.Clamp(morale + change, 0, maxMorale);
+
+        if (morale <= 10 && status.ID == 0)
+            psyche = emotionalHealth.Unstable;
+        else if (morale <= 25)
+            psyche = emotionalHealth.Depressed;
+        else
+            psyche = emotionalHealth.Healthy;
+    }
+
+    public void healthChange(int change)
+    {
+        health = Mathf.Clamp(health + change, 0, maxHealth);
     }
 
     public void mourningAdd(int levels)
     {
         mourningLevel += levels;
+        missingLevel += levels;
 
         switch (mourningLevel)
         {
@@ -104,5 +236,10 @@ public class FamilyMembers
                 maxMorale = 40;
                 break;
         }
+    }
+
+    public void missingAdd(int levels)
+    {
+        missingLevel += levels;
     }
 }

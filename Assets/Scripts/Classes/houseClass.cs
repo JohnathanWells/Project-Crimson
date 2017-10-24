@@ -29,6 +29,19 @@ public class houseClass{
             medicineQuantity = 5;
         }
 
+        //For loading
+        public void copyData(houseClass to)
+        {
+            to.money = money;
+            to.foodQuantity = foodQuantity;
+            to.cleaningItems = cleaningItems;
+            to.hygieneItems = hygieneItems;
+            to.medicineQuantity = medicineQuantity;
+            to.servicesPaid = servicesPaid;
+            to.plagueRate = plagueRate;
+            to.timeLeftForPayment = timeLeftForPayment;
+        }
+
         //Service related
         public void payServices(int serviceCost, DayClass currentDay)
         {

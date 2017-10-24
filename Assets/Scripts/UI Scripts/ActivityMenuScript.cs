@@ -53,6 +53,8 @@ public class ActivityMenuScript : MonoBehaviour {
 
         //Debug.Log(time);
 
+        categoryButtons[(int)Category].SendMessage("turnOn");
+
         if (time == timeOfDay.Morning)
         {
             temp = mornAct;
@@ -87,5 +89,15 @@ public class ActivityMenuScript : MonoBehaviour {
     public void executeActivity(ActivityClass activity)
     {
         Manager.SendMessage("executeActivity", activity);
+    }
+
+    public GameManager getGameManagerReference()
+    {
+        return Manager;
+    }
+
+    public int getHouseMoney()
+    {
+        return Manager.houseStats.getMoney();
     }
 }
