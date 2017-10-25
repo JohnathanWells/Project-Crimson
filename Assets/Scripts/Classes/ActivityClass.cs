@@ -39,6 +39,9 @@ public class ActivityClass{
         isItShop = isShop;
     }
 
-    //TODO
-    //Effects of activity
+    public void setStore(ShopClass store)
+    {
+        shopAttached = store;
+    }
+
 }

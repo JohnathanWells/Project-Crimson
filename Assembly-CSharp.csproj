@@ -51,7 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\actInfoBox.cs" />
      <Compile Include="Assets\Scripts\Classes\ActivityClass.cs" />
      <Compile Include="Assets\Scripts\Classes\arrowButtonClass.cs" />
      <Compile Include="Assets\Scripts\Classes\CategoryScript.cs" />
@@ -66,6 +65,7 @@
      <Compile Include="Assets\Scripts\Classes\sicknessClass.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\SaveLoad.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\actInfoBox.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\activityButtonScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\ActivityMenuScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\amountButton.cs" />
@@ -73,10 +73,11 @@
      <Compile Include="Assets\Scripts\UI Scripts\HouseMenuScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\phoneScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\sickAlertScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\storeScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\SymptomsDisplay.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\tabKeeperScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\windowClose.cs" />
-     <Compile Include="Assets\sickAlertScript.cs" />
-     <Compile Include="Assets\SymptomsDisplay.cs" />
      <None Include="Assets\gameData\activities.txt" />
      <None Include="Assets\gameData\illnesses.txt" />
      <None Include="Assets\gameData\changes.txt" />

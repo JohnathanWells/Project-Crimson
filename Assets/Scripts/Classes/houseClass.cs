@@ -62,11 +62,11 @@ public class houseClass{
         {
             int finalDay = 31;
 
-            if (currentDay.month == 10 || currentDay.month == 12 || currentDay.month == 1 || currentDay.month == 3)
+            if (currentDay.month == 10 || currentDay.month == 12 || currentDay.month == 1 || currentDay.month == 3 || currentDay.month == 5 || currentDay.month == 7 || currentDay.month == 8)
             {
                 finalDay = 31;
             }
-            else if (currentDay.month == 11)
+            else if (currentDay.month == 11 || currentDay.month == 4 || currentDay.month == 6 || currentDay.month == 9)
             {
                 finalDay = 30;
             }

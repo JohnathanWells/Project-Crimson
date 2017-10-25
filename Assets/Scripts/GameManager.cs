@@ -7,6 +7,9 @@ public enum timeOfDay { Morning, Afternoon, Evening };
 
 public class GameManager : MonoBehaviour {
 
+    [Header("Screens")]
+    public Transform mainGameplayScreen;
+    public Transform shopScreen;
 
     [Header("References")]
     public phoneScript Phone;
@@ -48,6 +51,8 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
+        Resources.UnloadUnusedAssets();
+
         if (createSessionAtStart)
             newSession();
         else
@@ -113,8 +118,8 @@ public class GameManager : MonoBehaviour {
 
         //Family members consume food and medicines. Their morale also is affected by their psyche
         dailyFoodConsumption();
-        dailyHealthAndMoraleDrift();
         dailySickEffect();
+        dailyHealthAndMoraleDrift();
 
         saveData();
     }
@@ -155,6 +160,7 @@ public class GameManager : MonoBehaviour {
             {
                 chosenSickness = Random.Range(1, worseAvailableSickness);
                 Family[chosenFamilyMember].status = illnesses[chosenSickness];
+                Debug.Log(Family[chosenFamilyMember].firstName + " is sick with " + illnesses[chosenSickness].name);
             }
         }
     }
@@ -243,7 +249,7 @@ public class GameManager : MonoBehaviour {
             {
                 temp = Family[n].moraleHealthDrop(houseStats.servicesPaid, houseStats.getHygiene() > 0);
 
-                if (n != 1) //This can never happen to the father
+                if (n != 0) //This can never happen to the father
                 {
                     if (temp == 1) //The member of the family gets in a fight with other characters. 50% chance.
                     {
@@ -252,37 +258,28 @@ public class GameManager : MonoBehaviour {
                             Family[n].moraleChange(-2); //The unstable character loses 2 morale
                             int temp2;
 
-                            for (int j = 0; j < 2; j++)
+                            do
                             {
-                                do
-                                {
-                                    temp2 = Random.Range(0, 3);
-                                } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //This dowhile makes sure they dont get in a fight with dead people or is the one we are looking at
+                                temp2 = Random.Range(0, 3);
+                            } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //This dowhile makes sure they dont get in a fight with dead people or is the one we are looking at
 
-                                Family[temp2].moraleChange(-5); //The people they get i na fight with lose 5 morale
-                            }
+                            Debug.Log(Family[n].firstName + " got into a fight with " + Family[temp2].firstName);
+                            Family[temp2].moraleChange(-5); //The people they get in a fight with loses 5 morale
                         }
                     }
                     else if (temp == 2) //There is a 25% chance the character leaves the house.
                     {
+                        Debug.Log(Family[n].firstName + " left the house.");
                         missingLevel += Family[n].leavesTheHouse();
                     }
                     else if (temp == 3) //There is a 10% chance the character kills themselves
                     {
+                        Debug.Log(Family[n].firstName + " commited suicide.");
                         mourningLevel += Family[n].dies();
                         missingLevel += 1;
                     }
                     else if (temp == 4 || temp == 5) //There is a 5% chance they kill someone else
                     {
-                        if (temp == 5) //If the character is a kid, they leave the house 
-                            missingLevel += Family[n].leavesTheHouse();
-                        else
-                        {
-                            mourningLevel += Family[n].dies(); //If a character is the mother, they kill themselves
-                            missingLevel += 1;
-                        }
-
-
                         if (membersInHouse >= 3) //If there are more than 2 people in the house
                         {
                             int temp2;
@@ -292,10 +289,26 @@ public class GameManager : MonoBehaviour {
                                 temp2 = Random.Range(1, 3);
                             } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //We make sure the selected member isnt dead or gone or is the character we are currently looking at
 
+                            Debug.Log(Family[temp2].firstName + " was killed by " + Family[n].firstName);
                             mourningLevel += Family[temp2].dies(); //The selected character dies
+                            missingLevel += 1;
                         }
                         else //If there are only two people in the house, game over
                             gameOver();
+
+
+                        if (temp == 5) //If the character is a kid, they leave the house 
+                        {
+                            Debug.Log(Family[n].firstName + " is sent to an asylum.");
+                            missingLevel += Family[n].leavesTheHouse();
+                        }
+                        else
+                        {
+                            Debug.Log(Family[n].firstName + " commited suicide.");
+                            mourningLevel += Family[n].dies(); //If a character is the mother, they kill themselves
+                            missingLevel += 1;
+                        }
+
                     }
                 }
             }
@@ -304,12 +317,14 @@ public class GameManager : MonoBehaviour {
 
         for (int n = 0; n < 4; n++) //We go through each member
             if (!Family[n].dead && !Family[n].gone) //If the member is in the house and alive
+            {
                 mourningLevel += Family[n].healthDrift(); //Their health drifts as usual
+            }
 
         if (mourningLevel > 0 || missingLevel > 0)
         {
             membersAlive -= mourningLevel;
-            membersInHouse -= missingLevel;
+            membersInHouse -= Mathf.Max(missingLevel, mourningLevel);
 
             for (int i = 0; i < 4; i++)
             {
@@ -329,7 +344,7 @@ public class GameManager : MonoBehaviour {
 
     public void gameOver()
     {
-
+        //Game over
     }
 
     //Activity and stuff
@@ -353,8 +368,42 @@ public class GameManager : MonoBehaviour {
 
             transitionTime();
         }
+        else if (activity.isItShop)
+        {
+            changeScreen(1, activity.shopAttached);
+        }
 
 
+    }
+
+    public void finishShopping()
+    {
+        changeScreen(0);
+        transitionTime();
+    }
+
+    void changeScreen(int screen, ShopClass shop)
+    {
+        if (screen == 0)
+        {
+            mainGameplayScreen.gameObject.SetActive(true);
+            shopScreen.gameObject.SetActive(false);
+        }
+        else
+        {
+            mainGameplayScreen.gameObject.SetActive(false);
+            shopScreen.gameObject.SetActive(true);
+            shopScreen.SendMessage("setInitialValues", shop);
+        }
+    }
+
+    void changeScreen(int screen)
+    {
+        if (screen == 0)
+        {
+            mainGameplayScreen.gameObject.SetActive(true);
+            shopScreen.gameObject.SetActive(false);
+        }
     }
 
     void initializeServicePayActivity()
@@ -421,6 +470,7 @@ public class GameManager : MonoBehaviour {
         int[] tempMorale = new int[4];
         bool[] tempAva = new bool[3];
         bool tempShop;
+        int tempShopID = 0;
         string[] lines = activityFile.text.Split('\n');
         string[] numbers;
         int tempNum;
@@ -507,9 +557,13 @@ public class GameManager : MonoBehaviour {
             #endregion
 
             if (int.Parse(numbers[11]) == 0)
+            {
                 tempShop = false;
+            }
             else
+            {
                 tempShop = true;
+            }
 
 
             tempActivity = new ActivityClass(activityName, tempSec, tempCat, tempCost, tempMorale, tempAva, tempShop);
@@ -517,6 +571,11 @@ public class GameManager : MonoBehaviour {
             if (tempActivity.isItShop)
             {
                 //Here I will assign it a shop
+                //TODO more complex stuff
+
+                tempActivity.setStore(new ShopClass(10, 10, 10, 10, tempShopID, tempActivity.activityName));
+                tempActivity.shopAttached.setCosts(1, 1, 1, 1);
+                tempShopID++;
             }
 
             //This section choices what lists will be receiving the activities

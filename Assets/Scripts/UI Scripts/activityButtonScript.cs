@@ -29,6 +29,7 @@ public class activityButtonScript : MonoBehaviour {
 
     void OnMouseDown()
     {
+            
         if (active && isAvailable)
         {
             menuManager.SendMessage("executeActivity", assignedActivity);

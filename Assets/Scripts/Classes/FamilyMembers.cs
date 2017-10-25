@@ -5,6 +5,8 @@ using System.Collections;
 [System.Serializable]
 public class FamilyMembers
 {
+    int minHealthByDepression = 20; //constant variable for keepying the people from dying from depression
+
     public enum famMember {Dad, Mom, Son, Dau, unknown};
     public enum emotionalHealth { Healthy, Depressed, Unstable };
     public famMember member;
@@ -23,6 +25,9 @@ public class FamilyMembers
     public bool gone;
     int daysLeftOfSickness = 0;
     int daysUnstable = 0;
+    int sicknessHealthDrop;
+    int sicknessMoraleDrop;
+
 
     int maxMorale;
     int maxHealth;
@@ -57,26 +62,41 @@ public class FamilyMembers
 
     public int healthDrift()
     {
-        if (!dead)
+        if (!dead && !gone)
         {
             //food %= 4;
 
             if (health > meanHealth)
             {
-                health = Mathf.Clamp(health - healthDecreaseRates[food], 0, maxHealth);
+                healthChange(-healthDecreaseRates[food]);
             }
             else if (health < meanHealth)
             {
-                health = Mathf.Clamp(health + healthIncreaseRates[food], 0, maxHealth);
+                healthChange(healthIncreaseRates[food]);
             }
 
             if (health <= 0)
             {
+                Debug.Log(firstName + " dies from starvation.");
                 dies();
                 return 1;
             }
             else
-                return 0;
+            {
+                healthChange(sicknessHealthDrop);
+
+                if (health <= 0)
+                {
+                    Debug.Log(firstName + " dies from " + status.name + ".");
+                    dies();
+                    return 1;
+                }
+                else
+                {
+                    health = Mathf.Clamp(health + healthDropsAccordingToPsyche[(int)psyche], minHealthByDepression, maxHealth); //Health drops according to psyche, but we make sure it cant kill the member
+                    return 0;
+                }
+            }
         }
         else
             return 0;
@@ -85,6 +105,8 @@ public class FamilyMembers
     public void cureIllness()
     {
         daysLeftOfSickness = 0;
+        sicknessHealthDrop = 0;
+        sicknessMoraleDrop = 0;
         status = new sicknessClass();
     }
 
@@ -120,8 +142,8 @@ public class FamilyMembers
             else
             {
                 maxHealth = 75;
-                healthChange(status.healthPerDay);
-                moraleChange(status.moralePerDay);
+                sicknessHealthDrop = status.healthPerDay;
+                sicknessMoraleDrop = status.moralePerDay;
             }
 
             return medicineConsumed;
@@ -134,17 +156,23 @@ public class FamilyMembers
     {
         int moraleDropQuantity = 0;
 
+        //People morale drops if they dont have access to home services
         if (!servicesPaid)
             moraleDropQuantity += 2;
-
+        
+        //People morale drops if they cant shower properly
         if (!personalHygiene)
             moraleDropQuantity += 2;
 
-        healthChange(healthDropsAccordingToPsyche[(int)psyche]);
-        moraleChange(moraleDropsAccordingToPsyche[(int)psyche]);
+        //Psyche morale and health drop
+        moraleDropQuantity += moraleDropsAccordingToPsyche[(int)psyche];
 
-        moraleChange(-missingLevel);
+        //Morale is affected by how many people have left the house
+        moraleDropQuantity += missingLevel;
 
+        moraleChange(-moraleDropQuantity);
+
+        //Unstability events
         if (psyche == emotionalHealth.Unstable)
         {
             int randomnum = Random.Range(0, 100);
@@ -173,7 +201,6 @@ public class FamilyMembers
                     }
                     else
                     {
-                        leavesTheHouse();
                         return 2;
                     }
                 }
@@ -189,12 +216,14 @@ public class FamilyMembers
 
     public int dies()
     {
+        //Debug.Log(firstName + " dies");
         dead = true;
         return 1;
     }
 
     public int leavesTheHouse()
     {
+        //Debug.Log(firstName + " leaves");
         gone = true;
         return 1;
     }

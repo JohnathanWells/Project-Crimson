@@ -119,7 +119,7 @@ public class HouseMenuScript : MonoBehaviour {
     {
         int tempInt;
 
-        if (!FamilyMembers[number].dead)
+        if (!FamilyMembers[number].dead && !FamilyMembers[number].gone)
         {
             familyIcons[number].gameObject.SetActive(true);
             familyNames[number].text = FamilyMembers[number].firstName;
@@ -206,9 +206,9 @@ public class HouseMenuScript : MonoBehaviour {
             }
             #endregion
 
-            //Take these out later
-            healthStatus[number].text = "" + FamilyMembers[number].health;
-            moraleStatus[number].text = "" + FamilyMembers[number].morale;
+            ////Take these out later
+            //healthStatus[number].text = "" + FamilyMembers[number].health;
+            //moraleStatus[number].text = "" + FamilyMembers[number].morale;
 
             updateFamilyMemberInv(number);
         }
@@ -232,6 +232,8 @@ public class HouseMenuScript : MonoBehaviour {
     public void changeTab(int direction)
     {
         currentTab = (currentTab + direction) % tabs.Length;
+
+
     }
 
     public void updateTab(int tabNum)
@@ -253,6 +255,8 @@ public class HouseMenuScript : MonoBehaviour {
                     tabKeepers[n].SendMessage("setTabActive", false);
                 }
             }
+
+            updateFamilyInfo();
         }
     }
 

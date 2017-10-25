@@ -97,7 +97,7 @@ public class HouseScript : MonoBehaviour {
         {
             familyIcons[a].gameObject.SetActive(true);
 
-            if (!familyArray[a].dead)
+            if (!familyArray[a].dead && !familyArray[a].gone)
             {//If the member is sick, display the thermometer
                 if (familyArray[a].status.ID != 0)
                 {
@@ -166,8 +166,8 @@ public class HouseScript : MonoBehaviour {
     //This function and coroutine close the window
     public void closeHouseMenu()
     {
-
-        StartCoroutine(closeWindow());
+        if (windowAnimations.runtimeAnimatorController != null)
+            StartCoroutine(closeWindow());
     }
 
     IEnumerator closeWindow()
