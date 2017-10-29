@@ -16,6 +16,9 @@ public class ActivityClass{
     public bool paysService = false;
     public ShopClass shopAttached;
 
+    public string postActivityDescription;
+    public int pictureNumberUsed;
+
     public ActivityClass()
     {
         activityName = "Missing!";

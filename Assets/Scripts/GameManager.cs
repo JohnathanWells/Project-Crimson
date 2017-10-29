@@ -11,6 +11,18 @@ public class GameManager : MonoBehaviour {
     public Transform mainGameplayScreen;
     public Transform shopScreen;
 
+    [Header("Pop-Up")]
+    public Transform popUpWindow;
+    public SpriteRenderer popUpPicture;
+    public TextMesh popUpText;
+    public int popUpParagraphWidth;
+    public int popUpMaxNumberOfLines;
+    public SpriteRenderer[] popUpMoraleArrows;
+    public TextMesh[] popUpMoraleNumbers;
+    public Transform[] popUpFamilyMembers;
+    public Sprite[] popUpIllustrations;
+    public Sprite[] popUpArrowSprites = new Sprite[3];
+
     [Header("References")]
     public phoneScript Phone;
     public HouseScript House;
@@ -64,7 +76,9 @@ public class GameManager : MonoBehaviour {
 
         //Debug
         if (dadStartsSick)
-            Family[0].status = sicknesses[5];
+            Family[0].getsSick(sicknesses[5]);
+        openNotificationPopUp(null, "Pop Up Windows are supposed to display when a member of the family is sick or death. They might also be used to illustrate some mechanics.");
+
     }
 
     //Time stuff
@@ -103,6 +117,7 @@ public class GameManager : MonoBehaviour {
         {
             houseStats.modHygiene(-1 * membersAlive);
         }
+
         houseStats.calculatePlagueRate(City);
 
         //Check if a member becomes sick
@@ -159,7 +174,7 @@ public class GameManager : MonoBehaviour {
             if (worseAvailableSickness > 0)
             {
                 chosenSickness = Random.Range(1, worseAvailableSickness);
-                Family[chosenFamilyMember].status = illnesses[chosenSickness];
+                Family[chosenFamilyMember].getsSick(illnesses[chosenSickness]);
                 Debug.Log(Family[chosenFamilyMember].firstName + " is sick with " + illnesses[chosenSickness].name);
             }
         }
@@ -411,6 +426,91 @@ public class GameManager : MonoBehaviour {
         servicePayActivity = new ActivityClass("Pay Services", ActivityClass.sector.B, ActivityClass.category.Family, costOfServices, new int[] { 0, 0, 0, 0 }, new bool[] { true, true, false }, false);
         servicePayActivity.paysService = true;
     }
+
+    //Pop up
+    public void openActivityPopUp(Sprite picture, ActivityClass activityExecuted)
+    {
+        popUpPicture.sprite = popUpIllustrations[activityExecuted.pictureNumberUsed];
+        popUpText.text = warppedText(popUpParagraphWidth, activityExecuted.postActivityDescription);
+        int arrowTemp = 0;
+
+        for (int n = 0; n < 4; n++)
+        {
+            if (!Family[n].dead && !Family[n].gone)
+            {
+                popUpMoraleNumbers[n].text = activityExecuted.moraleChange[n].ToString();
+
+                if (activityExecuted.moraleChange[n] > 0)
+                {
+                    arrowTemp = 2;
+                }
+                else if (activityExecuted.moraleChange[n] < 0)
+                {
+                    arrowTemp = 0;
+                }
+                else
+                    arrowTemp = 1;
+
+                popUpMoraleArrows[n].sprite = popUpArrowSprites[arrowTemp];
+            }
+            else
+            {
+                popUpFamilyMembers[n].gameObject.SetActive(false);
+                popUpMoraleArrows[n].gameObject.SetActive(false);
+                popUpMoraleNumbers[n].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void openNotificationPopUp(Sprite picture, string text)
+    {
+        popUpWindow.gameObject.SetActive(true);
+        popUpPicture.sprite = picture;
+        popUpText.text = warppedText(popUpParagraphWidth, text);
+    }
+
+    public void closePopUp()
+    {
+        popUpWindow.gameObject.SetActive(false);
+    }
+
+    string warppedText(int width, string input)
+    {
+        string[] words = input.Split(" "[0]);
+        string line = "";
+        string temp;
+        string result = "";
+        int lineCount = 0;
+
+        foreach(string s in words)
+        {
+            if (lineCount < popUpMaxNumberOfLines)
+            {
+                temp = line + s + " ";
+
+                if (temp.Length > width)
+                {
+                    lineCount++;
+                    result += line + "\n";
+                    line = s + " ";
+                }
+                else
+                {
+                    line = temp;
+                }
+            }
+            else
+            {
+                line = "";
+                break;
+            }
+        }
+
+        result += line;
+
+        return result;
+    }
+
 
     //Data and saving management stuff
     void newSession()

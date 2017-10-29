@@ -125,14 +125,14 @@ public class FamilyMembers
             if (medicine > 0)
             {
                 medicine--;
-                medicineConsumed = -1;
+                //medicineConsumed = -1;
                 daysLeftOfSickness -= 2;
             }
             else
             {
                 daysLeftOfSickness -= 1;
             }
-
+            Debug.Log("Days left of sickness " + daysLeftOfSickness);
             if (daysLeftOfSickness <= 0)
             {
                 cureIllness();

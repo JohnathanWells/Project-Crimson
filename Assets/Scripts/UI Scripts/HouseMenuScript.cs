@@ -127,7 +127,9 @@ public class HouseMenuScript : MonoBehaviour {
             if (FamilyMembers[number].status.ID != 0)
             {
                 sickStatuses[number].gameObject.SetActive(true);
-                sickStatuses[number].gameObject.SendMessage("setSickness", FamilyMembers[number].status);
+                
+                if (sickStatuses[number].gameObject.activeInHierarchy)
+                    sickStatuses[number].gameObject.SendMessage("setSickness", FamilyMembers[number].status);
             }
             else
             {
