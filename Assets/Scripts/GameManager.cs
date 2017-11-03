@@ -19,9 +19,12 @@ public class GameManager : MonoBehaviour {
     public int popUpMaxNumberOfLines;
     public SpriteRenderer[] popUpMoraleArrows;
     public TextMesh[] popUpMoraleNumbers;
+    public Color[] colors = new Color[3];
     public Transform[] popUpFamilyMembers;
+    [Tooltip("0 = Error\n 1 = fight, 2 = member leaves house, 3 = suicide, 4 = murder, 5 = asylum\n 6 = food alert, 7 = services alert, 8 = sick alert, 9 = item alert, 10 = depressed alert\n11 to 20 = Events\n21 to 100 = Activities")]
     public Sprite[] popUpIllustrations;
     public Sprite[] popUpArrowSprites = new Sprite[3];
+    Queue<notificationClass> notificationQueue = new Queue<notificationClass>();
 
     [Header("References")]
     public phoneScript Phone;
@@ -77,8 +80,8 @@ public class GameManager : MonoBehaviour {
         //Debug
         if (dadStartsSick)
             Family[0].getsSick(sicknesses[5]);
-        openNotificationPopUp(null, "Pop Up Windows are supposed to display when a member of the family is sick or death. They might also be used to illustrate some mechanics.");
 
+        enqueuePopUp("Pop Up Windows are supposed to display when a member of the family is sick or death. They might also be used to illustrate some mechanics.", 0);
     }
 
     //Time stuff
@@ -95,6 +98,11 @@ public class GameManager : MonoBehaviour {
         }
 
         updateComponents();
+
+        Debug.Log(notificationQueue.Count);
+
+        if (notificationQueue.Peek() != null)
+           openPopUp(notificationQueue.Dequeue());
     }
 
     public void dayAdvance()
@@ -278,18 +286,21 @@ public class GameManager : MonoBehaviour {
                                 temp2 = Random.Range(0, 3);
                             } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //This dowhile makes sure they dont get in a fight with dead people or is the one we are looking at
 
-                            Debug.Log(Family[n].firstName + " got into a fight with " + Family[temp2].firstName);
+                            enqueuePopUp(Family[n].firstName + " got into a fight with " + Family[temp2].firstName, 1);
+                            //Debug.Log(Family[n].firstName + " got into a fight with " + Family[temp2].firstName);
                             Family[temp2].moraleChange(-5); //The people they get in a fight with loses 5 morale
                         }
                     }
                     else if (temp == 2) //There is a 25% chance the character leaves the house.
                     {
-                        Debug.Log(Family[n].firstName + " left the house.");
+                        enqueuePopUp(Family[n].firstName + " left the house.", 2);
+                        //Debug.Log(Family[n].firstName + " left the house.");
                         missingLevel += Family[n].leavesTheHouse();
                     }
                     else if (temp == 3) //There is a 10% chance the character kills themselves
                     {
-                        Debug.Log(Family[n].firstName + " commited suicide.");
+                        enqueuePopUp(Family[n].firstName + " commited suicide.", 3);
+                        //Debug.Log(Family[n].firstName + " commited suicide.");
                         mourningLevel += Family[n].dies();
                         missingLevel += 1;
                     }
@@ -304,7 +315,8 @@ public class GameManager : MonoBehaviour {
                                 temp2 = Random.Range(1, 3);
                             } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //We make sure the selected member isnt dead or gone or is the character we are currently looking at
 
-                            Debug.Log(Family[temp2].firstName + " was killed by " + Family[n].firstName);
+                            enqueuePopUp(Family[temp2].firstName + " was killed by " + Family[n].firstName, 4);
+                            //Debug.Log(Family[temp2].firstName + " was killed by " + Family[n].firstName);
                             mourningLevel += Family[temp2].dies(); //The selected character dies
                             missingLevel += 1;
                         }
@@ -314,12 +326,12 @@ public class GameManager : MonoBehaviour {
 
                         if (temp == 5) //If the character is a kid, they leave the house 
                         {
-                            Debug.Log(Family[n].firstName + " is sent to an asylum.");
+                            enqueuePopUp(Family[n].firstName + " is sent to an asylum.", 5);
                             missingLevel += Family[n].leavesTheHouse();
                         }
                         else
                         {
-                            Debug.Log(Family[n].firstName + " commited suicide.");
+                            enqueuePopUp(Family[n].firstName + " commited suicide.", 3);
                             mourningLevel += Family[n].dies(); //If a character is the mother, they kill themselves
                             missingLevel += 1;
                         }
@@ -367,6 +379,7 @@ public class GameManager : MonoBehaviour {
     {
         if (!activity.isItShop && !activity.paysService)
         {
+            enqueuePopUp(activity);
             houseStats.addMoney(-activity.cost);
 
             for (int n = 0; n < 4; n++)
@@ -378,6 +391,7 @@ public class GameManager : MonoBehaviour {
         }
         else if (activity.paysService)
         {
+            enqueuePopUp(activity);
             houseStats.addMoney(-activity.cost);
             houseStats.servicesPaid = true;
 
@@ -387,8 +401,6 @@ public class GameManager : MonoBehaviour {
         {
             changeScreen(1, activity.shopAttached);
         }
-
-
     }
 
     public void finishShopping()
@@ -428,50 +440,73 @@ public class GameManager : MonoBehaviour {
     }
 
     //Pop up
-    public void openActivityPopUp(Sprite picture, ActivityClass activityExecuted)
+    public void enqueuePopUp(string text, int pictureNum)
     {
-        popUpPicture.sprite = popUpIllustrations[activityExecuted.pictureNumberUsed];
-        popUpText.text = warppedText(popUpParagraphWidth, activityExecuted.postActivityDescription);
-        int arrowTemp = 0;
+        //Debug.Log(text + " - " + pictureNum);
+        notificationQueue.Enqueue(new notificationClass(text, pictureNum));
+    }
 
-        for (int n = 0; n < 4; n++)
+    public void enqueuePopUp(ActivityClass activity)
+    {
+        notificationQueue.Enqueue(new notificationClass(activity));
+    }
+
+    public void openPopUp(notificationClass not)
+    {
+        popUpWindow.gameObject.SetActive(true);
+        popUpPicture.sprite = popUpIllustrations[Mathf.Clamp(not.pictureNum, 0, popUpIllustrations.Length)];
+        popUpText.text = warppedText(popUpParagraphWidth, not.text);
+        //int arrowTemp = 0;
+
+        if (not.type == notificationType.ActivityDescription)
         {
-            if (!Family[n].dead && !Family[n].gone)
+            for (int n = 0; n < 4; n++)
             {
-                popUpMoraleNumbers[n].text = activityExecuted.moraleChange[n].ToString();
+                if (!Family[n].dead && !Family[n].gone)
+                {
+                    popUpMoraleNumbers[n].text = not.moodChange[n].ToString(); //Error here
 
-                if (activityExecuted.moraleChange[n] > 0)
-                {
-                    arrowTemp = 2;
-                }
-                else if (activityExecuted.moraleChange[n] < 0)
-                {
-                    arrowTemp = 0;
+                    if (not.moodChange[n] > 0)
+                        popUpMoraleNumbers[n].color = colors[2];
+                    else if (not.moodChange[n] == 0)
+                        popUpMoraleNumbers[n].color = colors[1];
+                    else
+                        popUpMoraleNumbers[n].color = colors[0];
+
+
+                    //popUpMoraleArrows[n].sprite = popUpArrowSprites[arrowTemp];
                 }
                 else
-                    arrowTemp = 1;
-
-                popUpMoraleArrows[n].sprite = popUpArrowSprites[arrowTemp];
+                {
+                    popUpFamilyMembers[n].gameObject.SetActive(false);
+                    //popUpMoraleArrows[n].gameObject.SetActive(false);
+                    popUpMoraleNumbers[n].gameObject.SetActive(false);
+                }
             }
-            else
+        }
+        else
+        {
+            for (int n = 0; n < 4; n++)
             {
                 popUpFamilyMembers[n].gameObject.SetActive(false);
-                popUpMoraleArrows[n].gameObject.SetActive(false);
+                //popUpMoraleArrows[n].gameObject.SetActive(false);
                 popUpMoraleNumbers[n].gameObject.SetActive(false);
             }
         }
     }
 
-    public void openNotificationPopUp(Sprite picture, string text)
-    {
-        popUpWindow.gameObject.SetActive(true);
-        popUpPicture.sprite = picture;
-        popUpText.text = warppedText(popUpParagraphWidth, text);
-    }
-
     public void closePopUp()
     {
+        notificationClass temp;
+
         popUpWindow.gameObject.SetActive(false);
+
+        if (notificationQueue.Peek() != null)
+        { 
+        temp = notificationQueue.Dequeue();
+
+        openPopUp(temp);
+        }
     }
 
     string warppedText(int width, string input)
@@ -667,6 +702,8 @@ public class GameManager : MonoBehaviour {
 
 
             tempActivity = new ActivityClass(activityName, tempSec, tempCat, tempCost, tempMorale, tempAva, tempShop);
+
+            tempActivity.setNotiInfo(numbers[12], int.Parse(numbers[13]));
 
             if (tempActivity.isItShop)
             {

@@ -16,8 +16,8 @@ public class ActivityClass{
     public bool paysService = false;
     public ShopClass shopAttached;
 
-    public string postActivityDescription;
-    public int pictureNumberUsed;
+    public string postActivityDescription = "ERROR";
+    public int pictureNumberUsed = 0;
 
     public ActivityClass()
     {
@@ -47,4 +47,9 @@ public class ActivityClass{
         shopAttached = store;
     }
 
+    public void setNotiInfo(string description, int pictureUsed)
+    {
+        postActivityDescription = description;
+        pictureNumberUsed = pictureUsed;
+    }
 }

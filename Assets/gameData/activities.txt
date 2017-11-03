@@ -1,27 +1,27 @@
-Office  	4	1	-20	0	0	0	0	1	0	0	0
-Overtime	5	1	-10	-3	-3	-2	-2	0	0	1	0
-Lottery Seller	1	1	-10	-2	-2	0	0	0	1	0	0
-Ice Cream Car	6	1	-5	0	0	0	0	1	1	0	0
-Motel Lobby	3	1	-5	0	0	0	0	0	1	0	0
-Placeholder1	1	2	0	0	0	0	0	1	1	0	1
-Placeholder2	2	2	0	0	0	0	0	1	1	0	1
-Placeholder3	3	2	0	0	0	0	0	1	1	0	1
-Placeholder4	4	2	0	0	0	0	0	1	1	1	1
-Placeholder5	5	2	0	0	0	0	0	1	1	1	1
-Placeholder6	6	2	0	0	0	0	0	1	1	1	1
-Park    	1	3	0	2	2	3	2	1	1	0	0
-Park    	2	3	0	2	2	3	2	1	1	0	0
-Dinner  	3	3	20	3	3	3	3	0	1	1	0
-Sighseeing	3	3	10	3	3	2	2	0	1	0	0
-Kite flying	3	3	10	2	2	3	3	0	1	0	0
-Ditoland	4	3	100	5	5	7	7	0	1	0	0
-Pool    	4	3	10	3	3	3	4	0	1	0	0
-Cable Car	4	3	50	5	5	4	4	0	1	0	0
-Mall    	4	3	50	1	2	1	2	0	1	1	0
-Home    	6	3	0	1	1	1	1	1	1	1	0
-Drink   	1	4	5	1	0	0	0	1	1	1	0
-Visit Grandma	2	4	0	1	0	0	0	1	1	0	0
-Social Drinking	3	4	10	2	0	0	0	0	0	1	0
-Hiking  	3	4	5	4	0	0	0	0	1	0	0
-Strip Club	4	4	20	7	-7	0	0	0	0	1	0
-Whore House	5	4	50	15	-15	-5	-5	0	0	1	0
+Office  	3	1	-20	0	0	0	0	1	0	0	0	You spend what feels like eight endless hours filling forms in your office.	0
+Overtime	3	1	-10	-3	-3	-2	-2	0	0	1	0	After a dozen cups of coffee, you manage to work overtime in your office.	0
+Lottery Seller	2	1	-10	-2	-2	0	0	0	1	0	0	You spend your afternoon breathing carbonide monoxide and selling tickets.	0
+Ice Cream Car	6	1	-5	0	0	0	0	1	1	0	0	You help your cousin sell ice cream in his truck. He pays you for your help.	0
+Motel Lobby	5	1	-5	0	0	0	0	0	1	0	0	You spend a quiet couple of hours helping a friend with his motel.	0
+Placeholder1	1	2	0	0	0	0	0	1	1	0	1	--	0
+Placeholder2	2	2	0	0	0	0	0	1	1	0	1	--	0
+Placeholder3	3	2	0	0	0	0	0	1	1	0	1	--	0
+Placeholder4	4	2	0	0	0	0	0	1	1	1	1	--	0
+Placeholder5	5	2	0	0	0	0	0	1	1	1	1	--	0
+Placeholder6	6	2	0	0	0	0	0	1	1	1	1	--	0
+Park    	1	3	0	2	2	3	2	1	1	0	0	You take your family to a quiet park and let your kids play for a while.	0
+Park    	2	3	0	2	2	3	2	1	1	0	0	You take your family to the city park and let your kids play for a while.	0
+Dinner  	2	3	20	3	3	3	3	0	1	1	0	You take your wife and kids to a fancy italian restaurant. The food was good.	0
+Sighseeing	1	3	10	3	3	2	2	0	1	0	0	You and your family take walk around the mountains and enjoy the sightseeing.	0 
+Kite flying	5	3	10	2	2	3	3	0	1	0	0	You take your kids to a nice open place and let them fly kites for a bit.	0
+Ditoland	5	3	100	5	5	7	7	0	1	0	0	Ditoland was decent fiften years ago. But hey, it's the only park around.	0
+Pool    	4	3	10	3	3	3	4	0	1	0	0	You all go to the pool. The water looks weird, but your kids enjoy it anyways.	0
+Cable Car	6	3	50	5	5	4	4	0	1	0	0	You take your kids to see the cable car. You hope a lost bullet doesn't hit it.	0
+Mall    	2	3	50	1	2	1	2	0	1	1	0	Your wife and daughter drag you to the mall. Mostly to "suck windows".	0
+Home    	4	3	0	1	1	1	1	1	1	1	0	You spend some time at home with your family.	0
+Drink   	3	4	5	1	0	0	0	1	1	1	0	Screw everything, you are going to the bar.	0
+Visit Grandma	5	4	0	1	0	0	0	1	1	0	0	You decide to go to your mother's house and spend some time with her.	0
+Social Drinking	3	4	10	2	0	0	0	0	0	1	0	You go out with a couple of work buddies and get wasted.	0
+Hiking  	1	4	5	4	0	0	0	0	1	0	0	You go out with a couple of work buddies and hike around.	0
+Strip Club	3	4	20	7	-7	0	0	0	0	1	0	Hey, it's no different from watching porn, is it?	0
+Whore House	5	4	50	15	-15	-5	-5	0	0	1	0	You promised you wouldn't go on whores after marriage. She won't find out.	0

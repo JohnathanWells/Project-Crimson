@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\Classes\FamilyMembers.cs" />
      <Compile Include="Assets\Scripts\Classes\houseClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ItemClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\notificationClass.cs" />
      <Compile Include="Assets\Scripts\Classes\savefileClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ShopClass.cs" />
      <Compile Include="Assets\Scripts\Classes\sicknessClass.cs" />
