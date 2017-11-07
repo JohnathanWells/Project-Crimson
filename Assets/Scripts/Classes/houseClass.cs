@@ -160,6 +160,10 @@ public class houseClass{
             return cleaningItems;
         }
 
+        public void setCleaning(int qty)
+        {
+            cleaningItems = qty;
+        }
 
         //Hygiene Related
 
@@ -175,7 +179,12 @@ public class houseClass{
         {
             return hygieneItems;
         }
-
+        
+        public void setHygiene(int qty)
+        {
+            hygieneItems = qty;
+        }
+        
 
         //Medicine Related
 

@@ -1,27 +1,27 @@
 Office  	3	1	-20	0	0	0	0	1	0	0	0	You spend what feels like eight endless hours filling forms in your office.	0
-Overtime	3	1	-10	-3	-3	-2	-2	0	0	1	0	After a dozen cups of coffee, you manage to work overtime in your office.	0
-Lottery Seller	2	1	-10	-2	-2	0	0	0	1	0	0	You spend your afternoon breathing carbonide monoxide and selling tickets.	0
-Ice Cream Car	6	1	-5	0	0	0	0	1	1	0	0	You help your cousin sell ice cream in his truck. He pays you for your help.	0
-Motel Lobby	5	1	-5	0	0	0	0	0	1	0	0	You spend a quiet couple of hours helping a friend with his motel.	0
+Overtime	3	1	-10	-3	-3	-2	-2	0	0	1	0	After a dozen cups of coffee, you manage to work an extra shift in your office.	0
+Lottery Seller	2	1	-10	-2	-2	0	0	0	1	0	0	You spend your #T breathing car smoke and selling lottery tickets in the central avenue of #Cn .	0
+Ice Cream Car	6	1	-5	0	0	0	0	1	1	0	0	You receive a message from your cousing requesting help with his ice cream business. #n "Blood is thicker than water" you think.	0
+Motel Lobby	5	1	-5	0	0	0	0	0	1	0	0	You spend the whole #T helping a friend with his motel.	0
 Placeholder1	1	2	0	0	0	0	0	1	1	0	1	--	0
 Placeholder2	2	2	0	0	0	0	0	1	1	0	1	--	0
 Placeholder3	3	2	0	0	0	0	0	1	1	0	1	--	0
 Placeholder4	4	2	0	0	0	0	0	1	1	1	1	--	0
 Placeholder5	5	2	0	0	0	0	0	1	1	1	1	--	0
 Placeholder6	6	2	0	0	0	0	0	1	1	1	1	--	0
-Park    	1	3	0	2	2	3	2	1	1	0	0	You take your family to a quiet park and let your kids play for a while.	0
-Park    	2	3	0	2	2	3	2	1	1	0	0	You take your family to the city park and let your kids play for a while.	0
-Dinner  	2	3	20	3	3	3	3	0	1	1	0	You take your wife and kids to a fancy italian restaurant. The food was good.	0
-Sighseeing	1	3	10	3	3	2	2	0	1	0	0	You and your family take walk around the mountains and enjoy the sightseeing.	0 
-Kite flying	5	3	10	2	2	3	3	0	1	0	0	You take your kids to a nice open place and let them fly kites for a bit.	0
-Ditoland	5	3	100	5	5	7	7	0	1	0	0	Ditoland was decent fiften years ago. But hey, it's the only park around.	0
-Pool    	4	3	10	3	3	3	4	0	1	0	0	You all go to the pool. The water looks weird, but your kids enjoy it anyways.	0
-Cable Car	6	3	50	5	5	4	4	0	1	0	0	You take your kids to see the cable car. You hope a lost bullet doesn't hit it.	0
-Mall    	2	3	50	1	2	1	2	0	1	1	0	Your wife and daughter drag you to the mall. Mostly to "suck windows".	0
-Home    	4	3	0	1	1	1	1	1	1	1	0	You spend some time at home with your family.	0
-Drink   	3	4	5	1	0	0	0	1	1	1	0	Screw everything, you are going to the bar.	0
-Visit Grandma	5	4	0	1	0	0	0	1	1	0	0	You decide to go to your mother's house and spend some time with her.	0
-Social Drinking	3	4	10	2	0	0	0	0	0	1	0	You go out with a couple of work buddies and get wasted.	0
-Hiking  	1	4	5	4	0	0	0	0	1	0	0	You go out with a couple of work buddies and hike around.	0
-Strip Club	3	4	20	7	-7	0	0	0	0	1	0	Hey, it's no different from watching porn, is it?	0
-Whore House	5	4	50	15	-15	-5	-5	0	0	1	0	You promised you wouldn't go on whores after marriage. She won't find out.	0
+Park    	1	3	0	2	2	3	2	1	1	0	0	You take #f to a quiet park. You have a good #T watching the kids play.	0
+Park    	2	3	0	2	2	3	2	1	1	0	0	You take #f to the city park. Even though it's a little cramped, you have a good time.	0
+Dinner  	2	3	20	3	3	3	3	0	1	1	0	You take #f to a fancy italian restaurant in #Cn . The soft music and the delicious food helps you all forget about your struggles temporarily.	0
+Sighseeing	1	3	10	3	3	2	2	0	1	0	0	You and #f take walk around the mountains and enjoy the views of the #T .	0 
+Kite flying	5	3	10	2	2	3	3	0	1	0	0	You take #f to a nice open place and fly kites with the kids for a bit.	0
+Ditoland	5	3	100	5	5	7	7	0	1	0	0	Ditoland was decent fiften years ago, before the Revolution. Now it's rusted and noisy, but hey, it's the only park around.	0
+Pool    	4	3	10	3	3	3	4	0	1	0	0	You and #f go to the pool. The water looks weird, but the kids seem enjoy it anyways.	0
+Cable Car	6	3	50	5	5	4	4	0	1	0	0	You take #k to see the cable car. You hope a lost bullet doesn't hit it.	0
+Mall    	2	3	50	1	2	1	2	0	1	1	0	#f drags you to the mall. You end up buying a bunch of small things.	0
+Home    	4	3	0	1	1	1	1	1	1	1	0	You spend some time at home with #f .	0
+Drink   	3	4	5	1	0	0	0	1	1	1	0	"Screw everything" #n You think as you go back home after the sixth vodka of the #T .	0
+Visit Grandma	5	4	0	1	0	0	0	1	1	0	0	You decide to go to your mother's house and spend some time with her. You both eat a meal you vaguely remember from your childhood and watch TV.	0
+Social Drinking	3	4	10	2	0	0	0	0	0	1	0	A couple of friends from work convince you to go to the bar in #Cn. You get wasted and are sent home for the night.	0
+Hiking  	1	4	5	4	0	0	0	0	1	0	0	You and your friends go on a hike trip accross the mountains.	0
+Strip Club	3	4	20	7	-7	0	0	0	0	1	0	You and a couple of friends have some drinks at the strip club. When your wife calls, you tell her you are just drinking with some friends. It isn't totally wrong.	0
+Whore House	5	4	50	15	-15	-5	-5	0	0	1	0	"She won't find out." #n You tell yourself. #n You know you she will eventually. #n You just dont care.	0

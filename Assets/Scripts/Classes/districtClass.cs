@@ -5,8 +5,8 @@ using UnityEngine;
 public class districtClass{
     public enum sector { A, B, C, D, E };
 
-    string districtName;
-    sector Sector;
+    public string districtName;
+    public sector Sector;
 
     //All go from 0% to 100%
     //The initial stats

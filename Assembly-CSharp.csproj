@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\Classes\FamilyMembers.cs" />
      <Compile Include="Assets\Scripts\Classes\houseClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ItemClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\newGameClass.cs" />
      <Compile Include="Assets\Scripts\Classes\notificationClass.cs" />
      <Compile Include="Assets\Scripts\Classes\savefileClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ShopClass.cs" />
@@ -71,8 +72,10 @@
      <Compile Include="Assets\Scripts\UI Scripts\ActivityMenuScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\amountButton.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\buttonScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\gameOverWindowScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseMenuScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\HouseScript.cs" />
+     <Compile Include="Assets\Scripts\UI Scripts\mainMenuScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\phoneScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\sickAlertScript.cs" />
      <Compile Include="Assets\Scripts\UI Scripts\storeScript.cs" />

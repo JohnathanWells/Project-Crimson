@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum daysOfWeek {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
+enum monthsOfYear { January, February, March, April, May, June, July, August, September, October, November, December}
+
 [System.Serializable]
 public class DayClass{
     public int month;
@@ -101,9 +104,14 @@ public class DayClass{
         return ac;
     }
 
-    public int calculateDayOfWeek()
+    public string calculateDayOfWeek()
     {
-        return dayCount % 7;
+        return ((daysOfWeek)(dayCount % 7)).ToString();
+    }
+
+    public string calculateMonth()
+    {
+        return ((monthsOfYear)(month - 1)).ToString();
     }
 
     public void copyTo(DayClass to)

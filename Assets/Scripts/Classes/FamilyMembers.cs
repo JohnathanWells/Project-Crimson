@@ -7,7 +7,7 @@ public class FamilyMembers
 {
     int minHealthByDepression = 20; //constant variable for keepying the people from dying from depression
 
-    public enum famMember {Dad, Mom, Son, Dau, unknown};
+    public enum famMember {Dad, Mom, Dau, Son, unknown};
     public enum emotionalHealth { Healthy, Depressed, Unstable };
     public famMember member;
     public string firstName;
@@ -23,6 +23,7 @@ public class FamilyMembers
     public int missingLevel;
     public bool dead;
     public bool gone;
+    public string deathCause = "Unknown";
     int daysLeftOfSickness = 0;
     int daysUnstable = 0;
     int sicknessHealthDrop;
@@ -77,7 +78,7 @@ public class FamilyMembers
 
             if (health <= 0)
             {
-                Debug.Log(firstName + " dies from starvation.");
+                //Debug.Log(firstName + " dies from starvation.");
                 dies();
                 return 1;
             }
@@ -132,7 +133,7 @@ public class FamilyMembers
             {
                 daysLeftOfSickness -= 1;
             }
-            Debug.Log("Days left of sickness " + daysLeftOfSickness);
+            //Debug.Log("Days left of sickness " + daysLeftOfSickness);
             if (daysLeftOfSickness <= 0)
             {
                 cureIllness();

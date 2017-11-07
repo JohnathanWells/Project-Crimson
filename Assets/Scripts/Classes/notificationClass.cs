@@ -8,6 +8,7 @@ public class notificationClass{
 
     public string text;
     public int pictureNum;
+    public Color color = Color.white;
     public int[] moodChange;
     public notificationType type;
 
@@ -40,5 +41,13 @@ public class notificationClass{
         text = Text;
         pictureNum = pN;
         type = notificationType.SimpleText;
+    }
+
+    public notificationClass(string Text, int pN, Color col)
+    {
+        text = Text;
+        pictureNum = pN;
+        type = notificationType.SimpleText;
+        color = col;
     }
 }

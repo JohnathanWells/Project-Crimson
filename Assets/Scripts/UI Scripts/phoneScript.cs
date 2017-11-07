@@ -48,14 +48,14 @@ public class phoneScript : MonoBehaviour {
 
     public void setTime()
     {
-        if (manager.currentTime == timeOfDay.Morning)
+        if (manager.currentTime == timeOfDay.morning)
         {
             phoneScreenBackground.color = timeColors[0];
             timeIndicators[0].gameObject.SetActive(true);
             timeIndicators[1].gameObject.SetActive(false);
             timeIndicators[2].gameObject.SetActive(false);
         }
-        else if (manager.currentTime == timeOfDay.Afternoon)
+        else if (manager.currentTime == timeOfDay.afternoon)
         {
             phoneScreenBackground.color = timeColors[1];
             timeIndicators[0].gameObject.SetActive(false);

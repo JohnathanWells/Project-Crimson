@@ -21,22 +21,8 @@ public class ActivityMenuScript : MonoBehaviour {
     private ActivityClass[] noonAct;
     private ActivityClass[] evnAct;
 
-	// Use this for initialization
-	void Start () {
-        //updateMenu();
-	}
-
     public void updateMenu()
     {
-        //for (int n = 0; n < categoryButtons.Length; n++ )
-        //{
-        //    if (categoryButtons[n].Category == ActivityClass.category.Work)
-        //    {
-        //        categoryButtons[n].SendMessage("turnOn");
-        //        break;
-        //    }
-        //}
-
         mornAct = Manager.mornActivities.ToArray();
         noonAct = Manager.noonActivities.ToArray();
         evnAct = Manager.evenActivities.ToArray();
@@ -55,11 +41,11 @@ public class ActivityMenuScript : MonoBehaviour {
 
         categoryButtons[(int)Category].SendMessage("turnOn");
 
-        if (time == timeOfDay.Morning)
+        if (time == timeOfDay.morning)
         {
             temp = mornAct;
         }
-        else if (time == timeOfDay.Afternoon)
+        else if (time == timeOfDay.afternoon)
         {
             temp = noonAct;
         }

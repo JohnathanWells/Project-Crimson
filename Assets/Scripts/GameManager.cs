@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public enum timeOfDay { Morning, Afternoon, Evening };
+public enum timeOfDay { morning, afternoon, evening };
 
 public class GameManager : MonoBehaviour {
 
@@ -21,10 +21,13 @@ public class GameManager : MonoBehaviour {
     public TextMesh[] popUpMoraleNumbers;
     public Color[] colors = new Color[3];
     public Transform[] popUpFamilyMembers;
-    [Tooltip("0 = Error\n 1 = fight, 2 = member leaves house, 3 = suicide, 4 = murder, 5 = asylum\n 6 = food alert, 7 = services alert, 8 = sick alert, 9 = item alert, 10 = depressed alert\n11 to 20 = Events\n21 to 100 = Activities")]
+    [Tooltip("0 = Error\n 1 = fight, 2 = member leaves house, 3 = suicide, 4 = murder, 5 = asylum, 6 = general death, 7 = information\n 8 = sick alert, 9 = item alert, 10 = services alert\n11 to 20 = Events\n21 to 100 = Activities")]
     public Sprite[] popUpIllustrations;
     public Sprite[] popUpArrowSprites = new Sprite[3];
     Queue<notificationClass> notificationQueue = new Queue<notificationClass>();
+
+    [Header("Game Over")]
+    public Transform gameOverScreen;
 
     [Header("References")]
     public phoneScript Phone;
@@ -63,15 +66,40 @@ public class GameManager : MonoBehaviour {
     public List<sicknessClass> sicknesses = new List<sicknessClass>();
     savefileClass savedObject = new savefileClass();
 
+    ActivityClass tempActivity;
+    bool GAME_OVER = false;
 
     void Start()
     {
         Resources.UnloadUnusedAssets();
 
-        if (createSessionAtStart)
-            newSession();
+        //if (createSessionAtStart)
+        //    newSession();
+        //else
+        //    loadData();
+
+        newGameClass loadObject = new newGameClass();
+        Transform obj = GameObject.FindGameObjectWithTag("MainMenuObject").transform;
+
+
+        if (obj != null)
+        {
+            obj.SendMessage("getClass", loadObject);
+
+            if (loadObject.newGame)
+            {
+                newSession(loadObject);
+            }
+            else
+            {
+                loadData();
+            }
+        }
         else
-            loadData();
+            newSession(null);
+
+        obj.SendMessage("signalLoaded");
+        //to here
 
         updateComponents();
 
@@ -81,13 +109,14 @@ public class GameManager : MonoBehaviour {
         if (dadStartsSick)
             Family[0].getsSick(sicknesses[5]);
 
-        enqueuePopUp("Pop Up Windows are supposed to display when a member of the family is sick or death. They might also be used to illustrate some mechanics.", 0);
+        enqueuePopUp("Pop Up Windows display when an activity occurs. They also notify you when a member of the family is sick or dead.", 0);
+        openPopUp(notificationQueue.Dequeue());
     }
 
     //Time stuff
     public void transitionTime()
     {
-        if (currentTime == timeOfDay.Evening)
+        if (currentTime == timeOfDay.evening)
         {
             dayAdvance();
         }
@@ -99,9 +128,7 @@ public class GameManager : MonoBehaviour {
 
         updateComponents();
 
-        Debug.Log(notificationQueue.Count);
-
-        if (notificationQueue.Peek() != null)
+        if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
            openPopUp(notificationQueue.Dequeue());
     }
 
@@ -109,21 +136,44 @@ public class GameManager : MonoBehaviour {
     {
         currentDay.advanceDay();
         houseStats.timeLeftForPayment--;
-        currentTime = timeOfDay.Morning;
+        currentTime = timeOfDay.morning;
         daysSinceLastIllnessCheck++;
 
         //House services are paid
         if (houseStats.timeLeftForPayment <= 0)
         {
             houseStats.payServices(costOfServices, currentDay);
+
+            if (houseStats.servicesPaid)
+            {
+                enqueuePopUp("Service Pay Day. #n " + costOfServices + "$ have been discounted from your account.", 7); //TODO change this 0 to something else
+            }
+            else
+            {
+                enqueuePopUp("Service Pay Day. #n You didn't have enough money to pay, so services such as water, electricity and internet have been cut. ", 10);
+            }
         }
 
         //House Stats and Item Consumption are calculated
-        houseStats.modCleaning(-1);
+        if (houseStats.getCleaningQ() > 0)
+        {
+            houseStats.modCleaning(-1);
+            if (houseStats.getCleaningQ() <= 0)
+            {
+                houseStats.setCleaning(0);
+                enqueuePopUp("You ran out of cleaning items!", 11);
+            }
+        }
 
-        if (currentDay.dayCount % 7 == 6)
+        if (houseStats.getHygiene() > 0 && currentDay.dayCount % 7 == 6)
         {
             houseStats.modHygiene(-1 * membersAlive);
+
+            if (houseStats.getHygiene() <= 0)
+            {
+                houseStats.setHygiene(0);
+                enqueuePopUp("You ran out of hygiene items!", 11);
+            }
         }
 
         houseStats.calculatePlagueRate(City);
@@ -158,32 +208,38 @@ public class GameManager : MonoBehaviour {
     //Family effects
     public void illnessChecker()
     {
-        int worseAvailableSickness = 0;
-        sicknessClass[] illnesses = sicknesses.ToArray();
-        float currentPlagueRate = houseStats.plagueRate;
-        int chosenSickness;
         int chosenFamilyMember = Random.Range(0, 3);
-        int tempH = Family[chosenFamilyMember].health;
 
-        if (Family[chosenFamilyMember].status.ID != 0 && Random.Range(1, 100) > (tempH * (2 / 3)) && Random.Range(1, 100) <= currentPlagueRate)
+        if (!Family[chosenFamilyMember].gone && !Family[chosenFamilyMember].dead)
         {
-            for (int n = 0; n < sicknesses.Count;  n++)
-            {
-                if (illnesses[n].minPRCheck <= currentPlagueRate)
-                {
-                    worseAvailableSickness = n;
-                }
-                else
-                {
-                    break;
-                }
-            }
+            int worseAvailableSickness = 0;
+            float currentPlagueRate = houseStats.plagueRate;
+            int chosenSickness;
+            float tempH = Family[chosenFamilyMember].health * (2 / 3);
 
-            if (worseAvailableSickness > 0)
+            if (Family[chosenFamilyMember].status.ID == 0 && Random.Range(1, 100) > (tempH) && Random.Range(1, 100) <= currentPlagueRate)
             {
-                chosenSickness = Random.Range(1, worseAvailableSickness);
-                Family[chosenFamilyMember].getsSick(illnesses[chosenSickness]);
-                Debug.Log(Family[chosenFamilyMember].firstName + " is sick with " + illnesses[chosenSickness].name);
+                //Debug.Log(Family[chosenFamilyMember].health);
+                int n = 0;
+                foreach (sicknessClass s in sicknesses )
+                {
+                    if (s.minPRCheck <= currentPlagueRate)
+                    {
+                        worseAvailableSickness = n;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    n++;
+                }
+
+                if (worseAvailableSickness > 0)
+                {
+                    chosenSickness = Random.Range(1, worseAvailableSickness);
+                    Family[chosenFamilyMember].getsSick(sicknesses[chosenSickness]);
+                    enqueuePopUp((Family[chosenFamilyMember].firstName + " hasn't been feeling well lately. Maybe you should check on them."), 8);
+                }
             }
         }
     }
@@ -272,7 +328,7 @@ public class GameManager : MonoBehaviour {
             {
                 temp = Family[n].moraleHealthDrop(houseStats.servicesPaid, houseStats.getHygiene() > 0);
 
-                if (n != 0) //This can never happen to the father
+                if (n != 0 && membersInHouse > 1) //This can never happen to the father
                 {
                     if (temp == 1) //The member of the family gets in a fight with other characters. 50% chance.
                     {
@@ -286,26 +342,25 @@ public class GameManager : MonoBehaviour {
                                 temp2 = Random.Range(0, 3);
                             } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //This dowhile makes sure they dont get in a fight with dead people or is the one we are looking at
 
-                            enqueuePopUp(Family[n].firstName + " got into a fight with " + Family[temp2].firstName, 1);
+                            enqueuePopUp(Family[n].firstName + " got into a fight with " + Family[temp2].firstName + ".", 1);
                             //Debug.Log(Family[n].firstName + " got into a fight with " + Family[temp2].firstName);
                             Family[temp2].moraleChange(-5); //The people they get in a fight with loses 5 morale
                         }
                     }
                     else if (temp == 2) //There is a 25% chance the character leaves the house.
                     {
-                        enqueuePopUp(Family[n].firstName + " left the house.", 2);
-                        //Debug.Log(Family[n].firstName + " left the house.");
+                        enqueuePopUp("During the night, when everyone was sleeping, " + Family[n].firstName + " secretly packed all of their things and left the house.", 2, Color.yellow);
                         missingLevel += Family[n].leavesTheHouse();
                     }
                     else if (temp == 3) //There is a 10% chance the character kills themselves
                     {
-                        enqueuePopUp(Family[n].firstName + " commited suicide.", 3);
-                        //Debug.Log(Family[n].firstName + " commited suicide.");
+                        enqueuePopUp(Family[n].firstName + " has commited suicide.", 3, Color.red);
                         mourningLevel += Family[n].dies();
                         missingLevel += 1;
                     }
                     else if (temp == 4 || temp == 5) //There is a 5% chance they kill someone else
                     {
+                        Debug.Log("Murder happening");
                         if (membersInHouse >= 3) //If there are more than 2 people in the house
                         {
                             int temp2;
@@ -315,28 +370,39 @@ public class GameManager : MonoBehaviour {
                                 temp2 = Random.Range(1, 3);
                             } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //We make sure the selected member isnt dead or gone or is the character we are currently looking at
 
-                            enqueuePopUp(Family[temp2].firstName + " was killed by " + Family[n].firstName, 4);
-                            //Debug.Log(Family[temp2].firstName + " was killed by " + Family[n].firstName);
+                            enqueuePopUp("During a particularly heated discussion, " + Family[temp2].firstName + " is killed by " + Family[n].firstName + ".", 4, Color.red);
                             mourningLevel += Family[temp2].dies(); //The selected character dies
                             missingLevel += 1;
                         }
-                        else //If there are only two people in the house, game over
-                            gameOver();
+                        else //If there are only two people in the house and one of them is unstable enough to commit murder, game over
+                        {
+                            enqueuePopUp("While you were sleeping, " + Family[n].firstName + " locks the door and sets the house on fire. Your neighbors will never forget your screams for the rest of their lives.", 4, Color.red);
+                            GAME_OVER = true;
+                            Family[n].deathCause = "Murder (Fire)";
+                        }
 
 
                         if (temp == 5) //If the character is a kid, they leave the house 
                         {
-                            enqueuePopUp(Family[n].firstName + " is sent to an asylum.", 5);
+                            enqueuePopUp("After the murder, there is no other choice but to send " + Family[n].firstName + " to a mental asylum.", 5, Color.yellow);
                             missingLevel += Family[n].leavesTheHouse();
                         }
                         else
                         {
-                            enqueuePopUp(Family[n].firstName + " commited suicide.", 3);
+                            enqueuePopUp("Moved by guilt and sorrow over the death of her child, " + Family[n].firstName + " commits suicide.", 3, Color.red);
                             mourningLevel += Family[n].dies(); //If a character is the mother, they kill themselves
                             missingLevel += 1;
                         }
 
                     }
+                }
+                else if (n == 0 && membersInHouse == 1) //The dad kills himself
+                {
+                    enqueuePopUp("The solitude, sorrow and grief finally takes over you. You throw yourself from a balcony in your office to your death.", 3, Color.red);
+                    mourningLevel += Family[n].dies();
+                    missingLevel += 1;
+                    Family[n].deathCause = "Suicide";
+                    GAME_OVER = true;
                 }
             }
         }
@@ -345,7 +411,28 @@ public class GameManager : MonoBehaviour {
         for (int n = 0; n < 4; n++) //We go through each member
             if (!Family[n].dead && !Family[n].gone) //If the member is in the house and alive
             {
-                mourningLevel += Family[n].healthDrift(); //Their health drifts as usual
+                temp = Family[n].healthDrift(); //Their health drifts as usual
+                mourningLevel += temp;
+
+                if (temp > 0)
+                {
+                    if (Family[n].status.ID != 0)
+                    {
+                        enqueuePopUp(Family[n].firstName + " wakes up dead that morning. #n The coroner says they died from <i> " + Family[n].status.name + " </i> .", 6, Color.red);
+                        Family[n].deathCause = Family[n].status.name;
+
+                        if (n == 0)
+                            GAME_OVER = true;
+                    }
+                    else
+                    {
+                        enqueuePopUp(Family[n].firstName + " didn't wake up that morning. #n They starved to death.", 6, Color.red);
+                        Family[n].deathCause = "Starved";
+
+                        if (n == 0)
+                            GAME_OVER = true;
+                    }
+                }
             }
 
         if (mourningLevel > 0 || missingLevel > 0)
@@ -371,12 +458,16 @@ public class GameManager : MonoBehaviour {
 
     public void gameOver()
     {
-        //Game over
+        gameOverScreen.gameObject.SetActive(true);
+        gameOverScreen.SendMessage("setFamily", Family);
+        gameOverScreen.SendMessage("setDay", currentDay);
+        gameOverScreen.SendMessage("displayGameOver");
     }
 
     //Activity and stuff
     public void executeActivity(ActivityClass activity)
     {
+        tempActivity = activity;
         if (!activity.isItShop && !activity.paysService)
         {
             enqueuePopUp(activity);
@@ -446,6 +537,12 @@ public class GameManager : MonoBehaviour {
         notificationQueue.Enqueue(new notificationClass(text, pictureNum));
     }
 
+    public void enqueuePopUp(string text, int pictureNum, Color color)
+    {
+        //Debug.Log(text + " - " + pictureNum);
+        notificationQueue.Enqueue(new notificationClass(text, pictureNum, color));
+    }
+
     public void enqueuePopUp(ActivityClass activity)
     {
         notificationQueue.Enqueue(new notificationClass(activity));
@@ -454,9 +551,14 @@ public class GameManager : MonoBehaviour {
     public void openPopUp(notificationClass not)
     {
         popUpWindow.gameObject.SetActive(true);
-        popUpPicture.sprite = popUpIllustrations[Mathf.Clamp(not.pictureNum, 0, popUpIllustrations.Length)];
+        popUpPicture.sprite = popUpIllustrations[Mathf.Clamp(not.pictureNum, 0, popUpIllustrations.Length - 1)];
         popUpText.text = warppedText(popUpParagraphWidth, not.text);
         //int arrowTemp = 0;
+
+        if (not.color != Color.white)
+            popUpText.color = not.color;
+        else
+            popUpText.color = Color.white;
 
         if (not.type == notificationType.ActivityDescription)
         {
@@ -501,11 +603,14 @@ public class GameManager : MonoBehaviour {
 
         popUpWindow.gameObject.SetActive(false);
 
-        if (notificationQueue.Peek() != null)
+        if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
         { 
         temp = notificationQueue.Dequeue();
-
         openPopUp(temp);
+        }
+        else if (GAME_OVER)
+        {
+            gameOver();
         }
     }
 
@@ -514,6 +619,7 @@ public class GameManager : MonoBehaviour {
         string[] words = input.Split(" "[0]);
         string line = "";
         string temp;
+        string replacedWord;
         string result = "";
         int lineCount = 0;
 
@@ -521,17 +627,24 @@ public class GameManager : MonoBehaviour {
         {
             if (lineCount < popUpMaxNumberOfLines)
             {
-                temp = line + s + " ";
+                replacedWord = replaceReferences(s);
+                temp = line + replacedWord;
 
-                if (temp.Length > width)
+                if (temp.Length > width && replacedWord != "\n")
                 {
                     lineCount++;
                     result += line + "\n";
-                    line = s + " ";
+                    line = replacedWord + " ";
+                }
+                else if (temp.Length <= width && replacedWord == "\n")
+                {
+                    lineCount++;
+                    result += temp;
+                    line = "";
                 }
                 else
                 {
-                    line = temp;
+                    line = temp + " ";
                 }
             }
             else
@@ -546,27 +659,103 @@ public class GameManager : MonoBehaviour {
         return result;
     }
 
+    string replaceReferences(string str)
+    {
+        if (str[0] == '#')
+        {
+            switch (str[1])
+            {
+                case 'C':
+                    if (str.Length > 2)
+                        if (str[2] != 'n')
+                            return City.districts[int.Parse(str[2].ToString()) - 1].districtName;
+                        else
+                            return City.districts[(int)tempActivity.area].districtName;
+                    else
+                        return str;
+                case 'T': //Returns the current time slot
+                    return currentTime.ToString();
+                case 'W': //Returns the current day of the week
+                    return currentDay.calculateDayOfWeek();
+                case 'D': //Returns the current date
+                    return currentDay.calculateMonth() + " " + currentDay.day + "th";
+                case 'M': //Returns the current month
+                    return currentDay.calculateMonth();
+                case 'f': //Refering to the whole family
+                    if (membersInHouse == 4)
+                        return "your family";
+                    else if (membersInHouse > 1)
+                        return "what's left of your family";
+                    else
+                        return "no one";
+                case '0':
+                    return Family[0].firstName;
+                case '1':
+                    return Family[1].firstName;
+                case '2':
+                    return Family[2].firstName;
+                case '3':
+                    return Family[3].firstName;
+                case 'k': //Refering to the kids only
+                    {
+                        if (!Family[2].dead && !Family[2].gone && !Family[3].dead && !Family[3].gone)
+                        {
+                            return Family[2].firstName + " and " + Family[3].firstName;
+                        }
+                        else if (!Family[2].dead && !Family[2].gone && (Family[3].dead || Family[3].gone))
+                        {
+                            return Family[2].firstName;
+                        }
+                        else if ((Family[2].dead || Family[2].gone) && !Family[3].dead && !Family[3].gone)
+                        {
+                            return Family[3].firstName;
+                        }
+                        else
+                        {
+                            return "your sorrow and agony";
+                        }
+                    }
+                case 'n':
+                    return "\n";
+                default:
+                    return str;
+            }
+        }
+        else
+            return str;
+    }
 
     //Data and saving management stuff
-    void newSession()
+    void newSession(newGameClass startupData)
     {
         City = new cityClass(districtStatsFile, statChangesFile);
         houseStats = new houseClass();
         currentDay = new DayClass(10, 1);
-        currentTime = timeOfDay.Morning;
+        currentTime = timeOfDay.morning;
 
         readActivities();
 
         readSicknesses();
 
-        Family[0] = new FamilyMembers(FamilyMembers.famMember.Dad);
-        Family[0].setName("Pedro", "Perez");
-        Family[1] = new FamilyMembers(FamilyMembers.famMember.Mom);
-        Family[1].setName("Maria", "Perez");
-        Family[2] = new FamilyMembers(FamilyMembers.famMember.Son);
-        Family[2].setName("Jose", "Perez");
-        Family[3] = new FamilyMembers(FamilyMembers.famMember.Dau);
-        Family[3].setName("Juana", "Perez");
+        if (startupData != null)
+        {
+            for (int n = 0; n < 4; n++)
+            {
+                Family[n] = new FamilyMembers(startupData.family[n].member);
+                Family[n].setName(startupData.family[n].firstName, startupData.family[n].lastName);
+            }
+        }
+        else
+        {
+            Family[0] = new FamilyMembers(FamilyMembers.famMember.Dad);
+            Family[0].setName("Pedro", "Perez");
+            Family[1] = new FamilyMembers(FamilyMembers.famMember.Mom);
+            Family[1].setName("Maria", "Perez");
+            Family[2] = new FamilyMembers(FamilyMembers.famMember.Son);
+            Family[2].setName("Jose", "Perez");
+            Family[3] = new FamilyMembers(FamilyMembers.famMember.Dau);
+            Family[3].setName("Juana", "Perez");
+        }
 
         houseStats.payServices(0, currentDay);
 
