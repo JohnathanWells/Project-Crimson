@@ -14,6 +14,10 @@ enum menus {newGame, main};
 
 public class mainMenuScript : MonoBehaviour {
 
+    [Header("Continue")]
+    public Transform continueButton;
+
+    [Header("New Game")]
     //Data loading
     newGameClass gameStartup = new newGameClass();
     public InputField[] names = new InputField[4];
@@ -27,6 +31,13 @@ public class mainMenuScript : MonoBehaviour {
     public Transform[] menuParents = new Transform[(int)menus.main + 1];
     menus currentMenu = menus.main;
 
+    void Start()
+    {
+        SaveLoad.Load();
+
+        if (SaveLoad.savedGame == null || SaveLoad.savedGame.empty)
+            continueButton.gameObject.SetActive(false);
+    }
 
     //Used in starting a new game or loading one
     public void startNewGame()
@@ -90,6 +101,11 @@ public class mainMenuScript : MonoBehaviour {
         SceneManager.LoadScene(mainGameScene);
     }
 
+    public void deleteData()
+    {
+        SaveLoad.Delete();
+    }
+
     //Used in exiting the game
     public void exitGame()
     {
@@ -101,12 +117,15 @@ public class mainMenuScript : MonoBehaviour {
     {
         warning.gameObject.SetActive(false);
 
-        if (to != (int)currentMenu)
+        if (to != (int)currentMenu && to <= (Enum.GetNames(typeof(menus))).Length)
         {
+
             foreach (Transform t in menuParents)
                 t.gameObject.SetActive(false);
 
             menuParents[to].gameObject.SetActive(true);
+
+            currentMenu = (menus)(to);
         }
     }
 
@@ -134,7 +153,6 @@ public class mainMenuScript : MonoBehaviour {
         while (!dataLoaded)
         {
             yield return new WaitForSeconds(1f);
-            Debug.Log(dataLoaded);
 
             if (dataLoaded)
                 Destroy(this.gameObject);

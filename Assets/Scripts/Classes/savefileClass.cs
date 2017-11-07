@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class savefileClass{
 
+    public bool empty = false;
     cityClass savedCity;
     houseClass savedHouse;
     DayClass currentDay;
@@ -15,6 +16,11 @@ public class savefileClass{
     FamilyMembers[] savedFamily;
     List<sicknessClass> illnesses;
     timeOfDay savedTime;
+
+    public savefileClass()
+    {
+        empty = true;
+    }
 
     public void saveData(cityClass city, houseClass house, DayClass day, timeOfDay time, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc, List<sicknessClass> ill)
     {
@@ -27,6 +33,7 @@ public class savefileClass{
         noonActivities = nAc;
         eveningActivities = eAc;
         illnesses = ill;
+        empty = false;
 
         SaveLoad.savedGame = this;
         SaveLoad.Save();
