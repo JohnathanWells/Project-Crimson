@@ -80,4 +80,9 @@ public class savefileClass{
     {
         return savedTime;
     }
+
+    public bool isDadDead()
+    {
+        return (savedFamily[0].dead || savedFamily[0].gone);
+    }
 }

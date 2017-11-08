@@ -35,7 +35,7 @@ public class mainMenuScript : MonoBehaviour {
     {
         SaveLoad.Load();
 
-        if (SaveLoad.savedGame == null || SaveLoad.savedGame.empty)
+        if (SaveLoad.savedGame == null || SaveLoad.savedGame.empty || SaveLoad.savedGame.isDadDead())
             continueButton.gameObject.SetActive(false);
     }
 

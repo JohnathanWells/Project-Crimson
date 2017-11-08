@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum timeOfDay { morning, afternoon, evening };
 
@@ -123,10 +124,14 @@ public class GameManager : MonoBehaviour {
         else
         {
             currentTime += 1;
-            saveData();
         }
 
         updateComponents();
+
+        if (GAME_OVER)
+            SaveLoad.Delete();
+        else
+            saveData();
 
         if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
            openPopUp(notificationQueue.Dequeue());
@@ -464,6 +469,14 @@ public class GameManager : MonoBehaviour {
         gameOverScreen.SendMessage("displayGameOver");
     }
 
+    public void gameWon()
+    {
+        gameOverScreen.gameObject.SetActive(true);
+        gameOverScreen.SendMessage("setFamily", Family);
+        gameOverScreen.SendMessage("setDay", currentDay);
+        gameOverScreen.SendMessage("displayVictory");
+    }
+
     //Activity and stuff
     public void executeActivity(ActivityClass activity)
     {
@@ -611,6 +624,10 @@ public class GameManager : MonoBehaviour {
         else if (GAME_OVER)
         {
             gameOver();
+        }
+        else if (currentDay.month == 04 && currentDay.day == 31)
+        {
+            gameWon();
         }
     }
 
@@ -934,5 +951,11 @@ public class GameManager : MonoBehaviour {
         SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses);
         currentTime = SaveLoad.savedGame.getSavedTime();
         //Debug.Log(currentTime);
+    }
+
+    //Menus
+    public void toMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

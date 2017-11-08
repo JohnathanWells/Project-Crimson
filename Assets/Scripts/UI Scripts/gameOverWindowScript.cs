@@ -13,6 +13,7 @@ public class gameOverWindowScript : MonoBehaviour {
     public Color goodColor = Color.green;
     public Color badColor = Color.red;
     public Color couldBeWorseColor = Color.yellow;
+    public int maxNameLength = 8;
 
     DayClass finalDay;
     FamilyMembers[] family;
@@ -29,12 +30,40 @@ public class gameOverWindowScript : MonoBehaviour {
 
     public void displayGameOver()
     {
-        deathMessage.text = family[0].firstName + " " + family[0].lastName + " is dead!";
+        deathMessage.text = trimString(family[0].firstName.Split(' ')[0]) + " " + trimString(family[0].lastName) + " is dead!";
         finalDayDisplay.text = "You died on " + finalDay.calculateMonth() + " " + finalDay.day + "th\nYou lasted " + finalDay.dayCount + " days.";
 
         for (int n = 0; n < 4; n++)
         {
-            names[n].text = family[n].firstName;
+            names[n].text = trimString(family[n].firstName);
+
+            if (family[n].dead)
+            {
+                familyStatuses[n].text = "DEAD\n[" + family[n].deathCause + "]";
+                familyStatuses[n].color = badColor;
+            }
+            else if (family[n].gone && !family[n].dead)
+            {
+                familyStatuses[n].text = "GONE";
+                familyStatuses[n].color = couldBeWorseColor;
+            }
+            else
+            {
+                familyStatuses[n].text = "ALIVE";
+                familyStatuses[n].color = goodColor;
+            }
+        }
+    }
+
+    public void displayVictory()
+    {
+        deathMessage.color = goodColor;
+        deathMessage.text = trimString(family[0].firstName.Split(' ')[0]) + " " + trimString(family[0].lastName) + " survived to " + finalDay.calculateMonth() + " " + finalDay.day + "th";
+        finalDayDisplay.text = "You managed to survive " + finalDay.dayCount + " days.";
+
+        for (int n = 0; n < 4; n++)
+        {
+            names[n].text = trimString(family[n].firstName);
 
             if (family[n].dead)
             {
@@ -56,7 +85,17 @@ public class gameOverWindowScript : MonoBehaviour {
 
     public void resetGame()
     {
+        SaveLoad.Delete();
         SceneManager.LoadScene(mainMenuID);
     }
 
+    string trimString(string str)
+    {
+        if (str.Length > maxNameLength)
+        {
+            return str.Substring(0, maxNameLength - 1) + ".";
+        }
+        else
+            return str;
+    }
 }

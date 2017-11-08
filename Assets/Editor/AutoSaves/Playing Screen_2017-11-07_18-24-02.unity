@@ -1096,7 +1096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &110208390
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1149,7 +1149,6 @@ MonoBehaviour:
   goodColor: {r: 0, g: 1, b: 0, a: 1}
   badColor: {r: 1, g: 0, b: 0, a: 1}
   couldBeWorseColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  maxNameLength: 8
 --- !u!212 &110208392
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3416,7 +3415,7 @@ Transform:
   m_GameObject: {fileID: 326676507}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.34577498, z: -1}
-  m_LocalScale: {x: 0.0056029945, y: 0.007642615, z: 0.007642615}
+  m_LocalScale: {x: 0.007642619, y: 0.007642615, z: 0.007642615}
   m_Children: []
   m_Father: {fileID: 110208393}
   m_RootOrder: 0
@@ -5410,7 +5409,7 @@ MonoBehaviour:
     dayCount: 0
   currentTime: 1
   dadStartsSick: 0
-  createSessionAtStart: 0
+  createSessionAtStart: 1
   mornActivities: []
   noonActivities: []
   evenActivities: []
@@ -20034,7 +20033,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1828781565}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.052, y: 0.318, z: -0.93321997}
+  m_LocalPosition: {x: 0, y: 0.318, z: -0.93321997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 168565595}
