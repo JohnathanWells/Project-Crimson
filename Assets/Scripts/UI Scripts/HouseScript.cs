@@ -136,6 +136,7 @@ public class HouseScript : MonoBehaviour {
         openWindow = true;
         MenuManagementScript.SendMessage("openMenu", manager.Family);
         MenuManagementScript.SendMessage("updateHouseInfo", manager);
+        notificationIcon.gameObject.SetActive(false);
     }
 
     //This functions manipulate resource distribution
