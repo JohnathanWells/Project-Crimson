@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class storeScript : MonoBehaviour {
 
+    public TextMesh storeName;
     public GameManager manager;
     public ShopClass store;
     public amountButton[] shoppingButtons = new amountButton[4];
@@ -18,6 +19,8 @@ public class storeScript : MonoBehaviour {
     public void setInitialValues(ShopClass shop)
     {
         store = shop;
+
+        storeName.text = store.shopName;
         
         for (int n = 0; n < 4; n++)
         {

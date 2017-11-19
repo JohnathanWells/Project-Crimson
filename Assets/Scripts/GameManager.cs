@@ -8,6 +8,10 @@ public enum timeOfDay { morning, afternoon, evening };
 
 public class GameManager : MonoBehaviour {
 
+    [Header("Options")]
+    public daysOfWeek whenAreStoresResupplied = daysOfWeek.Sunday;
+    public int howOftenIsPlagueRateChecked = 7;
+
     [Header("Screens")]
     public Transform mainGameplayScreen;
     public Transform shopScreen;
@@ -21,6 +25,7 @@ public class GameManager : MonoBehaviour {
     public SpriteRenderer[] popUpMoraleArrows;
     public TextMesh[] popUpMoraleNumbers;
     public Color[] colors = new Color[3];
+    public Transform popUpFamilyStats;
     public Transform[] popUpFamilyMembers;
     [Tooltip("0 = Error\n 1 = fight, 2 = member leaves house, 3 = suicide, 4 = murder, 5 = asylum, 6 = general death, 7 = information\n 8 = sick alert, 9 = item alert, 10 = services alert\n11 to 20 = Events\n21 to 100 = Activities")]
     public Sprite[] popUpIllustrations;
@@ -51,6 +56,8 @@ public class GameManager : MonoBehaviour {
     public TextAsset statChangesFile;
     public TextAsset districtStatsFile;
     public TextAsset sicknessFile;
+    public TextAsset storesFile;
+    public TextAsset pricesFile;
     
     [Header("Day Stuff")]
     public DayClass currentDay;
@@ -65,7 +72,9 @@ public class GameManager : MonoBehaviour {
     public List<ActivityClass> noonActivities = new List<ActivityClass>();
     public List<ActivityClass> evenActivities = new List<ActivityClass>();
     public List<sicknessClass> sicknesses = new List<sicknessClass>();
+    List<ActivityClass> stores = new List<ActivityClass>();
     savefileClass savedObject = new savefileClass();
+    int[] itemPrices = new int[4];
 
     ActivityClass tempActivity;
     bool GAME_OVER = false;
@@ -80,11 +89,11 @@ public class GameManager : MonoBehaviour {
         //    loadData();
 
         newGameClass loadObject = new newGameClass();
-        Transform obj = GameObject.FindGameObjectWithTag("MainMenuObject").transform;
 
-
-        if (obj != null)
+        if (GameObject.FindWithTag("MainMenuObject") != null)
         {
+
+            Transform obj = GameObject.FindWithTag("MainMenuObject").transform;
             obj.SendMessage("getClass", loadObject);
 
             if (loadObject.newGame)
@@ -95,11 +104,19 @@ public class GameManager : MonoBehaviour {
             {
                 loadData();
             }
+
+
+            obj.SendMessage("signalLoaded");
         }
         else
-            newSession(null);
+        {
+            SaveLoad.Load();
+            if (createSessionAtStart || SaveLoad.savedGame == null || SaveLoad.savedGame.empty)
+                newSession(null);
+            else
+                loadData();
+        }
 
-        obj.SendMessage("signalLoaded");
         //to here
 
         updateComponents();
@@ -110,10 +127,11 @@ public class GameManager : MonoBehaviour {
         if (dadStartsSick)
             Family[0].getsSick(sicknesses[5]);
 
-        enqueuePopUp("Pop Up Windows display when an activity occurs. They also notify you when a member of the family is sick or dead.", 0);
-        openPopUp(notificationQueue.Dequeue());
+        if (notificationQueue.Count > 0)
+            openPopUp(notificationQueue.Peek());
     }
 
+    #region Time Progression
     //Time stuff
     public void transitionTime()
     {
@@ -134,7 +152,12 @@ public class GameManager : MonoBehaviour {
             saveData();
 
         if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
-           openPopUp(notificationQueue.Dequeue());
+           openPopUp(notificationQueue.Peek());
+
+        if (currentDay.month == 04 && currentDay.day == 31)
+        {
+            gameWon();
+        }
     }
 
     public void dayAdvance()
@@ -144,14 +167,22 @@ public class GameManager : MonoBehaviour {
         currentTime = timeOfDay.morning;
         daysSinceLastIllnessCheck++;
 
+        if (currentDay.calculateDayOfWeek() == whenAreStoresResupplied && Random.Range(1, 2) == 1)
+        {
+            storeSupplying();
+        }
+
+        //Stats change according to time
+        City.applyStatChanges(currentDay.month, currentDay.day);
+
         //House services are paid
         if (houseStats.timeLeftForPayment <= 0)
         {
-            houseStats.payServices(costOfServices, currentDay);
+            houseStats.payServices(costOfServices, currentDay); //I need to decide if the cost of services will be changed by inflation
 
             if (houseStats.servicesPaid)
             {
-                enqueuePopUp("Service Pay Day. #n " + costOfServices + "$ have been discounted from your account.", 7); //TODO change this 0 to something else
+                enqueuePopUp("Service Pay Day. #n " + costOfServices + "$ have been discounted from your account.", 7); 
             }
             else
             {
@@ -170,7 +201,7 @@ public class GameManager : MonoBehaviour {
             }
         }
 
-        if (houseStats.getHygiene() > 0 && currentDay.dayCount % 7 == 6)
+        if (houseStats.getHygiene() > 0 && (int)currentDay.calculateDayOfWeek() == 6)
         {
             houseStats.modHygiene(-1 * membersAlive);
 
@@ -184,7 +215,7 @@ public class GameManager : MonoBehaviour {
         houseStats.calculatePlagueRate(City);
 
         //Check if a member becomes sick
-        if (daysSinceLastIllnessCheck >= 7 && Random.Range(1, 2) == 1)
+        if (daysSinceLastIllnessCheck >= howOftenIsPlagueRateChecked && Random.Range(1, 2) == 1)
         {
             daysSinceLastIllnessCheck = 0;
 
@@ -209,6 +240,26 @@ public class GameManager : MonoBehaviour {
         House.SendMessage("familyUpdate", Family);
         Activities.SendMessage("updateMenu");
     }
+
+    void storeSupplying()
+    {
+        int[] inflatedPrices = new int[4];
+
+        for (int n = 0; n < 4; n++)
+        {
+            //Debug.Log((float)itemPrices[n] * City.currentInflation);
+            inflatedPrices[n] = Mathf.RoundToInt((float)itemPrices[n] * City.currentInflation);
+        }
+        
+
+        foreach (ActivityClass a in stores)
+        {
+            ShopClass t = a.shopAttached;
+            a.shopAttached.setItems(inflatedPrices[0], Mathf.FloorToInt(t.budgets[0] / inflatedPrices[0]), inflatedPrices[1], Mathf.FloorToInt(t.budgets[1] / inflatedPrices[1]), inflatedPrices[2], Mathf.FloorToInt(t.budgets[2] / inflatedPrices[2]), inflatedPrices[3], Mathf.FloorToInt(t.budgets[3] / inflatedPrices[3]));
+        }
+    }
+
+    #endregion
 
     //Family effects
     public void illnessChecker()
@@ -249,6 +300,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    #region Progression Effects and Wining/Losing Conditions
     //Family stats changes with time
     public void dailyFoodConsumption()
     {
@@ -476,7 +528,9 @@ public class GameManager : MonoBehaviour {
         gameOverScreen.SendMessage("setDay", currentDay);
         gameOverScreen.SendMessage("displayVictory");
     }
+    #endregion
 
+    #region Activity Execution
     //Activity and stuff
     public void executeActivity(ActivityClass activity)
     {
@@ -542,7 +596,9 @@ public class GameManager : MonoBehaviour {
         servicePayActivity = new ActivityClass("Pay Services", ActivityClass.sector.B, ActivityClass.category.Family, costOfServices, new int[] { 0, 0, 0, 0 }, new bool[] { true, true, false }, false);
         servicePayActivity.paysService = true;
     }
+    #endregion
 
+    #region Pop Up Functions
     //Pop up
     public void enqueuePopUp(string text, int pictureNum)
     {
@@ -568,13 +624,12 @@ public class GameManager : MonoBehaviour {
         popUpText.text = warppedText(popUpParagraphWidth, not.text);
         //int arrowTemp = 0;
 
-        if (not.color != Color.white)
-            popUpText.color = not.color;
-        else
-            popUpText.color = Color.white;
+        popUpText.color = not.color();
 
         if (not.type == notificationType.ActivityDescription)
         {
+            popUpFamilyStats.gameObject.SetActive(true);
+
             for (int n = 0; n < 4; n++)
             {
                 if (!Family[n].dead && !Family[n].gone)
@@ -595,40 +650,33 @@ public class GameManager : MonoBehaviour {
                 {
                     popUpFamilyMembers[n].gameObject.SetActive(false);
                     //popUpMoraleArrows[n].gameObject.SetActive(false);
-                    popUpMoraleNumbers[n].gameObject.SetActive(false);
+                    //popUpMoraleNumbers[n].gameObject.SetActive(false);
                 }
             }
         }
         else
         {
-            for (int n = 0; n < 4; n++)
-            {
-                popUpFamilyMembers[n].gameObject.SetActive(false);
-                //popUpMoraleArrows[n].gameObject.SetActive(false);
-                popUpMoraleNumbers[n].gameObject.SetActive(false);
-            }
+            popUpFamilyStats.gameObject.SetActive(false);
         }
     }
 
     public void closePopUp()
     {
+        notificationQueue.Dequeue();
         notificationClass temp;
 
         popUpWindow.gameObject.SetActive(false);
 
         if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
         { 
-        temp = notificationQueue.Dequeue();
+        temp = notificationQueue.Peek();
         openPopUp(temp);
         }
         else if (GAME_OVER)
         {
             gameOver();
         }
-        else if (currentDay.month == 04 && currentDay.day == 31)
-        {
-            gameWon();
-        }
+        
     }
 
     string warppedText(int width, string input)
@@ -693,7 +741,7 @@ public class GameManager : MonoBehaviour {
                 case 'T': //Returns the current time slot
                     return currentTime.ToString();
                 case 'W': //Returns the current day of the week
-                    return currentDay.calculateDayOfWeek();
+                    return currentDay.calculateDayOfWeek().ToString();
                 case 'D': //Returns the current date
                     return currentDay.calculateMonth() + " " + currentDay.day + "th";
                 case 'M': //Returns the current month
@@ -741,7 +789,9 @@ public class GameManager : MonoBehaviour {
         else
             return str;
     }
+    #endregion
 
+    #region Data and Saving Management
     //Data and saving management stuff
     void newSession(newGameClass startupData)
     {
@@ -749,6 +799,8 @@ public class GameManager : MonoBehaviour {
         houseStats = new houseClass();
         currentDay = new DayClass(10, 1);
         currentTime = timeOfDay.morning;
+
+        setItemPrices();
 
         readActivities();
 
@@ -775,6 +827,10 @@ public class GameManager : MonoBehaviour {
         }
 
         houseStats.payServices(0, currentDay);
+
+        storeSupplying();
+
+        enqueuePopUp("You can find more information about the game in your phone [WORK IN PROGRESS].", 0);
 
         saveData();
     }
@@ -815,6 +871,8 @@ public class GameManager : MonoBehaviour {
         string[] lines = activityFile.text.Split('\n');
         string[] numbers;
         int tempNum;
+        string[] storeLines = storesFile.text.Split('\n');
+        string[] storeInfo;
 
         for (int n = 0; n < lines.Length; n++)
         {
@@ -913,11 +971,11 @@ public class GameManager : MonoBehaviour {
 
             if (tempActivity.isItShop)
             {
-                //Here I will assign it a shop
-                //TODO more complex stuff
-
-                tempActivity.setStore(new ShopClass(10, 10, 10, 10, tempShopID, tempActivity.activityName));
-                tempActivity.shopAttached.setCosts(1, 1, 1, 1);
+                storeInfo = storeLines[tempShopID].Split('\t');
+                ShopClass temp = new ShopClass(int.Parse(storeInfo[1]), int.Parse(storeInfo[2]), int.Parse(storeInfo[3]), int.Parse(storeInfo[4]), tempShopID, tempActivity.activityName, float.Parse(storeInfo[9]));
+                temp.setShortageRates(int.Parse(storeInfo[5]), int.Parse(storeInfo[6]), int.Parse(storeInfo[7]), int.Parse(storeInfo[8]));
+                tempActivity.setStore(temp);
+                stores.Add(tempActivity);
                 tempShopID++;
             }
 
@@ -942,16 +1000,33 @@ public class GameManager : MonoBehaviour {
 
     public void saveData()
     {
-        savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities, sicknesses);
+        savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores);
     }
 
     public void loadData()
     {
+        City = new cityClass();
         SaveLoad.Load();
-        SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses);
+        SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores);
         currentTime = SaveLoad.savedGame.getSavedTime();
         //Debug.Log(currentTime);
     }
+
+    void setItemPrices()
+    {
+        string[] lines = pricesFile.text.Split('\n');
+        string[] tempData;
+
+        for (int n = 0; n < itemPrices.Length; n++)
+        {
+            tempData = lines[n].Split('\t');
+
+            itemPrices[n] = int.Parse(tempData[1]);
+        }
+
+    }
+
+    #endregion
 
     //Menus
     public void toMainMenu()

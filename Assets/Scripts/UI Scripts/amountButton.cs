@@ -7,6 +7,8 @@ public class amountButton : MonoBehaviour {
     public int ID;
     public int quantityModified;
     private int currentNumber;
+    float timeHeld = 0f;
+    float timeBeforeActivate;
     public Transform functionReceiver;
     public amountButton counterpart;
     public string functionSent;
@@ -20,14 +22,35 @@ public class amountButton : MonoBehaviour {
     void Start()
     {
         information = new arrowButtonClass(ID, quantityModified);
+        timeBeforeActivate = Constants.mouseHoldSecondsPerItem;
     }
 
     void OnMouseDown()
     {
-        if (currentNumber + quantityModified <= MAX && currentNumber + quantityModified >= MIN)
+        activate();
+
+    }
+
+    void OnMouseDrag()
+    {
+        timeHeld += Time.deltaTime;
+
+        if (timeHeld >= Constants.mouseHoldSecondsBeforeAutoActivate)
         {
-            functionReceiver.SendMessage(functionSent, information);
+            timeBeforeActivate -= Time.deltaTime;
+
+            if (timeBeforeActivate <= 0)
+            {
+                activate();
+                timeBeforeActivate = Constants.mouseHoldSecondsPerItem;
+            }
         }
+    }
+
+    void OnMouseUp()
+    {
+        timeHeld = 0;
+        timeBeforeActivate = Constants.mouseHoldSecondsPerItem;
     }
 
     public void updateNumber(int newDigit)
@@ -35,5 +58,13 @@ public class amountButton : MonoBehaviour {
         currentNumber = newDigit;
         counterpart.currentNumber = newDigit;
         display.text = "" + currentNumber;
+    }
+
+    void activate()
+    {
+        if (currentNumber + quantityModified <= MAX && currentNumber + quantityModified >= MIN)
+        {
+            functionReceiver.SendMessage(functionSent, information);
+        }
     }
 }

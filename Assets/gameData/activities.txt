@@ -3,12 +3,12 @@ Overtime	3	1	-10	-3	-3	-2	-2	0	0	1	0	After a dozen cups of coffee, you manage to
 Lottery Seller	2	1	-10	-2	-2	0	0	0	1	0	0	You spend your #T breathing car smoke and selling lottery tickets in the central avenue of #Cn .	0
 Ice Cream Car	6	1	-5	0	0	0	0	1	1	0	0	You receive a message from your cousing requesting help with his ice cream business. #n "Blood is thicker than water" you think.	0
 Motel Lobby	5	1	-5	0	0	0	0	0	1	0	0	You spend the whole #T helping a friend with his motel.	0
-Placeholder1	1	2	0	0	0	0	0	1	1	0	1	--	0
-Placeholder2	2	2	0	0	0	0	0	1	1	0	1	--	0
-Placeholder3	3	2	0	0	0	0	0	1	1	0	1	--	0
-Placeholder4	4	2	0	0	0	0	0	1	1	1	1	--	0
-Placeholder5	5	2	0	0	0	0	0	1	1	1	1	--	0
-Placeholder6	6	2	0	0	0	0	0	1	1	1	1	--	0
+Panda Mart	1	2	0	0	0	0	0	1	1	0	1	--	0
+Super Kromi	2	2	0	0	0	0	0	1	1	0	1	--	0
+All Pharma	3	2	0	0	0	0	0	1	1	0	1	--	0
+Local P 	4	2	0	0	0	0	0	1	1	1	1	--	0
+The Galileo	5	2	0	0	0	0	0	1	1	1	1	--	0
+Yoni's Corner	6	2	0	0	0	0	0	1	1	1	1	--	0
 Park    	1	3	0	2	2	3	2	1	1	0	0	You take #f to a quiet park. You have a good #T watching the kids play.	0
 Park    	2	3	0	2	2	3	2	1	1	0	0	You take #f to the city park. Even though it's a little cramped, you have a good time.	0
 Dinner  	2	3	20	3	3	3	3	0	1	1	0	You take #f to a fancy italian restaurant in #Cn . The soft music and the delicious food helps you all forget about your struggles temporarily.	0

@@ -1,0 +1,4 @@
+Food    	2	People need food to survive.
+Cleaning	3	A dirty house is a nest for plague.
+Hygiene 	3	Humans like to clean themselves.
+Medicine	4	Medicine speeds up illness healing.

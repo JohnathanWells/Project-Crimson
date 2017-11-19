@@ -39,6 +39,14 @@ public class cityClass{
 
     //TODO test these
 
+    public cityClass()
+    {
+        currentInflation = 1;
+        currentCrime = 1;
+        currentFilth = 0;
+        currentChaos = 0;
+    }
+
     public cityClass(TextAsset districtStatFile, TextAsset statChangesFile)
     {
         //I can change the initial conditions here
@@ -77,7 +85,28 @@ public class cityClass{
             currentFilth = tempC.filth;
             currentChaos = tempC.chaos;
 
-            changes.Dequeue();       
+            changes.Dequeue();  
         }
+    }
+
+    public void copyInto(cityClass from)
+    {
+        currentInflation = from.currentInflation;
+        currentFilth = from.currentFilth;
+        currentCrime = from.currentCrime;
+        currentChaos = from.currentChaos;
+
+        if (changes.Count > 0)
+            changes.Clear();
+        
+        foreach (changeOfStats c in from.changes)
+        {
+            changes.Enqueue(c);
+        }
+
+        districts = new districtClass[from.districts.Length];
+        for (int n = 0; n < from.districts.Length; n++)
+            districts[n] = from.districts[n];
+
     }
 }

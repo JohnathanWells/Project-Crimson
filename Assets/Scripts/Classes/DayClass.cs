@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum daysOfWeek {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
-enum monthsOfYear { January, February, March, April, May, June, July, August, September, October, November, December}
+public enum daysOfWeek {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
+public enum monthsOfYear { January, February, March, April, May, June, July, August, September, October, November, December}
 
 [System.Serializable]
 public class DayClass{
@@ -104,9 +104,9 @@ public class DayClass{
         return ac;
     }
 
-    public string calculateDayOfWeek()
+    public daysOfWeek calculateDayOfWeek()
     {
-        return ((daysOfWeek)(dayCount % 7)).ToString();
+        return ((daysOfWeek)(dayCount % 7));
     }
 
     public string calculateMonth()
