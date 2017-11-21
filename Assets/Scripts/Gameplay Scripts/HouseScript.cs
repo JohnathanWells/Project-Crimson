@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HouseScript : MonoBehaviour {
 
-
+    [Header("General")]
+    public Color[] healthColors = new Color[5];
+    public Color[] moraleColors = new Color[5];
 
     [Header("References")]
     public GameManager manager;
@@ -16,9 +19,10 @@ public class HouseScript : MonoBehaviour {
     public Transform familyDrawer;
     private Animator drawerAnimations;
     private bool openDrawer = false;
-    public Transform[] familyIcons = new Transform[4];
+    public SpriteRenderer[] familyIcons = new SpriteRenderer[4];
     public Transform[] sicknessIcons = new Transform[4];
     public Transform[] medicationIcons = new Transform[4];
+    public Text moneyIndicator;
     
     [Header("House Menu")]
     //Opening Window
@@ -93,12 +97,83 @@ public class HouseScript : MonoBehaviour {
     //This function is called to update the family icons with the current information
     public void familyUpdate(FamilyMembers[] familyArray)
     {
+        int tempInt;
+
+        moneyIndicator.text = "<b>Money:</b>\n" + manager.houseStats.getMoney().ToString() + "$";
+
         for (int a = 0; a < 4; a++)
         {
-            familyIcons[a].gameObject.SetActive(true);
-
             if (!familyArray[a].dead && !familyArray[a].gone)
-            {//If the member is sick, display the thermometer
+            {
+                familyIcons[a].gameObject.SetActive(true);
+
+                //We display the member health with colors
+                #region healthStatus
+                tempInt = familyArray[a].health;
+
+                if (tempInt > 75 && tempInt <= 100)
+                {
+                    familyIcons[a].color = healthColors[4];
+                }
+                else if (tempInt > 50 && tempInt <= 75)
+                {
+                    familyIcons[a].color = healthColors[3];
+                }
+                else if (tempInt > 25 && tempInt <= 50)
+                {
+                    familyIcons[a].color = healthColors[2];
+                }
+                else if (tempInt > 10 && tempInt <= 25)
+                {
+                    familyIcons[a].color = healthColors[1];
+                }
+                else if (tempInt <= 10)
+                {
+                    familyIcons[a].color = healthColors[0];
+                }
+                else
+                {
+                    familyIcons[a].color = healthColors[0];
+                }
+                #endregion
+
+
+                #region moraleStatus (Commented out)
+                //tempInt = FamilyMembers[a].morale;
+
+                //if (tempInt > 75 && tempInt <= 100)
+                //{
+                //    moraleStatus[a].text = "Joyful";
+                //    moraleStatus[a].color = moraleColors[4];
+                //}
+                //else if (tempInt > 50 && tempInt <= 75)
+                //{
+                //    moraleStatus[a].text = "Happy";
+                //    moraleStatus[a].color = moraleColors[3];
+                //}
+                //else if (tempInt > 25 && tempInt <= 50)
+                //{
+                //    moraleStatus[a].text = "OK";
+                //    moraleStatus[a].color = moraleColors[2];
+                //}
+                //else if (tempInt > 10 && tempInt <= 25)
+                //{
+                //    moraleStatus[a].text = "Depressed";
+                //    moraleStatus[a].color = moraleColors[1];
+                //}
+                //else if (tempInt <= 10)
+                //{
+                //    moraleStatus[a].text = "Unstable";
+                //    moraleStatus[a].color = moraleColors[0];
+                //}
+                //else
+                //{
+                //    moraleStatus[a].text = "ERROR";
+                //    moraleStatus[a].color = moraleColors[0];
+                //}
+                #endregion
+                
+                //If the member is sick, display the thermometer
                 if (familyArray[a].status.ID != 0)
                 {
                     sicknessIcons[a].gameObject.SetActive(true);

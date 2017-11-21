@@ -312,6 +312,9 @@ public class GameManager : MonoBehaviour {
             {
                 foodConsumed = Family[n].food;
 
+                if (foodConsumed <= 0)
+                    enqueuePopUp(Family[n].firstName + " did not eat yesterday. Their health will deteriorate as a result.", 0);
+
                 if (houseStats.getFoodQ() > 0)
                 {
                     if (houseStats.getFoodQ() - foodConsumed > 0)
@@ -337,6 +340,9 @@ public class GameManager : MonoBehaviour {
                     }
                     else
                     {
+                        if (houseStats.getFoodQ() > 0)
+                            enqueuePopUp("You ran out of food!", 9);
+
                         Family[n].food = houseStats.getFoodQ();
 
                         foodConsumed = Family[n].food;

@@ -17,6 +17,12 @@ public class mainMenuScript : MonoBehaviour {
     [Header("Continue")]
     public Transform continueButton;
 
+    [Header("Files and Text")]
+    public TextAsset maleNamesFile;
+    public TextAsset femaleNamesFile;
+    private string[] maleNameList;
+    private string[] femaleNameList;
+
     [Header("New Game")]
     //Data loading
     newGameClass gameStartup = new newGameClass();
@@ -33,6 +39,9 @@ public class mainMenuScript : MonoBehaviour {
 
     void Start()
     {
+        maleNameList = maleNamesFile.text.Split(' ');
+        femaleNameList = femaleNamesFile.text.Split(' ');
+
         SaveLoad.Load();
 
         if (SaveLoad.savedGame == null || SaveLoad.savedGame.empty || SaveLoad.savedGame.isDadDead())
@@ -90,9 +99,19 @@ public class mainMenuScript : MonoBehaviour {
     public void generateRandomName(int member, bool isItMale)
     {
         if (isItMale)
-            names[member].text = ((maleNameList)(UnityEngine.Random.Range(0, Enum.GetNames(typeof(maleNameList)).Length))).ToString();
+        {
+            if (maleNameList.Length > 0)
+                names[member].text = maleNameList[UnityEngine.Random.Range(0, maleNameList.Length)];
+            else
+                names[member].text = ((maleNameList)(UnityEngine.Random.Range(0, Enum.GetNames(typeof(maleNameList)).Length))).ToString();
+        }
         else
-            names[member].text = ((femaleNameList)(UnityEngine.Random.Range(0, Enum.GetNames(typeof(femaleNameList)).Length))).ToString();
+        {
+            if (femaleNameList.Length > 0)
+                names[member].text = femaleNameList[UnityEngine.Random.Range(0, femaleNameList.Length)];
+            else 
+                names[member].text = ((femaleNameList)(UnityEngine.Random.Range(0, Enum.GetNames(typeof(femaleNameList)).Length))).ToString();
+        }
     }
 
     public void continueGame()

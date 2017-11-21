@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HouseMenuScript : MonoBehaviour {
 
+    [Header("Reference To Main House Script")]
+    public HouseScript mainHouseScript;
+
     [Header("Reference To Icons - Page 1")]
     public TextMesh familyNameDisplay;
     public TextMesh moneyDisplay;
@@ -37,6 +40,12 @@ public class HouseMenuScript : MonoBehaviour {
     public Transform[] tabs;
     public Transform[] tabKeepers;
     int currentTab = -1;
+
+    public void Start()
+    {
+        healthColors = mainHouseScript.healthColors;
+        moraleColors = mainHouseScript.moraleColors;
+    }
 
     //Menu Open
     public void openMenu(FamilyMembers [] members)

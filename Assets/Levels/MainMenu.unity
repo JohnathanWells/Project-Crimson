@@ -2808,6 +2808,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueButton: {fileID: 1654742105}
+  maleNamesFile: {fileID: 4900000, guid: 6a2670faccb6f6848ba88fb91842f6ba, type: 3}
+  femaleNamesFile: {fileID: 4900000, guid: 3d96b67c4e50d784cb88484d816d8810, type: 3}
   names:
   - {fileID: 2089661396}
   - {fileID: 1620562071}
