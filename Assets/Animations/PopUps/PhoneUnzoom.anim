@@ -18,44 +18,13 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
-        value: {x: 0, y: 1.41, z: 0}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.15
-        value: {x: 0, y: -9.21, z: 0}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    path: Phone Screen
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
+        time: 0.05
         value: {x: 6.28, y: 6, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.083333336
-        value: {x: 6.28, y: 5.67, z: 0}
-        inSlope: {x: 0, y: -6.5999985, z: 0}
-        outSlope: {x: 0, y: -6.5999985, z: 0}
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.2
-        value: {x: 6.28, y: 4.3, z: 0}
-        inSlope: {x: 0, y: 0, z: 0}
-        outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.25
+        time: 0.13333334
         value: {x: 6.28, y: 4.43, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
@@ -64,6 +33,31 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     path: Phone
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: {x: -0.21578938, y: -0.003, z: 24}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.05
+        value: {x: -0.21578938, y: -0.991, z: 24}
+        inSlope: {x: 0, y: -10.679999, z: 0}
+        outSlope: {x: 0, y: -10.679999, z: 0}
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.13333334
+        value: {x: -0.21578938, y: -1.427, z: 24}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    path: Phone Mask/Phone Screen
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -75,14 +69,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 660651059
+      path: 2240723161
       attribute: 1
       script: {fileID: 0}
       typeID: 4
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 2240723161
+      path: 1487201674
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -94,7 +88,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.25
+    m_StopTime: 0.13333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -114,67 +108,7 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0.15
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.x
-    path: Phone Screen
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0
-        value: 1.41
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-      - serializedVersion: 2
-        time: 0.15
-        value: -9.21
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.y
-    path: Phone Screen
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0.15
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalPosition.z
-    path: Phone Screen
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 2
-        time: 0.2
-        value: 6.28
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-      - serializedVersion: 2
-        time: 0.25
+        time: 0.13333334
         value: 6.28
         inSlope: 0
         outSlope: 0
@@ -190,25 +124,13 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
+        time: 0.05
         value: 6
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.083333336
-        value: 5.67
-        inSlope: -6.5999985
-        outSlope: -6.5999985
-        tangentMode: 136
-      - serializedVersion: 2
-        time: 0.2
-        value: 4.3
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-      - serializedVersion: 2
-        time: 0.25
+        time: 0.13333334
         value: 4.43
         inSlope: 0
         outSlope: 0
@@ -224,13 +146,7 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0.2
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-      - serializedVersion: 2
-        time: 0.25
+        time: 0.13333334
         value: 0
         inSlope: 0
         outSlope: 0
@@ -240,6 +156,90 @@ AnimationClip:
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
     path: Phone
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: -0.21578938
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 0.05
+        value: -0.21578938
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 0.13333334
+        value: -0.21578938
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.x
+    path: Phone Mask/Phone Screen
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: -0.003
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 0.05
+        value: -0.991
+        inSlope: -10.679999
+        outSlope: -10.679999
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 0.13333334
+        value: -1.427
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.y
+    path: Phone Mask/Phone Screen
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 24
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 0.05
+        value: 24
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      - serializedVersion: 2
+        time: 0.13333334
+        value: 24
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalPosition.z
+    path: Phone Mask/Phone Screen
     classID: 4
     script: {fileID: 0}
   m_EulerEditorCurves: []

@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour {
     List<ActivityClass> stores = new List<ActivityClass>();
     savefileClass savedObject = new savefileClass();
     int[] itemPrices = new int[4];
+    List<ObituaryClass> Obituaries = new List<ObituaryClass>();
 
     ActivityClass tempActivity;
     bool GAME_OVER = false;
@@ -495,6 +496,8 @@ public class GameManager : MonoBehaviour {
                         if (n == 0)
                             GAME_OVER = true;
                     }
+
+                    saveNewObituary(new ObituaryClass(Family[n].firstName, Family[n].lastName, Family[n].deathCause, currentDay));
                 }
             }
 
@@ -838,6 +841,9 @@ public class GameManager : MonoBehaviour {
 
         enqueuePopUp("You can find more information about the game in your phone [WORK IN PROGRESS].", 0);
 
+        savedObject.getObituaries(Obituaries);
+        sortListOfDays(Obituaries);
+
         saveData();
     }
 
@@ -1007,6 +1013,8 @@ public class GameManager : MonoBehaviour {
     public void saveData()
     {
         savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores);
+        savedObject.saveObituaries(Obituaries);
+        SaveLoad.Save();
     }
 
     public void loadData()
@@ -1015,6 +1023,7 @@ public class GameManager : MonoBehaviour {
         SaveLoad.Load();
         SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores);
         currentTime = SaveLoad.savedGame.getSavedTime();
+        SaveLoad.savedGame.getObituaries(Obituaries);
         //Debug.Log(currentTime);
     }
 
@@ -1030,6 +1039,26 @@ public class GameManager : MonoBehaviour {
             itemPrices[n] = int.Parse(tempData[1]);
         }
 
+    }
+
+    static int sortObituariesByDate(ObituaryClass A, ObituaryClass B)
+    {
+        if (A.dateOfDeath.month.CompareTo(B.dateOfDeath.month) == 0)
+            return A.dateOfDeath.day.CompareTo(B.dateOfDeath.day);
+        else
+            return 0;
+    }
+
+    void sortListOfDays(List<ObituaryClass> list)
+    {
+        if (list.Count > 0)
+            list.Sort(sortObituariesByDate);
+    }
+
+    void saveNewObituary(ObituaryClass ob)
+    {
+        savedObject.saveNewObituaty(ob);
+        saveData();
     }
 
     #endregion

@@ -40,12 +40,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: City Map
+    uniqueID: 775519717
+    locked: 0
+  - name: Drawer
+    uniqueID: 4203423111
+    locked: 0
+  - name: Phone
+    uniqueID: 1168125511
+    locked: 0
+  - name: Frame and Buttons
+    uniqueID: 2680980197
+    locked: 0
+  - name: Pop Ups
+    uniqueID: 3211210119
     locked: 0
   - name: Categories
     uniqueID: 942761363
     locked: 0
-  - name: Test
-    uniqueID: 3949945955
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Menu Buttons
+    uniqueID: 723656915
     locked: 0

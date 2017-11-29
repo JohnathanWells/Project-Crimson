@@ -19,6 +19,7 @@ public class savefileClass{
     timeOfDay savedTime;
     int[] ItemPrices;
     List<ActivityClass> Stores;
+    List<ObituaryClass> Obituaries = new List<ObituaryClass>();
 
     public savefileClass()
     {
@@ -124,5 +125,33 @@ public class savefileClass{
     public bool isDadDead()
     {
         return (savedFamily[0].dead || savedFamily[0].gone);
+    }
+
+    //Obituaries
+    public void getObituaries(List<ObituaryClass> into)
+    {
+        if (Obituaries.Count > 0)
+        {
+            into.Clear();
+
+            foreach (ObituaryClass d in Obituaries)
+                into.Add(d);
+        }
+    }
+
+    public void saveObituaries(List<ObituaryClass> list)
+    {
+        if (list.Count > 0)
+        {
+            Obituaries.Clear();
+
+            foreach (ObituaryClass d in list)
+                Obituaries.Add(d);
+        }
+    }
+
+    public void saveNewObituaty(ObituaryClass ob)
+    {
+        Obituaries.Add(ob);
     }
 }
