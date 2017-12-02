@@ -76,12 +76,18 @@ public class phoneScript : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (!phoneZoomed)
-            {
-                phoneScreen.gameObject.SetActive(true);
-                animator.Play(openingAnimName);
-                phoneZoomed = true;
-            }
+            openPhone();
+        }
+    }
+
+    public void openPhone()
+    {
+        if (!phoneZoomed)
+        {
+            phoneScreen.gameObject.SetActive(true);
+            animator.Play(openingAnimName);
+            phoneZoomed = true;
+            phoneScreen.SendMessage("openMenu");
         }
     }
 

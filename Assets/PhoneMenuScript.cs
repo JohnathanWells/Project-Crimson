@@ -6,7 +6,12 @@ public class PhoneMenuScript : MonoBehaviour {
 
     public Transform[] tabs;
     public Transform[] tabKeepers;
-    int currentTab = 0;
+    int currentTab = -1;
+
+    public void openMenu()
+    {
+        updateTab(0);
+    }
 
     //These functions deal with changing tabs
     public void changeTab(int direction)

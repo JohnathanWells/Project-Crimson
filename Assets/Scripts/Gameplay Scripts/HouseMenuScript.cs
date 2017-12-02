@@ -244,7 +244,7 @@ public class HouseMenuScript : MonoBehaviour {
     {
         currentTab = (currentTab + direction) % tabs.Length;
 
-
+        Debug.Log("Tab changed");
     }
 
     public void updateTab(int tabNum)
