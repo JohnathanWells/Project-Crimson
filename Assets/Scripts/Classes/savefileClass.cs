@@ -20,6 +20,7 @@ public class savefileClass{
     int[] ItemPrices;
     List<ActivityClass> Stores;
     List<ObituaryClass> Obituaries = new List<ObituaryClass>();
+    List<newsClass> newList = new List<newsClass>();
 
     public savefileClass()
     {
@@ -153,5 +154,26 @@ public class savefileClass{
     public void saveNewObituaty(ObituaryClass ob)
     {
         Obituaries.Add(ob);
+    }
+
+    //News
+    public void getNews(List<newsClass> into)
+    {
+        if (newList.Count > 0)
+        {
+            into.Clear();
+            foreach (newsClass n in newList)
+                into.Add(n);
+        }
+    }
+
+    public void saveNews(List<newsClass> from)
+    {
+        if (newList.Count > 0)
+        {
+            newList.Clear();
+            foreach (newsClass n in from)
+                newList.Add(n);
+        }
     }
 }

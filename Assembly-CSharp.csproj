@@ -51,7 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\PhoneMenuScript.cs" />
      <Compile Include="Assets\Scripts\Classes\ActivityClass.cs" />
      <Compile Include="Assets\Scripts\Classes\arrowButtonClass.cs" />
      <Compile Include="Assets\Scripts\Classes\CategoryScript.cs" />
@@ -61,25 +60,31 @@
      <Compile Include="Assets\Scripts\Classes\FamilyMembers.cs" />
      <Compile Include="Assets\Scripts\Classes\houseClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ItemClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\newsClass.cs" />
      <Compile Include="Assets\Scripts\Classes\notificationClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ObituaryClass.cs" />
      <Compile Include="Assets\Scripts\Classes\savefileClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ShopClass.cs" />
      <Compile Include="Assets\Scripts\Classes\sicknessClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\wikiClass.cs" />
      <Compile Include="Assets\Scripts\Constants.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\actInfoBox.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\activityButtonScript.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\ActivityMenuScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Activity Menu Scripts\actInfoBox.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Activity Menu Scripts\activityButtonScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Activity Menu Scripts\ActivityMenuScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Activity Menu Scripts\storeScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\amountButton.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\buttonScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\gameOverWindowScript.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\HouseMenuScript.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\HouseScript.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\phoneScript.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\sickAlertScript.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\storeScript.cs" />
-     <Compile Include="Assets\Scripts\Gameplay Scripts\SymptomsDisplay.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\House Scripts\HouseMenuScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\House Scripts\HouseScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\House Scripts\sickAlertScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\House Scripts\SymptomsDisplay.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\navigationButtonScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\newsScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\PhoneMenuScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\phoneScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\wikiScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\tabKeeperScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\windowClose.cs" />
      <Compile Include="Assets\Scripts\Main Menu Scripts\mainMenuScript.cs" />
@@ -87,7 +92,9 @@
      <Compile Include="Assets\Scripts\SaveLoad.cs" />
      <None Include="Assets\gameData\stores.txt" />
      <None Include="Assets\gameData\activities.txt" />
+     <None Include="Assets\gameData\newsArticles.txt" />
      <None Include="Assets\gameData\items.txt" />
+     <None Include="Assets\gameData\wikiArticles.txt" />
      <None Include="Assets\gameData\illnesses.txt" />
      <None Include="Assets\gameData\changes.txt" />
      <None Include="Assets\gameData\namesM.txt" />

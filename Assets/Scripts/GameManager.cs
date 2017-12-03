@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour {
     public TextAsset sicknessFile;
     public TextAsset storesFile;
     public TextAsset pricesFile;
+    public TextAsset newsFile;
+    public TextAsset wikiFile;
     
     [Header("Day Stuff")]
     public DayClass currentDay;
@@ -72,6 +74,8 @@ public class GameManager : MonoBehaviour {
     public List<ActivityClass> noonActivities = new List<ActivityClass>();
     public List<ActivityClass> evenActivities = new List<ActivityClass>();
     public List<sicknessClass> sicknesses = new List<sicknessClass>();
+    public List<newsClass> News = new List<newsClass>();
+    public wikiClass wikiDatabase;
     List<ActivityClass> stores = new List<ActivityClass>();
     savefileClass savedObject = new savefileClass();
     int[] itemPrices = new int[4];
@@ -119,6 +123,8 @@ public class GameManager : MonoBehaviour {
         }
 
         //to here
+
+        readWikiFile();
 
         updateComponents();
 
@@ -1008,6 +1014,67 @@ public class GameManager : MonoBehaviour {
             }
         }
         #endregion
+    }
+
+    public void readNewsFile()
+    {
+        string [] articles = newsFile.text.Split('\n');
+
+        foreach(string str in articles)
+        {
+            string[] parts = str.Split('\t');
+
+            if (parts.Length > 3)
+                News.Add(new newsClass(new DayClass(int.Parse(parts[0]), int.Parse(parts[1])), parts[2], parts[3]));
+            else
+                Debug.Log("ERROR reading news");
+        }
+    }
+
+    public void readWikiFile()
+    {
+        wikiDatabase = new wikiClass();
+        wikiDatabase.title = "Information";
+
+        string[] articles = wikiFile.text.Split('\n');
+
+        foreach (string str in articles)
+        {
+            //Debug.Log(str);
+            string[] parts = str.Split('\t');
+            string[] indexes = parts[0].Split('.');
+
+            //Debug.Log(parts.Length + " / " + indexes.Length + " [] " + parts[0]);
+
+            if (parts.Length > 2)
+            {
+                int firstIndex = int.Parse(indexes[0]);
+                if (indexes.Length > 1)
+                {
+                   // Debug.Log(wikiDatabase.subordinates.Count + " vs " + firstIndex);
+                    if (firstIndex < wikiDatabase.subordinates.Count && firstIndex >= 0)
+                    {
+                        Queue<int> nav = new Queue<int>();
+                        foreach (string num in indexes)
+                        {
+                            nav.Enqueue(int.Parse(num));
+                        }
+                        //Debug.Log(parts[1] + ": " + parts[2]);
+
+                        wikiDatabase.addSubordinate(new wikiClass(parts[1], parts[2]), nav);
+                    }
+                }
+                else
+                {
+                    wikiDatabase.addSubordinate(new wikiClass(parts[1], parts[2]));
+                }
+
+            }
+            else
+                Debug.Log("ERROR reading wikiarticle: " + str);
+        }
+
+        //Debug.Log(wikiDatabase.subordinates.Count + " main categories in total");
     }
 
     public void saveData()

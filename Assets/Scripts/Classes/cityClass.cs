@@ -27,6 +27,8 @@ public class cityClass{
         }
     }
 
+    public string stateName;
+
     public districtClass[] districts = new districtClass[5];
     Queue<changeOfStats> changes = new Queue<changeOfStats>();
 
@@ -41,6 +43,7 @@ public class cityClass{
 
     public cityClass()
     {
+        stateName = "Generic";
         currentInflation = 1;
         currentCrime = 1;
         currentFilth = 0;

@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class PhoneMenuScript : MonoBehaviour {
 
+    public GameManager manager;
     public Transform[] tabs;
     public Transform[] tabKeepers;
+
     int currentTab = -1;
+
+    void Start()
+    {
+        updateTab(0);
+    }
+
+    public void refreshInfo(GameManager mngr)
+    {
+        manager = mngr;
+        Debug.Log(manager.wikiDatabase.title + " " + manager.wikiDatabase.subordinates.Count);
+        tabs[currentTab].SendMessage("updateInfo", manager);
+    }
 
     public void openMenu()
     {
@@ -33,6 +47,7 @@ public class PhoneMenuScript : MonoBehaviour {
                 {
                     tabs[n].gameObject.SetActive(true);
                     tabKeepers[n].SendMessage("setTabActive", true);
+                    refreshInfo(manager);
                 }
                 else
                 {
