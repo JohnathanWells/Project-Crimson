@@ -1,0 +1,1 @@
+10	1	Welcome to Little Venice	This is an alpha of Little Venice, also known as "poverty simulator" by literally no one. This is the news section, where you can see how the world is changing around you. News may also give you hints to what parts of the city to avoid and what things you need to be aware of. This is the only article right now.	0

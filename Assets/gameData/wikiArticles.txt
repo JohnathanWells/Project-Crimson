@@ -1,21 +1,21 @@
 0	Must-Know-Info  	Important info
 0.0	What is Little Venice?	Little Venice is a resource management game where you play as the father figure of a family of four, similar to games like The Oregon Trail (R) and This War of Mine (R). 
-0.1	What is the backstory?	Your character just lost his business to a forceful government takeover and are practically bankrupt by the start of October. Thankfully, a friend of your offered you a job at a local office with "no strings attached", meaning you have extremely flexible work hours in a decently paid job. Hopefully it will be enough to maintain your family.
+0.1	Backstory	Your character just lost his business to a forceful government takeover and are practically bankrupt by the start of October. Thankfully, a friend of your offered you a job at a local office with "no strings attached", meaning you have extremely flexible work hours in a decently paid job. Hopefully it will be enough to maintain your family.
 0.2	The Objective	The Objective in Little Venice is to survive six months in the country, keeping your yourself alive and happy in a country that will slowly suffer from shortages and increased chaos and crime. The death of the main character is an instant game over.
-0.3	Time	Time management is one of the main mechanics of Little Venice. Each day is divided in three slots and you can only participate in one activity per slot. You can keep track of the time of day, as well as the current date, by looking at the phone screen on the top-right corner of the screen.
-1	Main Resources  	The main resources
+0.3	Time    	Time management is one of the main mechanics of Little Venice. Each day is divided in three slots and you can only participate in one activity per slot. You can keep track of the time of day, as well as the current date, by looking at the phone screen on the top-right corner of the screen.
+1	Main Resources 	The main resources
 1.0	Stores  	//
 1.1	Money    	Money is the most basic resource, used for buying items, paying services and executing activities. Money can be obtained with job activities.
-1.2	Food	Food is the most important item in the game. People need food to survive and so does you and your family. If a member of the family doesn't eat their health will slowly drop, so try to keep stock of food in your house.
+1.2	Food    	Food is the most important item in the game. People need food to survive and so does you and your family. If a member of the family doesn't eat their health will slowly drop, so try to keep stock of food in your house.
 1.3	Cleaning and Hygiene	Cleaning and Hygiene items are used with relative frequency depending on how many people are alive in your house. Running out of these items increases the chances of a member of the family picking up a dangerous disease. 
 1.4	Medicines	If a member of the family ever gets sick, you can "reserve" a certain amount of medicine for them. They will consume one of it every day until it runs out or they are cured. Medicine speeds up the healing process significantly, but are more expensive than other resources. 
-2	Your House and Family	What you need to know about them
-2.0	House	//
+2	House and Family	What you need to know about them
+2.0	House   	//
 2.0.0	Services	Your house has electricity, water, gas, etc. These services make the life of everybody living in it better and help keep it clean. Once a month you will have to pay them. Failing to do so will cancel the services, decreasing the morale of the people living in the house and the risk of contagion. You can always pay these services in the house menu if you need to.	
 2.0.1	Inventory	//
-2.1	Family	//
-2.1.0	Health	//
-2.1.1	Morale	//
+2.1	Family  	//
+2.1.0	Health  	//
+2.1.1	Morale  	//
 2.1.2	Illneses	//
 2.1.3	Depression	//Mention Unstability
 3	Interface	//

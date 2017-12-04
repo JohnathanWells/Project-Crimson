@@ -61,7 +61,7 @@ public class wikiScript : MonoBehaviour {
 
     public void openArticle(List<int> instructions)
     {
-        Debug.Log("opening article");
+        //Debug.Log("opening article");
         if (instructions.Count > 0)
         {
             wikiClass temp = masterArticle;
@@ -88,9 +88,19 @@ public class wikiScript : MonoBehaviour {
         }
     }
 
+    public void mainWikiMenu()
+    {
+        navigationIndexes.Clear();
+        openArticle(navigationIndexes);
+    }
+
     public void updateArticle(wikiClass article)
     {
         newsHeader.text = article.title;
+
+        //Debug.Log("Instructions: ");
+        //foreach (int n in navigationIndexes)
+        //    Debug.Log("[" + n + "]");
 
         if (navigationIndexes.Count > 0)
             backtrackButton.gameObject.SetActive(true);
@@ -100,7 +110,10 @@ public class wikiScript : MonoBehaviour {
         if (article.subordinates.Count == 0)
         {
             foreach (Transform t in navigationButtons)
-                t.SendMessage("emptyButton");
+            {
+                t.gameObject.SetActive(false);
+                //t.SendMessage("emptyButton");
+            }
             //if (!article.featuresImage)
             //{
                 articleText.text = transormStringKeywords(article.content, manager);
@@ -117,12 +130,14 @@ public class wikiScript : MonoBehaviour {
             int displayedButtons = Mathf.Min(navigationButtons.Length, article.subordinates.Count);
             for (int n = 0; n < displayedButtons; n++)
             {
+                navigationButtons[n].gameObject.SetActive(true);
                 navigationButtons[n].SendMessage("setButton", article.subordinates[n]);
             }
 
             for (int n = displayedButtons; n < navigationButtons.Length; n++)
             {
-                navigationButtons[n].SendMessage("emptyButton");
+                //navigationButtons[n].SendMessage("emptyButton");
+                navigationButtons[n].gameObject.SetActive(false);
             }
         }
     }

@@ -27,10 +27,13 @@ public class GameManager : MonoBehaviour {
     public Color[] colors = new Color[3];
     public Transform popUpFamilyStats;
     public Transform[] popUpFamilyMembers;
-    [Tooltip("0 = Error\n 1 = fight, 2 = member leaves house, 3 = suicide, 4 = murder, 5 = asylum, 6 = general death, 7 = information\n 8 = sick alert, 9 = item alert, 10 = services alert\n11 to 20 = Events\n21 to 100 = Activities")]
-    public Sprite[] popUpIllustrations;
     public Sprite[] popUpArrowSprites = new Sprite[3];
     Queue<notificationClass> notificationQueue = new Queue<notificationClass>();
+
+    [Header("Pictures")]
+    [Tooltip("0 = Error\n 1 = fight, 2 = member leaves house, 3 = suicide, 4 = murder, 5 = asylum, 6 = general death, 7 = information\n 8 = sick alert, 9 = item alert, 10 = services alert\n11 to 20 = Events\n21 to 100 = Activities")]
+    public Sprite[] popUpIllustrations;
+    public Sprite[] newsIllustrations;
 
     [Header("Game Over")]
     public Transform gameOverScreen;
@@ -64,6 +67,8 @@ public class GameManager : MonoBehaviour {
     [Header("Day Stuff")]
     public DayClass currentDay;
     public timeOfDay currentTime;
+    public SpriteRenderer map;
+    public Color[] timeColors = new Color[3];
     int daysSinceLastIllnessCheck = 0;
     int[] daysLeftForHealing = { 0, 0, 0, 0 };
 
@@ -136,6 +141,9 @@ public class GameManager : MonoBehaviour {
 
         if (notificationQueue.Count > 0)
             openPopUp(notificationQueue.Peek());
+
+        //TODO REMOVE THIS AND REPLACE WITH SOMETHING BETTER    
+        map.color = timeColors[(int)currentTime];
     }
 
     #region Time Progression
@@ -150,6 +158,9 @@ public class GameManager : MonoBehaviour {
         {
             currentTime += 1;
         }
+
+        //TODO REMOVE THIS AND REPLACE WITH SOMETHING BETTER    
+        map.color = timeColors[(int)currentTime];
 
         updateComponents();
 
@@ -821,6 +832,8 @@ public class GameManager : MonoBehaviour {
 
         readSicknesses();
 
+        readNewsFile();
+
         if (startupData != null)
         {
             for (int n = 0; n < 4; n++)
@@ -895,7 +908,8 @@ public class GameManager : MonoBehaviour {
         for (int n = 0; n < lines.Length; n++)
         {
             numbers = lines[n].Split('\t');
-
+            //foreach (string s in numbers)
+            //    Debug.Log(s);
             activityName = numbers[0];
 
             #region sectorChoice(Number[1])
@@ -996,6 +1010,7 @@ public class GameManager : MonoBehaviour {
                 stores.Add(tempActivity);
                 tempShopID++;
             }
+            //Debug.Log(tempActivity.activityName);
 
             //This section choices what lists will be receiving the activities
             if (tempAva[0])
@@ -1023,9 +1038,11 @@ public class GameManager : MonoBehaviour {
         foreach(string str in articles)
         {
             string[] parts = str.Split('\t');
+            DayClass dateForCurrentNew = new DayClass(int.Parse(parts[0]), int.Parse(parts[1]));
+            //Debug.Log(dateForCurrentNew.day + " - " + dateForCurrentNew.month);
 
-            if (parts.Length > 3)
-                News.Add(new newsClass(new DayClass(int.Parse(parts[0]), int.Parse(parts[1])), parts[2], parts[3]));
+            if (parts.Length > 4)
+                News.Add(new newsClass(dateForCurrentNew, parts[2], parts[3], newsIllustrations[int.Parse(parts[4])]));
             else
                 Debug.Log("ERROR reading news");
         }
@@ -1081,6 +1098,7 @@ public class GameManager : MonoBehaviour {
     {
         savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores);
         savedObject.saveObituaries(Obituaries);
+        savedObject.saveNews(News);
         SaveLoad.Save();
     }
 
@@ -1091,6 +1109,7 @@ public class GameManager : MonoBehaviour {
         SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores);
         currentTime = SaveLoad.savedGame.getSavedTime();
         SaveLoad.savedGame.getObituaries(Obituaries);
+        SaveLoad.savedGame.getNews(News);
         //Debug.Log(currentTime);
     }
 

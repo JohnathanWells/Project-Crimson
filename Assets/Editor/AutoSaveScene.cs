@@ -48,7 +48,7 @@ public class AutoSaveScene
 	/// </summary>
 	private static void SaveScene()
 	{
-		Debug.Log("Auto saving scene: " + EditorSceneManager.GetActiveScene());
+		//Debug.Log("Auto saving scene: " + EditorSceneManager.GetActiveScene());
 
 		EnsureAutoSavePathExists();
 

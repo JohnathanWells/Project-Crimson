@@ -7,8 +7,7 @@ public class newsScript : MonoBehaviour {
 
     //Main article info
     public Text newsHeader;
-    [Tooltip("0 is for simple picture, 1 is for articles with picture")]
-    public Text [] newsText = new Text[2];
+    public Text newsText;
     public Image picture;
 
 
@@ -20,12 +19,23 @@ public class newsScript : MonoBehaviour {
     public void updateInfo(GameManager manager)
     {
         newsList = manager.News;
+        //Debug.Log(currentNews + "/" + newsList.Count);
 
-        if (currentNews + 1 < newsList.Count)
+        if (currentNews + 1 < newsList.Count && currentNews + 1>= 0)
         {
             if (newsList[currentNews + 1].date > manager.currentDay)
             {
                 currentNews++;
+                updateArticle(manager);
+                return;
+            }
+        }
+        else if (currentNews >= 0 && newsList.Count > 0)
+        {
+            //Debug.Log((newsList[currentNews].date <= manager.currentDay) + "\n" + newsList[currentNews].date.day + " vs " + manager.currentDay.day);
+            if (newsList[currentNews].date.dayCount <= manager.currentDay.dayCount)
+            {
+                updateArticle(manager);
                 return;
             }
         }
@@ -33,26 +43,23 @@ public class newsScript : MonoBehaviour {
 
     public void updateArticle(GameManager manager)
     {
+        StartCoroutine(refreshText());
+
         newsClass temp = newsList[currentNews];
 
+        //Debug.Log(temp.title + ": " + temp.content);
+
         newsHeader.text = temp.title;
-        
-        if (!temp.featuresImage)
-        {
-            newsText[0].text = transormStringKeywords(temp.content, manager);
-        }
-        else
-        {
-            picture.sprite = temp.imageAttached;
-            newsText[1].text = transormStringKeywords(temp.content, manager);
-        }
+
+        picture.sprite = temp.imageAttached;
+        newsText.text = transormStringKeywords(temp.content, manager);
     }
 
     public string transormStringKeywords(string str, GameManager manager)
     {
         string[] words = str.Split(' ');
         string result = "";
-        string temp = "";
+        string tmp = "";
 
         foreach (string word in words)
         {
@@ -61,43 +68,50 @@ public class newsScript : MonoBehaviour {
                 switch (word)
                 {
                     case "#dn":
-                        temp = manager.currentDay.day.ToString();
+                        tmp = manager.currentDay.day.ToString();
                         break;
                     case "#mn":
-                        temp = manager.currentDay.month.ToString();
+                        tmp = manager.currentDay.month.ToString();
                         break;
                     case "#d":
-                        temp = manager.currentDay.calculateDayOfWeek().ToString();
+                        tmp = manager.currentDay.calculateDayOfWeek().ToString();
                         break;
                     case "#m":
-                        temp = manager.currentDay.calculateMonth();
+                        tmp = manager.currentDay.calculateMonth();
+                        break;
+                    case "#t":
+                        tmp = manager.currentTime.ToString();
+                        break;
+                        //case "#"
+                    case "#NL":
+                        tmp = "\b\n";
                         break;
                     case "#c":
-                        temp = manager.City.stateName;
+                        tmp = manager.City.stateName;
                         break;
                     case "#d1":
                         if (manager.City.districts.Length > 0)
-                            temp = manager.City.districts[0].districtName;
+                            tmp = manager.City.districts[0].districtName;
                         break;
                     case "#d2":
                         if (manager.City.districts.Length > 1)
-                            temp = manager.City.districts[1].districtName;
+                            tmp = manager.City.districts[1].districtName;
                         break;
                     case "#d3":
                         if (manager.City.districts.Length > 2)
-                            temp = manager.City.districts[2].districtName;
+                            tmp = manager.City.districts[2].districtName;
                         break;
                     case "#d4":
                         if (manager.City.districts.Length > 3)
-                            temp = manager.City.districts[3].districtName;
+                            tmp = manager.City.districts[3].districtName;
                         break;
                     case "#d5":
                         if (manager.City.districts.Length > 4)
-                            temp = manager.City.districts[4].districtName;
+                            tmp = manager.City.districts[4].districtName;
                         break;
                     case "#d6":
                         if (manager.City.districts.Length > 5)
-                            temp = manager.City.districts[5].districtName;
+                            tmp = manager.City.districts[5].districtName;
                         break;
                     default:
                         if (word[0] == '#' && word[1] == 'd' && word.Length > 2)
@@ -111,42 +125,67 @@ public class newsScript : MonoBehaviour {
                                     switch (word[4])
                                     {
                                         case 'm':
-                                            temp = manager.City.districts[distNum].currentCRMorning.ToString();
+                                            tmp = manager.City.districts[distNum].currentCRMorning.ToString();
                                             break;
                                         case 'n':
-                                            temp = manager.City.districts[distNum].currentCRNoon.ToString();
+                                            tmp = manager.City.districts[distNum].currentCRNoon.ToString();
                                             break;
                                         case 'e':
-                                            temp = manager.City.districts[distNum].currentCREvening.ToString();
+                                            tmp = manager.City.districts[distNum].currentCREvening.ToString();
                                             break;
                                         default:
-                                            temp = word;
+                                            tmp = word;
                                             break;
                                     }
                                 }
                                 else if (word[4] == 't')
-                                    temp = manager.City.districts[distNum].traffic.ToString();
+                                    tmp = manager.City.districts[distNum].traffic.ToString();
                                 else
-                                    temp = word;
+                                    tmp = word;
                             }
                             else
-                                temp = word;
+                                tmp = word;
                         }
                         else
-                            temp = word;
+                            tmp = word;
 
                         break;
                 }
 
-                result += " " + temp;
+                if (result.Length > 0)
+                    result += " " + tmp;
+                else
+                    result += tmp;
             }
             else
             {
-                result += " " + word;
+                tmp = word;
+
+                if (result.Length > 0)
+                    result += " " + tmp;
+                else
+                    result += tmp;
+
             }
         }
 
         return result;
+
+    }
+
+    IEnumerator refreshText()
+    {
+        Vector2 displacement = new Vector2(0.0001f, 0);
+
+        newsHeader.transform.Translate(displacement);
+        newsText.transform.Translate(displacement);
+        picture.transform.Translate(displacement);
+
+        yield return new WaitForSeconds(0.0001f);
+
+        newsHeader.transform.Translate(-displacement);
+        newsText.transform.Translate(-displacement);
+        picture.transform.Translate(-displacement);
 
     }
 }

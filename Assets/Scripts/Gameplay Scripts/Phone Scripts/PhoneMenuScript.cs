@@ -10,15 +10,15 @@ public class PhoneMenuScript : MonoBehaviour {
 
     int currentTab = -1;
 
-    void Start()
-    {
-        updateTab(0);
-    }
+    //void Start()
+    //{
+    //    updateTab(0);
+    //}
 
     public void refreshInfo(GameManager mngr)
     {
         manager = mngr;
-        Debug.Log(manager.wikiDatabase.title + " " + manager.wikiDatabase.subordinates.Count);
+        //Debug.Log(manager.wikiDatabase.title + " " + manager.wikiDatabase.subordinates.Count);
         tabs[currentTab].SendMessage("updateInfo", manager);
     }
 

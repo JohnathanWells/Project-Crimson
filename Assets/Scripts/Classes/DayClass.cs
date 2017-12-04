@@ -121,7 +121,7 @@ public class DayClass{
         to.dayCount = dayCount;
     }
 
-    public static bool operator > (DayClass a, DayClass b)
+    public static bool operator> (DayClass a, DayClass b)
     {
         if (a.month > b.month)
             return true;
@@ -131,9 +131,33 @@ public class DayClass{
             return false;
     }
 
-    public static bool operator <(DayClass a, DayClass b)
+    public static bool operator< (DayClass a, DayClass b)
     {
         if (a.month < b.month)
+            return true;
+        else if (a.month == b.month && a.day < b.day)
+            return true;
+        else
+            return false;
+    }
+
+    public static bool operator>= (DayClass a, DayClass b)
+    {
+        if (a == b)
+            return true;
+        else if (a.month > b.month)
+            return true;
+        else if (a.month == b.month && a.day > b.day)
+            return true;
+        else
+            return false;
+    }
+
+    public static bool operator<= (DayClass a, DayClass b)
+    {
+        if (a == b)
+            return true;
+        else if (a.month < b.month)
             return true;
         else if (a.month == b.month && a.day < b.day)
             return true;

@@ -82,6 +82,7 @@
      <Compile Include="Assets\Scripts\Gameplay Scripts\House Scripts\SymptomsDisplay.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\navigationButtonScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\newsScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\optionsScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\PhoneMenuScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\phoneScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\wikiScript.cs" />

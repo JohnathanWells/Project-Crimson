@@ -15,7 +15,7 @@ public class navigationButtonScript : MonoBehaviour {
 
     void OnMouseDown()
     {
-        List<int> instructions = new List<int>();
+        //List<int> instructions = new List<int>();
 
         wikiMnager.SendMessage("addToInstructions", buttonNumber);
         wikiMnager.SendMessage("updateArticle", linkedArticle);
