@@ -70,7 +70,7 @@ public class actInfoBox : MonoBehaviour {
 
         cost.text = -highlightedActivity.cost + "$";
 
-        if (highlightedActivity.cost >= 0)
+        if (highlightedActivity.cost > 0)
         {
             cost.color = badColor;
         }

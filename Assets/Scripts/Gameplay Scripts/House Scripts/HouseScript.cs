@@ -70,16 +70,7 @@ public class HouseScript : MonoBehaviour {
         //If you click on the house, it will open the quick summary of the family. If you click on it again it will hide it.
         if (Input.GetMouseButtonDown(1))
         {
-            if (!openDrawer)
-            {
-                drawerAnimations.Play("OpenDrawer");
-                openDrawer = true;
-            }
-            else
-            {
-                drawerAnimations.Play("CloseDrawer");
-                openDrawer = false;
-            }
+            toggleDrawer();
         }
         else if (Input.GetMouseButtonDown(0))
         {
@@ -253,5 +244,28 @@ public class HouseScript : MonoBehaviour {
         openWindow = false;
         manager.saveData();
         window.gameObject.SetActive(false);
+    }
+
+    public void toggleDrawer()
+    {
+        if (!openDrawer)
+        {
+            drawerAnimations.Play("OpenDrawer");
+            openDrawer = true;
+        }
+        else
+        {
+            drawerAnimations.Play("CloseDrawer");
+            openDrawer = false;
+        }
+    }
+
+    public void toggleDrawer(bool close)
+    {
+        if (close)
+        {
+            drawerAnimations.Play("CloseDrawer");
+            openDrawer = false;
+        }
     }
 }

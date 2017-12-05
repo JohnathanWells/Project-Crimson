@@ -1,6 +1,6 @@
 Office  	3	1	-20	0	0	0	0	1	0	0	0	You spend what feels like eight endless hours filling forms in your office.	0
-Overtime	3	1	-10	-3	-3	-2	-2	0	0	1	0	After a dozen cups of coffee, you manage to work an extra shift in your office. 	0
-Lottery Seller	2	1	-10	-2	-2	0	0	0	1	0	0	You spend your #T breathing car smoke and selling lottery tickets in the central avenue of #Cn .	0
+Overtime	3	1	-20	-3	-3	-2	-2	0	0	1	0	After a dozen cups of coffee, you manage to work an extra shift in your office. 	0
+Lottery Seller	2	1	-15	-2	-2	0	0	0	1	0	0	You spend your #T breathing car smoke and selling lottery tickets in the central avenue of #Cn .	0
 Ice Cream Car	6	1	-5	0	0	0	0	1	1	0	0	You help your cousin with his ice cream business. #n "Blood is thicker than water" you think.   	0
 Motel Lobby	5	1	-5	0	0	0	0	0	1	0	0	You spend the whole #T helping a friend with his motel.	0
 Panda Mart	1	2	0	0	0	0	0	1	1	0	1	--	0

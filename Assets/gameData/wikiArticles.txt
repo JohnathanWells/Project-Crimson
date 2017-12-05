@@ -41,8 +41,9 @@
 3.1.3	Options 	Right now, all you can do in the Options menu is exiting the game. In the future, you will be able to make aditional small changes like sound balance and fullscreen vs windowed mode.
 3.2	Activities	[Info about activities]
 3.2.0	Definition	Activities are the main "action" of the game. By clicking on an activity, you obtain effects from it and allow time to pass. However, you must consider that the area of an activity affects the posibility of something bad happening on the way back from it. Choosing activities carelessly is very risky.
-3.2.1	Work Activities	Work Activities are different from other activities because they don't "consume" money but produce it. They also may drop the morale of the father a bit, so be wary of that.
-3.2.2	Shopping	Shopping is important to keep the stock of the house full. The area, specialty and popularity of a shop affects what items it will have, when will it have them, for how much and the risks involved in getting to it. 
-3.2.3	Family Time	Family activities are usually expensive or don't benefit the main character that much, however they serve to boost the morale of the rest of the family.
-3.2.4	Solo Fun	Solo activities boost the morale of the main character and are usually cheaper than family activities. However, not because you can do something it means you should.
+3.2.1	Cost	Activities have different effects on your wallet. Work activities generate money, regular activities consume money. When an activity is shown in a darker color than the rest that means you dont have enough cash to afford it.
+3.2.2	Work Activities	Work Activities are different from other activities because they don't "consume" money but produce it. They also may drop the morale of the father a bit, so be wary of that.
+3.2.3	Shopping	Shopping is important to keep the stock of the house full. The area, specialty and popularity of a shop affects what items it will have, when will it have them, for how much and the risks involved in getting to it. 
+3.2.4	Family Time	Family activities are usually expensive or don't benefit the main character that much, however they serve to boost the morale of the rest of the family.
+3.2.5	Solo Fun	Solo activities boost the morale of the main character and are usually cheaper than family activities. However, not because you can do something it means you should.
 3.3	Pop-Up Windows	Pop-up windows open when you do an activity or something happens in the game. Click anywhere in the screen to dismiss them.

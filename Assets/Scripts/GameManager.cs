@@ -602,6 +602,7 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
+            House.SendMessage("toggleDrawer", true);
             mainGameplayScreen.gameObject.SetActive(false);
             shopScreen.gameObject.SetActive(true);
             shopScreen.SendMessage("setInitialValues", shop);
@@ -660,7 +661,12 @@ public class GameManager : MonoBehaviour {
             {
                 if (!Family[n].dead && !Family[n].gone)
                 {
-                    popUpMoraleNumbers[n].text = not.moodChange[n].ToString(); //Error here
+                    string mc = not.moodChange[n].ToString();
+
+                    if (not.moodChange[n] > 0)
+                        mc = "+" + mc;
+
+                    popUpMoraleNumbers[n].text = mc; //Error here
 
                     if (not.moodChange[n] > 0)
                         popUpMoraleNumbers[n].color = colors[2];
