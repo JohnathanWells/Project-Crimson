@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class actInfoBox : MonoBehaviour {
 
+    [Header("Visuals")]
+    public Vector3 Offset = new Vector3(0, 0, 5);
+
     [Header("Colors")]
     public Color goodColor = new Color(0, 1, 0, 1);
     public Color badColor = new Color(1, 0, 0, 1);
@@ -21,7 +24,7 @@ public class actInfoBox : MonoBehaviour {
 	// Update is called once per frame
     void Update () {
         mousePos = Input.mousePosition;
-        transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, +5)));
+        transform.position = (Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x + Offset.x, mousePos.y + Offset.y, Offset.z)));
     }
 
     public void setActivity(ActivityClass newHighlight)

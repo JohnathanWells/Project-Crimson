@@ -25,6 +25,8 @@ public class PhoneMenuScript : MonoBehaviour {
     public void openMenu()
     {
         updateTab(0);
+
+        refreshInfo(manager);
     }
 
     //These functions deal with changing tabs

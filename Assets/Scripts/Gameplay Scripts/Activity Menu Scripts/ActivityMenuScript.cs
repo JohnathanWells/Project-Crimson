@@ -74,6 +74,7 @@ public class ActivityMenuScript : MonoBehaviour {
 
     public void executeActivity(ActivityClass activity)
     {
+
         Manager.SendMessage("executeActivity", activity);
     }
 

@@ -21,24 +21,29 @@ public class newsScript : MonoBehaviour {
         newsList = manager.News;
         //Debug.Log(currentNews + "/" + newsList.Count);
 
+        //Debug.Log(manager.currentDay.dayCount + " " + newsList[currentNews + 1].date.dayCount);
+
         if (currentNews + 1 < newsList.Count && currentNews + 1>= 0)
         {
-            if (newsList[currentNews + 1].date > manager.currentDay)
+            if (manager.currentDay.dayCount >= newsList[currentNews + 1].date.dayCount)
             {
+                //Debug.Log(newsList[currentNews].title);
                 currentNews++;
-                updateArticle(manager);
-                return;
+                //updateArticle(manager);
+                //return;
             }
         }
-        else if (currentNews >= 0 && newsList.Count > 0)
-        {
-            //Debug.Log((newsList[currentNews].date <= manager.currentDay) + "\n" + newsList[currentNews].date.day + " vs " + manager.currentDay.day);
-            if (newsList[currentNews].date.dayCount <= manager.currentDay.dayCount)
-            {
-                updateArticle(manager);
-                return;
-            }
-        }
+        //else if (currentNews >= 0 && newsList.Count > 0)
+        //{
+        //    //Debug.Log((newsList[currentNews].date <= manager.currentDay) + "\n" + newsList[currentNews].date.day + " vs " + manager.currentDay.day);
+        //    if (newsList[currentNews].date.dayCount <= manager.currentDay.dayCount)
+        //    {
+        //        updateArticle(manager);
+        //        return;
+        //    }
+        //}
+
+        updateArticle(manager);
     }
 
     public void updateArticle(GameManager manager)

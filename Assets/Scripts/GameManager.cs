@@ -44,15 +44,15 @@ public class GameManager : MonoBehaviour {
     public ActivityMenuScript Activities;
 
     [Header("Data to Pass")]
-    public FamilyMembers[] Family = new FamilyMembers[4];
+    public FamilyMembers[] Family = new FamilyMembers[Constants.familySize];
     public houseClass houseStats;
     public cityClass City;
     public bool houseNotification = false;
     public bool phoneNotification = false;
     public int costOfServices = 100;
     public ActivityClass servicePayActivity;
-    int membersAlive = 4;
-    int membersInHouse = 4;
+    int membersAlive = Constants.familySize;
+    int membersInHouse = Constants.familySize;
 
     [Header("Files")]
     public TextAsset activityFile;
@@ -403,7 +403,7 @@ public class GameManager : MonoBehaviour {
 
         int temp;
 
-        for (int n = 0; n < 4; n++)
+        for (int n = 0; n < Constants.familySize; n++)
         {
             if (!Family[n].gone && !Family[n].dead)
             {
@@ -489,7 +489,7 @@ public class GameManager : MonoBehaviour {
         }
 
 
-        for (int n = 0; n < 4; n++) //We go through each member
+        for (int n = 0; n < Constants.familySize; n++) //We go through each member
             if (!Family[n].dead && !Family[n].gone) //If the member is in the house and alive
             {
                 temp = Family[n].healthDrift(); //Their health drifts as usual
@@ -523,7 +523,7 @@ public class GameManager : MonoBehaviour {
             membersAlive -= mourningLevel;
             membersInHouse -= Mathf.Max(missingLevel, mourningLevel);
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < Constants.familySize; i++)
             {
                 Family[i].mourningAdd(mourningLevel);
                 Family[i].missingAdd(missingLevel);
@@ -533,7 +533,7 @@ public class GameManager : MonoBehaviour {
 
     public void dailySickEffect()
     {
-        for (int n = 0; n < 4; n++)
+        for (int n = 0; n < Constants.familySize; n++)
         {
             houseStats.modMed(Family[n].sickDayPasses());
         }
@@ -566,7 +566,7 @@ public class GameManager : MonoBehaviour {
             enqueuePopUp(activity);
             houseStats.addMoney(-activity.cost);
 
-            for (int n = 0; n < 4; n++)
+            for (int n = 0; n < Constants.familySize; n++)
             {
                 Family[n].moraleChange(activity.moraleChange[n]);
             }
@@ -656,7 +656,7 @@ public class GameManager : MonoBehaviour {
         {
             popUpFamilyStats.gameObject.SetActive(true);
 
-            for (int n = 0; n < 4; n++)
+            for (int n = 0; n < Constants.familySize; n++)
             {
                 if (!Family[n].dead && !Family[n].gone)
                 {
@@ -752,7 +752,7 @@ public class GameManager : MonoBehaviour {
 
     string replaceReferences(string str)
     {
-        if (str[0] == '#')
+        if (str != "" && str[0] == '#')
         {
             switch (str[1])
             {
@@ -773,7 +773,7 @@ public class GameManager : MonoBehaviour {
                 case 'M': //Returns the current month
                     return currentDay.calculateMonth();
                 case 'f': //Refering to the whole family
-                    if (membersInHouse == 4)
+                    if (membersInHouse == Constants.familySize)
                         return "your family";
                     else if (membersInHouse > 1)
                         return "what's left of your family";
@@ -836,7 +836,7 @@ public class GameManager : MonoBehaviour {
 
         if (startupData != null)
         {
-            for (int n = 0; n < 4; n++)
+            for (int n = 0; n < Constants.familySize; n++)
             {
                 Family[n] = new FamilyMembers(startupData.family[n].member);
                 Family[n].setName(startupData.family[n].firstName, startupData.family[n].lastName);
@@ -895,7 +895,7 @@ public class GameManager : MonoBehaviour {
         ActivityClass.category tempCat;
         string activityName;
         int tempCost;
-        int[] tempMorale = new int[4];
+        int[] tempMorale = new int[Constants.familySize];
         bool[] tempAva = new bool[3];
         bool tempShop;
         int tempShopID = 0;
@@ -1040,6 +1040,7 @@ public class GameManager : MonoBehaviour {
             string[] parts = str.Split('\t');
             DayClass dateForCurrentNew = new DayClass(int.Parse(parts[0]), int.Parse(parts[1]));
             //Debug.Log(dateForCurrentNew.day + " - " + dateForCurrentNew.month);
+            //Debug.Log(str);
 
             if (parts.Length > 4)
                 News.Add(new newsClass(dateForCurrentNew, parts[2], parts[3], newsIllustrations[int.Parse(parts[4])]));

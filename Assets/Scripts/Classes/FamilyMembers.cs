@@ -159,11 +159,11 @@ public class FamilyMembers
 
         //People morale drops if they dont have access to home services
         if (!servicesPaid)
-            moraleDropQuantity += 2;
+            moraleDropQuantity += Constants.unpaidServicesMoraleDrop;
         
         //People morale drops if they cant shower properly
         if (!personalHygiene)
-            moraleDropQuantity += 2;
+            moraleDropQuantity += Constants.unshowerMoraleDrop;
 
         //Psyche morale and health drop
         moraleDropQuantity += moraleDropsAccordingToPsyche[(int)psyche];
@@ -178,13 +178,13 @@ public class FamilyMembers
         {
             int randomnum = Random.Range(0, 100);
 
-            if (randomnum < 50)
+            if (randomnum < Constants.unstabilityEventsProbability[0])
             {
-                if (randomnum < 25)
+                if (randomnum < Constants.unstabilityEventsProbability[1])
                 {
-                    if (randomnum < 10)
+                    if (randomnum < Constants.unstabilityEventsProbability[2])
                     {
-                        if (randomnum < 5)
+                        if (randomnum < Constants.unstabilityEventsProbability[3])
                         {
                             if (member == famMember.Mom)
                             {
@@ -233,7 +233,7 @@ public class FamilyMembers
     {
         morale = Mathf.Clamp(morale + change, 0, maxMorale);
 
-        if (morale <= 10 && status.ID == 0)
+        if (morale <= Constants.depressionTop && status.ID == 0)
             psyche = emotionalHealth.Unstable;
         else if (morale <= 25)
             psyche = emotionalHealth.Depressed;

@@ -193,6 +193,9 @@ public class wikiScript : MonoBehaviour {
                         if (manager.City.districts.Length > 5)
                             temp = manager.City.districts[5].districtName;
                         break;
+                    case "#cprght":
+                        temp = "©";
+                        break;
                     default:
                         if (word[0] == '#' && word[1] == 'd' && word.Length > 2)
                         {

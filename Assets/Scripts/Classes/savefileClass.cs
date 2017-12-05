@@ -57,7 +57,7 @@ public class savefileClass{
         //Debug.Log((int)savedTime + " vs " + (int)savedTime);
 
         //Copying the family
-        for (int n = 0; n < 4; n++)
+        for (int n = 0; n < Constants.familySize; n++)
         {
             family[n] = savedFamily[n];
         }

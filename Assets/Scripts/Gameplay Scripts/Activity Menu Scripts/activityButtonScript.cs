@@ -33,6 +33,7 @@ public class activityButtonScript : MonoBehaviour {
         if (active && isAvailable)
         {
             menuManager.SendMessage("executeActivity", assignedActivity);
+            statDisplay.gameObject.SetActive(false);
             //menuManager.executeActivity(assignedActivity);
         }
     }

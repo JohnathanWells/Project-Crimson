@@ -27,7 +27,7 @@ public class cityClass{
         }
     }
 
-    public string stateName;
+    public string stateName = "Little Venice";
 
     public districtClass[] districts = new districtClass[5];
     Queue<changeOfStats> changes = new Queue<changeOfStats>();
