@@ -3,7 +3,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class ActivityClass{
-    public enum sector { A, B, C, D, E };
+    public enum sector { A, B, C, D, E, F };
     public enum category { Work, Shopping, Family, Personal };
 
     public string activityName;

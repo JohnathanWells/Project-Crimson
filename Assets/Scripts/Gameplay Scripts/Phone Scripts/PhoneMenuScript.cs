@@ -19,7 +19,7 @@ public class PhoneMenuScript : MonoBehaviour {
     {
         manager = mngr;
         //Debug.Log(manager.wikiDatabase.title + " " + manager.wikiDatabase.subordinates.Count);
-        tabs[currentTab].SendMessage("updateInfo", manager);
+        tabs[currentTab].SendMessage("updateInfo", manager, SendMessageOptions.DontRequireReceiver);
     }
 
     public void openMenu()

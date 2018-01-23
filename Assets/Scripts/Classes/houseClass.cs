@@ -94,7 +94,7 @@ public class houseClass{
             return money;
         }
 
-        public void addMoney(int quantity)
+        public void modMoney(int quantity)
         {
             money += quantity;
 

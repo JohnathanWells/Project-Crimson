@@ -3,7 +3,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class districtClass{
-    public enum sector { A, B, C, D, E };
+    public enum sector { A, B, C, D, E, F };
 
     public string districtName;
     public sector Sector;
@@ -46,6 +46,11 @@ public class districtClass{
             case 5:
                 {
                     Sector = sector.E;
+                    break;
+                }
+            case 6:
+                {
+                    Sector = sector.F;
                     break;
                 }
             default:

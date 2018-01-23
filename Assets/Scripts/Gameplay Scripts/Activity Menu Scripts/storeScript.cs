@@ -82,7 +82,7 @@ public class storeScript : MonoBehaviour {
         manager.houseStats.modMed(selectedUnits[3]);
         store.inventory[3].buyItem(selectedUnits[3]);
 
-        manager.houseStats.addMoney(-calculateTotal());
+        manager.houseStats.modMoney(-calculateTotal());
 
         manager.SendMessage("finishShopping");
     }

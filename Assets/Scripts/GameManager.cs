@@ -564,7 +564,7 @@ public class GameManager : MonoBehaviour {
         if (!activity.isItShop && !activity.paysService)
         {
             enqueuePopUp(activity);
-            houseStats.addMoney(-activity.cost);
+            houseStats.modMoney(-activity.cost);
 
             for (int n = 0; n < Constants.familySize; n++)
             {
@@ -576,7 +576,7 @@ public class GameManager : MonoBehaviour {
         else if (activity.paysService)
         {
             enqueuePopUp(activity);
-            houseStats.addMoney(-activity.cost);
+            houseStats.modMoney(-activity.cost);
             houseStats.servicesPaid = true;
 
             transitionTime();
@@ -622,6 +622,24 @@ public class GameManager : MonoBehaviour {
     {
         servicePayActivity = new ActivityClass("Pay Services", ActivityClass.sector.B, ActivityClass.category.Family, costOfServices, new int[] { 0, 0, 0, 0 }, new bool[] { true, true, false }, false);
         servicePayActivity.paysService = true;
+    }
+
+    public void Kill(int famMember, string message)
+    {
+        if (famMember >= 0 && famMember < Family.Length && !Family[famMember].dead)
+        {
+            Family[famMember].dies();
+            foreach (FamilyMembers f in Family)
+            {
+                f.mourningAdd(1);
+                f.missingAdd(1);
+            }
+
+            enqueuePopUp(message, 6);
+
+            if (famMember == 0)
+                GAME_OVER = true;
+        }
     }
     #endregion
 
@@ -1152,6 +1170,335 @@ public class GameManager : MonoBehaviour {
     {
         savedObject.saveNewObituaty(ob);
         saveData();
+    }
+
+    #endregion
+
+    #region eventKeeper
+
+    public class eventKeeper : GameManager
+    {
+        string[] robberyEvents = { "pickpocketing()", "discreteMugging()", "violentMugging()", "lethalMug()"};
+        int daysSinceLastRobbery = 0;
+
+        bool executeEvent(string name)
+        {
+            switch (name)
+            {
+                case "pickpocketing()":
+                    return pickpocketing();
+                case "discreteMugging()":
+                    return discreteMugging();
+                case "violentMugging()":
+                    return violentMugging();
+                case "lethalMug()":
+                    return lethalMug();
+
+            }
+        }
+
+        //Robbery Events
+        bool pickpocketing()
+        {
+            //Constant variables
+            int moraleEffect = -5;
+            int minMoneyLost = 10;
+            int maxMoneyLost = 500;
+            int pictureUsed = 0;
+            int minTimePassed = 7;
+
+            float currentDistrictCrime = 0;
+
+            switch ((int)currentTime)
+            {
+                case 0:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRMorning;
+                    break;
+                case 1:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRNoon;
+                    break;
+                case 2:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCREvening;
+                    break;
+                default:
+                    currentDistrictCrime = 0;
+                    break;
+            }
+            float triggerMax = (currentDistrictCrime * City.currentCrime / 2);
+
+
+            if (Random.Range(0, 100) < triggerMax && minTimePassed < daysSinceLastRobbery)
+            {
+                string descriptionText = "";
+
+                //Effects on money
+                int a = houseStats.getMoney();
+                houseStats.modMoney(-Random.Range(minMoneyLost, maxMoneyLost));
+                int b = houseStats.getMoney();
+
+                Family[0].moraleChange(moraleEffect);
+                descriptionText += "Without you noticing it, someone stole your wallet. ";
+
+                //Money text variants
+                if (a - b <= (maxMoneyLost - minMoneyLost) / 2)
+                {
+                    descriptionText += "At least you weren't carrying too much cash.";
+                }
+                else
+                {
+                    descriptionText += "You are robbed from this week's earnings.";
+                }
+
+                enqueuePopUp(descriptionText, pictureUsed);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool discreteMugging()
+        {
+            //Constant variables
+            int moraleEffect = -10;
+            int minMoneyLost = 10;
+            int maxMoneyLost = 500;
+            int pictureUsed = 0;
+            int minTimePassed = 7;
+
+            //Semi Constant variables
+            bool isSpecificSector = (tempActivity.area == ActivityClass.sector.B || tempActivity.area == ActivityClass.sector.C || tempActivity.area == ActivityClass.sector.E || tempActivity.area == ActivityClass.sector.F);
+            bool isSpecificTime = (currentTime == timeOfDay.evening);
+            float triggerMax = (City.districts[(int)tempActivity.area].baseCrimeRateEvening) * City.currentCrime;
+
+            if (minTimePassed < daysSinceLastRobbery && isSpecificTime && isSpecificSector && Random.Range(0, 100) < triggerMax)
+            {
+                string descriptionText = "";
+
+                //Effects on money
+                int a = houseStats.getMoney();
+                houseStats.modMoney(-Random.Range(minMoneyLost, maxMoneyLost));
+                int b = houseStats.getMoney();
+
+                //Morale effect and text variants
+                if (tempActivity.activityCategory == ActivityClass.category.Family)
+                {
+                    foreach (FamilyMembers f in Family)
+                    {
+                        f.moraleChange(moraleEffect);
+                    }
+
+                    descriptionText += "On the way to the car, a guy with a gun jumps on you and your family and assaults you. ";
+                }
+                else
+                {
+                    Family[0].moraleChange(moraleEffect);
+                    descriptionText += "On the way to the car, a guy with a gun jumps on you and assaults you. ";
+                }
+
+                //Money text variants
+                if (a - b <= (maxMoneyLost - minMoneyLost) / 2)
+                {
+                    descriptionText += "At least you weren't carrying too much cash.";
+                }
+                else
+                {
+                    descriptionText += "You are robbed from this week's earnings.";
+                }
+
+                enqueuePopUp(descriptionText, pictureUsed);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        bool violentMugging()
+        {
+            //Constant variables
+            int moraleEffect = -15;
+            int minMoneyLost = 10;
+            int maxMoneyLost = 500;
+            int pictureUsed = 0;
+            int minTimePassed = 7;
+            int minChaos = 5;
+
+            //Semi Constant variables
+            float currentDistrictCrime = 0;
+
+            switch ((int)currentTime)
+            {
+                case 0:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRMorning;
+                    break;
+                case 1:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRNoon;
+                    break;
+                case 2:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCREvening;
+                    break;
+                default:
+                    currentDistrictCrime = 0;
+                    break;
+            }
+            float triggerMax = (currentDistrictCrime * City.currentCrime);
+
+            if (City.currentChaos >= minChaos && minTimePassed < daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
+            {
+                string descriptionText = "";
+
+                //Effects on money
+                int a = houseStats.getMoney();
+                houseStats.modMoney(-Random.Range(minMoneyLost, maxMoneyLost));
+                int b = houseStats.getMoney();
+
+                //Morale effect and text variants
+                if (tempActivity.activityCategory == ActivityClass.category.Family)
+                {
+                    foreach (FamilyMembers f in Family)
+                    {
+                        f.moraleChange(moraleEffect);
+                    }
+
+                    descriptionText += "On the way to the car, a guy with a gun jumps on you and your family and assaults you. ";
+                }
+                else
+                {
+                    Family[0].moraleChange(moraleEffect);
+                    descriptionText += "On the way to the car, a guy with a gun jumps on you and assaults you. ";
+                }
+
+                //Money text variants
+                if (a - b <= (maxMoneyLost - minMoneyLost) / 3)
+                {
+                    if (tempActivity.activityCategory == ActivityClass.category.Family)
+                    {
+                        if (membersAlive > 1 && membersInHouse > 1)
+                        {
+                            for (int n = 1; n < 4; n++)
+                            {
+                                if (!Family[n].dead && !Family[n].gone)
+                                {
+                                    descriptionText += "Because you had so little money, the mugger gets angry and shot " + Family[n].firstName + " in the chest. ";
+
+                                    if (Random.Range(0, 4) > 2)
+                                    {
+                                        descriptionText += "Fortunately, you manage to take them to the emergency room of the hospital and they manage to save their life.";
+
+                                        foreach (FamilyMembers f in Family)
+                                            f.moraleChange(moraleEffect);
+                                    }
+                                    else
+                                    {
+                                        Kill(n, "The bullet pierces the lungs. " + Family[n].firstName + " dies in your arms drowned in their own blood.");
+
+                                        foreach (FamilyMembers f in Family)
+                                            f.moraleChange(moraleEffect * 2);
+                                    }
+
+
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            descriptionText += "The mugger takes mercy on you and decides not to kill you.";
+                        }
+                    }
+                    else
+                        descriptionText += "At least you weren't carrying too much cash.";
+                }
+                else
+                {
+                    descriptionText += "You are robbed from this week's earnings.";
+                }
+
+                enqueuePopUp(descriptionText, pictureUsed);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        bool lethalMug()
+        {
+            //Constant variables
+            int moraleEffect = -15;
+            int minMoneyLost = 10;
+            int maxMoneyLost = 500;
+            int pictureUsed = 0;
+            int minTimePassed = 7;
+            int minChaos = 7;
+            int minCrime = 6;
+            int maxSpareMoney = 100;
+
+            //Semi Constant variables
+            float currentDistrictCrime = 0;
+
+            switch ((int)currentTime)
+            {
+                case 0:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRMorning;
+                    break;
+                case 1:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRNoon;
+                    break;
+                case 2:
+                    currentDistrictCrime = City.districts[(int)tempActivity.area].currentCREvening;
+                    break;
+                default:
+                    currentDistrictCrime = 0;
+                    break;
+            }
+            float triggerMax = (currentDistrictCrime);
+
+            if (City.currentChaos >= minChaos && City.currentCrime >= minCrime && minTimePassed < daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
+            {
+                string descriptionText = "";
+
+                //Effects on money
+                int a = houseStats.getMoney();
+                houseStats.modMoney(-Random.Range(minMoneyLost, maxMoneyLost));
+                int b = houseStats.getMoney();
+
+                //Morale effect and text variants
+                Family[0].moraleChange(moraleEffect);
+                descriptionText += "On the way to the car, a guy with a gun jumps on you and assaults you. ";
+
+                //Money text variants
+                if (a - b < maxSpareMoney)
+                {
+                    descriptionText += "The mugger takes your wallet and notices you don't even have " + maxSpareMoney + " on you. He gets angry and starts shouting at you.";
+                    Kill(0, "You see a flash of light and fall dead on the floor.");
+                }
+                else
+                {
+                    descriptionText += "You are robbed from this week's earnings.";
+                }
+
+                enqueuePopUp(descriptionText, pictureUsed);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+        //Kidnapping Events
     }
 
     #endregion
