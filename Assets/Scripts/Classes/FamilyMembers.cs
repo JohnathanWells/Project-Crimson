@@ -228,6 +228,12 @@ public class FamilyMembers
         gone = true;
         return 1;
     }
+
+    public int comesBack()
+    {
+        gone = false;
+        return -1;
+    }
     
     public void moraleChange(int change)
     {
