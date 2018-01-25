@@ -21,13 +21,14 @@ public class savefileClass{
     List<ActivityClass> Stores;
     List<ObituaryClass> Obituaries = new List<ObituaryClass>();
     List<newsClass> newList = new List<newsClass>();
+    eventHandler.variables EHVars;
 
     public savefileClass()
     {
         empty = true;
     }
 
-    public void saveData(cityClass city, houseClass house, DayClass day, timeOfDay time, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc, List<sicknessClass> ill, Queue<notificationClass> notqueue, int[] prices, List<ActivityClass> stores)
+    public void saveData(cityClass city, houseClass house, DayClass day, timeOfDay time, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc, List<sicknessClass> ill, Queue<notificationClass> notqueue, int[] prices, List<ActivityClass> stores, eventHandler.variables eventVariables)
     {
         savedCity = city;
         savedHouse = house;
@@ -42,13 +43,13 @@ public class savefileClass{
         empty = false;
         ItemPrices = prices;
         Stores = stores;
-
+        EHVars = eventVariables;
 
         SaveLoad.savedGame = this;
         SaveLoad.Save();
     }
 
-    public void copyData(cityClass city, houseClass house, DayClass day, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc, List<sicknessClass> ill, Queue<notificationClass> queue, int[] prices, List<ActivityClass> stores)
+    public void copyData(cityClass city, houseClass house, DayClass day, FamilyMembers[] family, List<ActivityClass> mAc, List<ActivityClass> nAc, List<ActivityClass> eAc, List<sicknessClass> ill, Queue<notificationClass> queue, int[] prices, List<ActivityClass> stores, eventHandler.variables EH)
     {
         city.copyInto(savedCity);
         savedHouse.copyData(house);
@@ -115,6 +116,9 @@ public class savefileClass{
         {
             prices[n] = ItemPrices[n];
         }
+
+        EH = EHVars;
+
         //Debug.Log(tempFamily[0].firstName + "\n" + tempFamily[1].firstName);
     }
 

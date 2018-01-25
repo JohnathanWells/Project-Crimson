@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\Classes\cityClass.cs" />
      <Compile Include="Assets\Scripts\Classes\DayClass.cs" />
      <Compile Include="Assets\Scripts\Classes\districtClass.cs" />
+     <Compile Include="Assets\Scripts\Classes\eventHandler.cs" />
      <Compile Include="Assets\Scripts\Classes\FamilyMembers.cs" />
      <Compile Include="Assets\Scripts\Classes\houseClass.cs" />
      <Compile Include="Assets\Scripts\Classes\ItemClass.cs" />

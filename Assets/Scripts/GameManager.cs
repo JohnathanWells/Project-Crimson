@@ -51,8 +51,8 @@ public class GameManager : MonoBehaviour {
     public bool phoneNotification = false;
     public int costOfServices = 100;
     public ActivityClass servicePayActivity;
-    int membersAlive = Constants.familySize;
-    int membersInHouse = Constants.familySize;
+    public int membersAlive = Constants.familySize;
+    public int membersInHouse = Constants.familySize;
 
     [Header("Files")]
     public TextAsset activityFile;
@@ -85,8 +85,9 @@ public class GameManager : MonoBehaviour {
     savefileClass savedObject = new savefileClass();
     int[] itemPrices = new int[4];
     List<ObituaryClass> Obituaries = new List<ObituaryClass>();
+    eventHandler Events;
 
-    ActivityClass tempActivity;
+    public ActivityClass tempActivity;
     bool GAME_OVER = false;
 
     void Start()
@@ -102,7 +103,6 @@ public class GameManager : MonoBehaviour {
 
         if (GameObject.FindWithTag("MainMenuObject") != null)
         {
-
             Transform obj = GameObject.FindWithTag("MainMenuObject").transform;
             obj.SendMessage("getClass", loadObject);
 
@@ -821,9 +821,9 @@ public class GameManager : MonoBehaviour {
                 case 'C':
                     if (str.Length > 2)
                         if (str[2] != 'n')
-                            return City.districts[int.Parse(str[2].ToString()) - 1].districtName;
+                            return City.districts[Mathf.Clamp(int.Parse(str[2].ToString()) - 1, 0, City.districts.Length - 1)].districtName;
                         else
-                            return City.districts[(int)tempActivity.area].districtName;
+                            return City.districts[Mathf.Clamp((int)tempActivity.area, 0, City.districts.Length - 1)].districtName;
                     else
                         return str;
                 case 'T': //Returns the current time slot
@@ -924,6 +924,8 @@ public class GameManager : MonoBehaviour {
 
         savedObject.getObituaries(Obituaries);
         sortListOfDays(Obituaries);
+        
+        Events = new eventHandler(this, new eventHandler.variables());
 
         saveData();
     }
@@ -1159,7 +1161,7 @@ public class GameManager : MonoBehaviour {
 
     public void saveData()
     {
-        savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores);
+        savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores, Events.vars);
         savedObject.saveObituaries(Obituaries);
         savedObject.saveNews(News);
         SaveLoad.Save();
@@ -1168,8 +1170,9 @@ public class GameManager : MonoBehaviour {
     public void loadData()
     {
         City = new cityClass();
+        Events = new eventHandler(this, new eventHandler.variables());
         SaveLoad.Load();
-        SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores);
+        SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores, Events.vars);
         currentTime = SaveLoad.savedGame.getSavedTime();
         SaveLoad.savedGame.getObituaries(Obituaries);
         SaveLoad.savedGame.getNews(News);
@@ -1212,555 +1215,7 @@ public class GameManager : MonoBehaviour {
 
     #endregion
 
-    #region eventKeeper
-
-    //Put these inside a subclass so they are not just hanging around
-    string[] robberyEvents = { "pickpocketing()", "discreteMugging()", "violentMugging()", "lethalMug()"};
-    string[] kidnapEvents = { "expressKidnapping()", "desperateKidnapping()" };
-    string[] trafficEvents = { "blockedRoad()", "smallCarAccident()" };
-    string[] negligenceEvents = { "disservice()", "uselessness()" };
-    int daysSinceLastRobbery = 0;
-
-    bool kidnappedAlready = false;
-    int timeBeforeRescue = -1;
-    int kidnappedMember;
-
-    int daysSinceLastTraffic = 0;
-
-    int daysSinceNegligence = 0;
-
-    bool executeEvent(string name)
-    {
-        switch (name)
-        {
-            case "pickpocketing()":
-                return pickpocketing();
-            case "discreteMugging()":
-                return discreteMugging();
-            case "violentMugging()":
-                return violentMugging();
-            case "lethalMug()":
-                return lethalMug();
-            case "expressKidnapping()":
-                return expressKidnapping();
-            case "desperateKidnapping()":
-                return desperateKidnapping();
-            case "blockedRoad()":
-                return blockedRoad();
-            case "smallCarAccident()":
-                return smallCarAccident();
-            case "disservice()":
-                return disservice();
-            default:
-                return false;
-        }
-    }
-
-    void eventCheck()
-    {
-            
-    }
-
-    //Robbery Events
-    bool pickpocketing()
-    {
-        //Constant variables
-        int moraleEffect = -5;
-        int minMoneyLost = 10;
-        int maxMoneyLost = 500;
-        int pictureUsed = 0;
-        int minTimePassed = 7;
-
-        float currentDistrictCrime = 0;
-
-        switch ((int)currentTime)
-        {
-            case 0:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRMorning;
-                break;
-            case 1:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRNoon;
-                break;
-            case 2:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCREvening;
-                break;
-            default:
-                currentDistrictCrime = 0;
-                break;
-        }
-        float triggerMax = (currentDistrictCrime * City.currentCrime / 2);
-
-
-        if (Random.Range(0, 100) < triggerMax && minTimePassed < daysSinceLastRobbery)
-        {
-            string descriptionText = "";
-
-            //Effects on money
-            int a = houseStats.getMoney();
-            houseStats.modMoney(-Random.Range(minMoneyLost, maxMoneyLost));
-            int b = houseStats.getMoney();
-
-            Family[0].moraleChange(moraleEffect);
-            descriptionText += "Without you noticing it, someone stole your wallet. ";
-
-            //Money text variants
-            if (a - b <= (maxMoneyLost - minMoneyLost) / 2)
-            {
-                descriptionText += "At least you weren't carrying too much cash.";
-            }
-            else
-            {
-                descriptionText += "You are robbed from this week's earnings.";
-            }
-
-            daysSinceLastRobbery = 0;
-
-            enqueuePopUp(descriptionText, pictureUsed);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    bool discreteMugging()
-    {
-        //Constant variables
-        int moraleEffect = -10;
-        int minMoneyLost = 10;
-        int maxMoneyLost = 500;
-        int pictureUsed = 0;
-        int minTimePassed = 7;
-
-        //Semi Constant variables
-        bool isSpecificSector = (tempActivity.area == ActivityClass.sector.B || tempActivity.area == ActivityClass.sector.C || tempActivity.area == ActivityClass.sector.E || tempActivity.area == ActivityClass.sector.F);
-        bool isSpecificTime = (currentTime == timeOfDay.evening);
-        float triggerMax = (City.districts[(int)tempActivity.area].baseCrimeRateEvening) * City.currentCrime;
-
-        if (minTimePassed < daysSinceLastRobbery && isSpecificTime && isSpecificSector && Random.Range(0, 100) < triggerMax)
-        {
-            string descriptionText = "";
-
-            //Effects on money
-            int a = houseStats.getMoney();
-            houseStats.modMoney(-Random.Range(minMoneyLost, maxMoneyLost));
-            int b = houseStats.getMoney();
-
-            //Morale effect and text variants
-            if (tempActivity.activityCategory == ActivityClass.category.Family)
-            {
-                foreach (FamilyMembers f in Family)
-                {
-                    f.moraleChange(moraleEffect);
-                }
-
-                descriptionText += "On the way to the car, a guy with a gun jumps on you and your family and assaults you. ";
-            }
-            else
-            {
-                Family[0].moraleChange(moraleEffect);
-                descriptionText += "On the way to the car, a guy with a gun jumps on you and assaults you. ";
-            }
-
-            //Money text variants
-            if (a - b <= (maxMoneyLost - minMoneyLost) / 2)
-            {
-                descriptionText += "At least you weren't carrying too much cash.";
-            }
-            else
-            {
-                descriptionText += "You are robbed from this week's earnings.";
-            }
-
-            daysSinceLastRobbery = 0;
-            enqueuePopUp(descriptionText, pictureUsed);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    bool violentMugging()
-    {
-        //Constant variables
-        int moraleEffect = -15;
-        int minMoneyLost = 10;
-        int maxMoneyLost = 500;
-        int pictureUsed = 0;
-        int minTimePassed = 7;
-        float exMinChaos = 4;
-
-        //Semi Constant variables
-        float currentDistrictCrime = 0;
-
-        switch ((int)currentTime)
-        {
-            case 0:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRMorning;
-                break;
-            case 1:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRNoon;
-                break;
-            case 2:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCREvening;
-                break;
-            default:
-                currentDistrictCrime = 0;
-                break;
-        }
-        float triggerMax = (currentDistrictCrime * City.currentCrime);
-
-        if (City.currentChaos > exMinChaos && minTimePassed < daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
-        {
-            string descriptionText = "";
-
-            //Effects on money
-            int a = houseStats.getMoney();
-            houseStats.modMoney(-Random.Range(minMoneyLost, maxMoneyLost));
-            int b = houseStats.getMoney();
-
-            //Morale effect and text variants
-            if (tempActivity.activityCategory == ActivityClass.category.Family)
-            {
-                foreach (FamilyMembers f in Family)
-                {
-                    f.moraleChange(moraleEffect);
-                }
-
-                descriptionText += "On the way to the car, a guy with a gun jumps on you and your family and assaults you. ";
-            }
-            else
-            {
-                Family[0].moraleChange(moraleEffect);
-                descriptionText += "On the way to the car, a guy with a gun jumps on you and assaults you. ";
-            }
-
-            //Money text variants
-            if (a - b <= (maxMoneyLost - minMoneyLost) / 3)
-            {
-                if (tempActivity.activityCategory == ActivityClass.category.Family)
-                {
-                    if (membersAlive > 1 && membersInHouse > 1)
-                    {
-                        for (int n = 1; n < 4; n++)
-                        {
-                            if (!Family[n].dead && !Family[n].gone)
-                            {
-                                descriptionText += "Because you had so little money, the mugger gets angry and shot " + Family[n].firstName + " in the chest. ";
-
-                                if (Random.Range(0, 4) > 2)
-                                {
-                                    descriptionText += "Fortunately, you manage to take them to the emergency room of the hospital and they manage to save their life.";
-
-                                    foreach (FamilyMembers f in Family)
-                                        f.moraleChange(moraleEffect);
-                                }
-                                else
-                                {
-                                    Kill(n, "The bullet pierces the lungs. " + Family[n].firstName + " dies in your arms drowned in their own blood.");
-
-                                    foreach (FamilyMembers f in Family)
-                                        f.moraleChange(moraleEffect * 2);
-                                }
-
-
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        descriptionText += "The mugger takes mercy on you and decides not to kill you.";
-                    }
-                }
-                else
-                    descriptionText += "At least you weren't carrying too much cash.";
-            }
-            else
-            {
-                descriptionText += "You are robbed from this week's earnings.";
-            }
-
-            daysSinceLastRobbery = 0;
-            enqueuePopUp(descriptionText, pictureUsed);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-
-    bool lethalMug()
-    {
-        //Constant variables
-        int moraleEffect = -15;
-        int minMoneyLost = 10;
-        int maxMoneyLost = 500;
-        int pictureUsed = 0;
-        int minTimePassed = 7;
-        float exMinChaos = 7;
-        float exMinCrime = 6;
-        int maxSpareMoney = 100;
-
-        //Semi Constant variables
-        float currentDistrictCrime = 0;
-
-        switch ((int)currentTime)
-        {
-            case 0:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRMorning;
-                break;
-            case 1:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCRNoon;
-                break;
-            case 2:
-                currentDistrictCrime = City.districts[(int)tempActivity.area].currentCREvening;
-                break;
-            default:
-                currentDistrictCrime = 0;
-                break;
-        }
-        float triggerMax = (currentDistrictCrime);
-
-        if (City.currentChaos > exMinChaos && City.currentCrime > exMinCrime && minTimePassed < daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
-        {
-            string descriptionText = "";
-
-            //Effects on money
-            int a = houseStats.getMoney();
-            houseStats.modMoney(-Random.Range(minMoneyLost, maxMoneyLost));
-            int b = houseStats.getMoney();
-
-            //Morale effect and text variants
-            Family[0].moraleChange(moraleEffect);
-            descriptionText += "On the way to the car, a guy with a gun jumps on you and assaults you. ";
-
-            //Money text variants
-            if (a - b < maxSpareMoney)
-            {
-                descriptionText += "The mugger takes your wallet and notices you don't even have " + maxSpareMoney + " on you. He gets angry and starts shouting at you.";
-                Kill(0, "You see a flash of light and fall dead on the floor.");
-            }
-            else
-            {
-                descriptionText += "You are robbed from this week's earnings.";
-            }
-            daysSinceLastRobbery = 0;
-            enqueuePopUp(descriptionText, pictureUsed);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-
-
-    //Kidnapping Events
-    bool expressKidnapping()
-    {
-        //Constants
-        float exMinChaos = 6;
-        float exMinCrime = 4;
-        int minMoney = 10000;
-        int moodChange = -15;
-        int pictureUsed = 0;
-
-        //Semi constant
-        float triggerMax = City.districts[3].currentCREvening;
-
-        if (!kidnappedAlready && membersInHouse > 1 && City.currentCrime > exMinCrime && City.currentChaos > exMinChaos && Random.Range(0, 100) < triggerMax)
-        {
-            transitionTime();
-
-            for (int n = 3; n > 0; n++)
-            {
-                if (!Family[n].dead && !Family[n].gone)
-                {
-                    Family[n].moraleChange(moodChange);
-                    houseStats.modMoney(-minMoney);
-
-                    kidnappedAlready = true;
-
-                    enqueuePopUp("When you get home you receive a strange phone call that tells you " + Family[n].firstName + " has been kidnapped. You pay the rescue and a couple hours later they are delivered on a public park with little more than a couple bruises.", pictureUsed);
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        else
-            return false;
-    }
-
-    bool desperateKidnapping()
-    {
-        //Constants
-        float exMinChaos = 7;
-        float exMinCrime = 6;
-        int minMoney = 10000;
-        int daysCaptive = 7;
-        int moraleDropForEverybody = -15;
-        int moraleDropForKidnapped = -15;
-
-        //Semi constant
-        float triggerMax = City.districts[3].currentCREvening;
-
-        if (!kidnappedAlready && membersInHouse > 1 && City.currentCrime > exMinCrime && City.currentChaos > exMinChaos && Random.Range(0, 100) < triggerMax)
-        {
-            transitionTime();
-
-            for (int n = 3; n > 0; n++)
-            {
-                if (!Family[n].dead && !Family[n].gone)
-                {
-                    transitionTime();
-
-                    toggleGone(n, "When you get home you receive a strange phone call that tells you " + Family[n].firstName + " has been kidnapped. The kidnapper tells a date and place " + daysCaptive + " days later where you need to leave the money.", true);
-
-                    timeBeforeRescue = daysCaptive;
-
-                    kidnappedMember = n;
-
-                    houseStats.modMoney(-minMoney);
-
-                    foreach (FamilyMembers f in Family)
-                        f.moraleChange(moraleDropForEverybody);
-
-                    Family[kidnappedMember].moraleChange(moraleDropForKidnapped);
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        else
-            return false;
-    }
-
-    void subKidnappingCounter()
-    {
-        if (timeBeforeRescue > 0)
-        {
-            timeBeforeRescue--;
-        }
-        else if (timeBeforeRescue == 0)
-        {
-            //Constant
-            int percentageChanceOfDoubleCross = 20;
-
-            timeBeforeRescue--;
-
-            if (Random.Range(0, 100) <= percentageChanceOfDoubleCross)
-            {
-                transitionTime();
-
-                Kill(kidnappedMember, "You leave a pack of bills inside the trash can of a public park and wait in the car for about forty five minutes. \n Then two hours. \n You never see " + Family[kidnappedMember].firstName + " again.");
-
-            }
-            else
-            {
-                transitionTime();
-
-                toggleGone(kidnappedMember, "You leave a pack of bills inside the trash can of a public park and wait in the car for about forty five minutes. " + Family[kidnappedMember].firstName + " shows up running to the car, crying, skinny and covered in bruises. You take them back home.", false);
-            }
-
-        }
-    }
-
-        
-    //Traffic events
-    bool blockedRoad()
-    {
-        //Constants
-        float exMinChaos = 2;
-        int minTimePassed = 7;
-        int moralEffect = -2;
-
-        //Dinamic constants
-        float triggerMax = ((City.currentChaos + City.districts[(int)tempActivity.area].traffic) * 10) / 2;
-             
-        if (currentTime != timeOfDay.evening && City.currentChaos > exMinChaos && daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
-        {
-            transitionTime();
-
-            Family[0].moraleChange(moralEffect);
-
-            daysSinceLastTraffic = 0;
-
-            enqueuePopUp("Apparently a jerk t-boned another car in the main avenue. You'll be stuck in traffic for a while.", 0);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    bool smallCarAccident()
-    {
-        //Constants
-        float exMinChaos = 5;
-        int minTimePassed = 7;
-        int moralEffect = -7;
-        int moneyLost = -500;
-
-        //Dinamic constants
-        float triggerMax = ((City.currentChaos + City.districts[(int)tempActivity.area].traffic) * 5) / 3;
-
-        if (currentTime != timeOfDay.evening && City.currentChaos > exMinChaos && daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
-        {
-            transitionTime();
-
-            Family[0].moraleChange(moralEffect);
-
-            daysSinceLastTraffic = 0;
-
-            enqueuePopUp("A jerk t-boned you in the main avenue. You'll be stuck here for a while until someone tows you away.", 0);
-
-            houseStats.modMoney(moneyLost);
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    //Negligence Events
-    bool disservice()
-    {
-        //Constants
-        int minTimeForDisservice = 30;
-        int exMinChaos = 2;
-        float triggerMax = City.currentChaos * 5;
-
-        if (City.currentChaos > exMinChaos && minTimeForDisservice < daysSinceNegligence && Random.Range(0, 100) < triggerMax)
-        {
-            //The stuff that is gonna happen
-
-            return true;
-        }
-        else
-            return false;
-    }
-
-    #endregion
+   
 
     //Menus
     public void toMainMenu()
