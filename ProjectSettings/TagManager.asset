@@ -49,6 +49,9 @@ TagManager:
   - name: Phone
     uniqueID: 1168125511
     locked: 0
+  - name: Loading Bar
+    uniqueID: 1369338043
+    locked: 0
   - name: Frame and Buttons
     uniqueID: 2680980197
     locked: 0

@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour {
     public TextAsset pricesFile;
     public TextAsset newsFile;
     public TextAsset wikiFile;
-    
+
     [Header("Day Stuff")]
     public DayClass currentDay;
     public timeOfDay currentTime;
@@ -71,6 +71,13 @@ public class GameManager : MonoBehaviour {
     public Color[] timeColors = new Color[3];
     int daysSinceLastIllnessCheck = 0;
     int[] daysLeftForHealing = { 0, 0, 0, 0 };
+    int pendingTimeTransitions = 0;
+
+    [Header("Events and Such")]
+    public Animator loadingBarAnimator;
+    public AnimationClip loadingInAn;
+    public AnimationClip fillingAn;
+    eventHandler Events;
 
     [Header("Permanent Stuff")]
     public bool dadStartsSick = false;
@@ -85,7 +92,7 @@ public class GameManager : MonoBehaviour {
     savefileClass savedObject = new savefileClass();
     int[] itemPrices = new int[4];
     List<ObituaryClass> Obituaries = new List<ObituaryClass>();
-    eventHandler Events;
+
 
     public ActivityClass tempActivity;
     bool GAME_OVER = false;
@@ -150,32 +157,41 @@ public class GameManager : MonoBehaviour {
     //Time stuff
     public void transitionTime()
     {
-        if (currentTime == timeOfDay.evening)
+        if (pendingTimeTransitions > 0)
         {
-            dayAdvance();
-        }
-        else
-        {
-            currentTime += 1;
+            pendingTimeTransitions--;
+
+            if (currentTime == timeOfDay.evening)
+            {
+                dayAdvance();
+            }
+            else
+            {
+                currentTime += 1;
+            }
+
+            //TODO REMOVE THIS AND REPLACE WITH SOMETHING BETTER    
+            map.color = timeColors[(int)currentTime];
+
+            if (GAME_OVER)
+                SaveLoad.Delete();
+            else
+            {
+                saveData();
+
+                if (currentDay.month == 04 && currentDay.day == 31)
+                {
+                    gameWon();
+                }
+                else
+                {
+                    transitionTime();
+                }
+            }
         }
 
-        //TODO REMOVE THIS AND REPLACE WITH SOMETHING BETTER    
-        map.color = timeColors[(int)currentTime];
 
         updateComponents();
-
-        if (GAME_OVER)
-            SaveLoad.Delete();
-        else
-            saveData();
-
-        if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
-           openPopUp(notificationQueue.Peek());
-
-        if (currentDay.month == 04 && currentDay.day == 31)
-        {
-            gameWon();
-        }
     }
 
     public void dayAdvance()
@@ -200,7 +216,7 @@ public class GameManager : MonoBehaviour {
 
             if (houseStats.servicesPaid)
             {
-                enqueuePopUp("Service Pay Day. #n " + costOfServices + "$ have been discounted from your account.", 7); 
+                enqueuePopUp("Service Pay Day. #n " + costOfServices + "$ have been discounted from your account.", 7);
             }
             else
             {
@@ -268,7 +284,7 @@ public class GameManager : MonoBehaviour {
             //Debug.Log((float)itemPrices[n] * City.currentInflation);
             inflatedPrices[n] = Mathf.RoundToInt((float)itemPrices[n] * City.currentInflation);
         }
-        
+
 
         foreach (ActivityClass a in stores)
         {
@@ -295,7 +311,7 @@ public class GameManager : MonoBehaviour {
             {
                 //Debug.Log(Family[chosenFamilyMember].health);
                 int n = 0;
-                foreach (sicknessClass s in sicknesses )
+                foreach (sicknessClass s in sicknesses)
                 {
                     if (s.minPRCheck <= currentPlagueRate)
                     {
@@ -571,7 +587,7 @@ public class GameManager : MonoBehaviour {
                 Family[n].moraleChange(activity.moraleChange[n]);
             }
 
-            transitionTime();
+            finishActivityAndCheckEvents();
         }
         else if (activity.paysService)
         {
@@ -579,7 +595,7 @@ public class GameManager : MonoBehaviour {
             houseStats.modMoney(-activity.cost);
             houseStats.servicesPaid = true;
 
-            transitionTime();
+            finishActivityAndCheckEvents();
         }
         else if (activity.isItShop)
         {
@@ -587,10 +603,64 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    void finishActivityAndCheckEvents()
+    {
+        bool eventDetected = true; //This one will get the bool from the event function Also replace all time transitions with adding one to time transition
+
+        StartCoroutine(pauseOrNotPause(eventDetected));
+
+        //Call animation that starts loading bar
+        //That animation then calls a function that checks for the events and stops the loading if something happens
+        //The loading out animation transitions time
+        //TODO include a bit that makes sure the animator is always enabled when the popup function runs out of elements in the queue
+    }
+
+    IEnumerator pauseOrNotPause(bool eventDetected)
+    {
+        togglePauseLoadingAnimator(false);
+
+        if (eventDetected)
+        {
+            float pauseTime = loadingInAn.length + (fillingAn.length / 2);
+            loadingBarAnimator.Play("loadingIn");
+            yield return new WaitForSeconds(pauseTime);
+            togglePauseLoadingAnimator(true);
+            displayEffects();
+        }
+        else
+        {
+            float pauseTime = loadingInAn.length + fillingAn.length;
+            loadingBarAnimator.Play("loadingIn");
+            yield return new WaitForSeconds(pauseTime);
+            displayEffects();
+            transitionTime();
+        }
+    }
+
+    void togglePauseLoadingAnimator(bool pause)
+    {
+        loadingBarAnimator.enabled = !pause;
+    }
+
+    void resetLoadingBarValues()
+    {
+        togglePauseLoadingAnimator(false);
+        loadingBarAnimator.Play("Hidden");
+    }
+
     public void finishShopping()
     {
         changeScreen(0);
-        transitionTime();
+        displayEffects();
+    }
+
+    public void displayEffects()
+    {
+        if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
+            openPopUp(notificationQueue.Peek());
+
+        pendingTimeTransitions++;
+        //transitionTime();
     }
 
     void changeScreen(int screen, ShopClass shop)
@@ -763,6 +833,11 @@ public class GameManager : MonoBehaviour {
         else if (GAME_OVER)
         {
             gameOver();
+        }
+        else
+        {
+            transitionTime();
+            resetLoadingBarValues();
         }
         
     }
