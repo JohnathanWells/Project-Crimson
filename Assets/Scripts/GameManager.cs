@@ -201,6 +201,8 @@ public class GameManager : MonoBehaviour {
         currentTime = timeOfDay.morning;
         daysSinceLastIllnessCheck++;
 
+        Events.dayAdvance(); //Advance the day within the event handler
+
         if (currentDay.calculateDayOfWeek() == whenAreStoresResupplied && Random.Range(1, 2) == 1)
         {
             storeSupplying();
@@ -605,7 +607,7 @@ public class GameManager : MonoBehaviour {
 
     void finishActivityAndCheckEvents()
     {
-        bool eventDetected = true; //This one will get the bool from the event function Also replace all time transitions with adding one to time transition
+        bool eventDetected = Events.eventCheck(); //This one will get the bool from the event function
 
         StartCoroutine(pauseOrNotPause(eventDetected));
 
@@ -625,15 +627,14 @@ public class GameManager : MonoBehaviour {
             loadingBarAnimator.Play("loadingIn");
             yield return new WaitForSeconds(pauseTime);
             togglePauseLoadingAnimator(true);
-            displayEffects();
+            concludeActivity();
         }
         else
         {
             float pauseTime = loadingInAn.length + fillingAn.length;
             loadingBarAnimator.Play("loadingIn");
             yield return new WaitForSeconds(pauseTime);
-            displayEffects();
-            transitionTime();
+            concludeActivity();
         }
     }
 
@@ -651,16 +652,21 @@ public class GameManager : MonoBehaviour {
     public void finishShopping()
     {
         changeScreen(0);
-        displayEffects();
+        finishActivityAndCheckEvents();
     }
 
-    public void displayEffects()
+    public void concludeActivity()
     {
+        addTimeTransition();
+
         if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
             openPopUp(notificationQueue.Peek());
-
-        pendingTimeTransitions++;
         //transitionTime();
+    }
+
+    public void addTimeTransition()
+    {
+        pendingTimeTransitions++;
     }
 
     void changeScreen(int screen, ShopClass shop)

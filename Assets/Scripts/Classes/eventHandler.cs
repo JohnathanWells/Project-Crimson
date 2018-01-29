@@ -6,6 +6,7 @@ public class eventHandler{
 
     GameManager manager;
     public variables vars;
+    List<string[]> eventIndex;
 
     [System.Serializable]
     public class variables
@@ -33,6 +34,46 @@ public class eventHandler{
 
         public variables()
         {
+            //List<string> temp = new List<string>();
+            //temp.Add("pickpocketing()");
+            //temp.Add("discreteMugging()");
+            //temp.Add("violentMugging()");
+            //temp.Add("lethalMug()");
+
+            //robberyEvents = temp.ToArray();
+            //temp.Clear();
+
+            //temp.Add("expressKidnapping()");
+            //temp.Add("desperateKidnapping()");
+
+            //kidnapEvents = temp.ToArray();
+            //temp.Clear();
+
+            //temp.Add("blockedRoad()");
+            //temp.Add("smallCarAccident()");
+
+            //trafficEvents = temp.ToArray();
+            //temp.Clear();
+
+            //temp.Add("disservice()");
+            //temp.Add("uselessness()");
+
+            //negligenceEvents = temp.ToArray();
+            //temp.Clear();
+
+            //temp.Add("fireworksAccident()");
+            //temp.Add("flood()");
+            //temp.Add("cousinDeath()");
+            //temp.Add("lostBullet()");
+
+            //accidentEvents = temp.ToArray();
+            //temp.Clear();
+
+            //temp.Add("jerkUncleDeath()");
+            //temp.Add("kidnappedEscapes()");
+
+            //fortuneEvents = temp.ToArray();
+            //temp.Clear();
             ;
         }
     }
@@ -43,6 +84,13 @@ public class eventHandler{
     {
         manager = newMan;
         vars = newVars;
+
+        eventIndex = new List<string[]>();
+        eventIndex.Add(vars.robberyEvents);
+        eventIndex.Add(vars.negligenceEvents);
+        eventIndex.Add(vars.kidnapEvents);
+        eventIndex.Add(vars.fortuneEvents);
+        eventIndex.Add(vars.accidentEvents);
     }
 
 
@@ -84,18 +132,31 @@ public class eventHandler{
                 return kidnappedEscapes();
             default:
                 {
-                    vars.daysSinceLastEvent--;
+                    //vars.daysSinceLastEvent--;
                     return false;
                 }
         }
     }
 
-    public void eventCheck()
+    public bool eventCheck()
     {
-        //If an event is not executed a day is added to the count
+        //Constants
+        int rollingChance = 10;
+
+
+        int RN = Random.Range(0, rollingChance);
+
+        if (RN < eventIndex.Count)
+        {
+            return executeEvent(eventIndex[RN][Random.Range(0, eventIndex[RN].Length - 1)]);
+        }
+        else
+        {
+            return false;
+        }
     }
     
-    void dayAdvance()
+    public void dayAdvance()
     {
         vars.daysSinceLastRobbery++;
 
@@ -128,7 +189,7 @@ public class eventHandler{
 
             if (Random.Range(0, 100) <= percentageChanceOfDoubleCross)
             {
-                manager.transitionTime();
+                manager.addTimeTransition();
 
                 manager.Kill(vars.kidnappedMember, "You leave a pack of bills inside the trash can of a public park and wait in the car for about forty five minutes. #n Then two hours. #n You never see " + manager.Family[vars.kidnappedMember].firstName + " again.");
 
@@ -136,7 +197,7 @@ public class eventHandler{
             }
             else
             {
-                manager.transitionTime();
+                manager.addTimeTransition();
 
                 manager.toggleGone(vars.kidnappedMember, "You leave a pack of bills inside the trash can of a public park and wait in the car for about forty five minutes. " + manager.Family[vars.kidnappedMember].firstName + " shows up running to the car, crying, skinny and covered in bruises. You take them back home.", false);
 
@@ -467,7 +528,7 @@ public class eventHandler{
 
         if (!vars.kidnappedAlready && manager.membersInHouse > 1 && manager.City.currentCrime > exMinCrime && manager.City.currentChaos > exMinChaos && Random.Range(0, 100) < triggerMax)
         {
-            manager.transitionTime();
+            manager.addTimeTransition();
 
             for (int n = 3; n > 0; n++)
             {
@@ -504,13 +565,13 @@ public class eventHandler{
 
         if (!vars.kidnappedAlready && manager.membersInHouse > 1 && manager.City.currentCrime > exMinCrime && manager.City.currentChaos > exMinChaos && Random.Range(0, 100) < triggerMax)
         {
-            manager.transitionTime();
+            manager.addTimeTransition();
 
             for (int n = 3; n > 0; n++)
             {
                 if (!manager.Family[n].dead && !manager.Family[n].gone)
                 {
-                    manager.transitionTime();
+                    manager.addTimeTransition();
 
                     manager.toggleGone(n, "When you get home you receive a strange phone call that tells you " + manager.Family[n].firstName + " has been kidnapped. The kidnapper tells a date and place " + daysCaptive + " days later where you need to leave the money.", true);
 
@@ -549,7 +610,7 @@ public class eventHandler{
 
         if (manager.currentTime != timeOfDay.evening && manager.City.currentChaos > exMinChaos && vars.daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
         {
-            manager.transitionTime();
+            manager.addTimeTransition();
 
             manager.Family[0].moraleChange(moralEffect);
 
@@ -578,7 +639,7 @@ public class eventHandler{
 
         if (manager.currentTime != timeOfDay.evening && manager.City.currentChaos > exMinChaos && vars.daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
         {
-            manager.transitionTime();
+            manager.addTimeTransition();
 
             manager.Family[0].moraleChange(moralEffect);
 
@@ -718,8 +779,8 @@ public class eventHandler{
                     f.moraleChange(moraleChange);
             }
 
-            manager.transitionTime();
-            manager.transitionTime();
+            manager.addTimeTransition();
+            manager.addTimeTransition();
 
             manager.enqueuePopUp("You receive a call from one of your multiple uncles as soon as you wake up. Apparently one of your cousins was shot dead after someone tried to mug him. You tell #f of the funeral.", pictureUsed);
 
