@@ -6553,7 +6553,7 @@ MonoBehaviour:
   loadingInAn: {fileID: 7400000, guid: fc77bde335e148b489c07b18f4c8d087, type: 2}
   fillingAn: {fileID: 7400000, guid: 8a00d6078162bc444b11ddf0939e59cb, type: 2}
   dadStartsSick: 0
-  createSessionAtStart: 1
+  createSessionAtStart: 0
   mornActivities: []
   noonActivities: []
   evenActivities: []

@@ -86,11 +86,13 @@ public class eventHandler{
         vars = newVars;
 
         eventIndex = new List<string[]>();
+
         eventIndex.Add(vars.robberyEvents);
-        eventIndex.Add(vars.negligenceEvents);
         eventIndex.Add(vars.kidnapEvents);
-        eventIndex.Add(vars.fortuneEvents);
+        eventIndex.Add(vars.trafficEvents);
+        eventIndex.Add(vars.negligenceEvents);
         eventIndex.Add(vars.accidentEvents);
+        eventIndex.Add(vars.fortuneEvents);
     }
 
 
@@ -145,10 +147,14 @@ public class eventHandler{
 
 
         int RN = Random.Range(0, rollingChance);
-
+    
         if (RN < eventIndex.Count)
         {
-            return executeEvent(eventIndex[RN][Random.Range(0, eventIndex[RN].Length - 1)]);
+            int specificEvent = Random.Range(0, eventIndex[RN].Length - 1);
+
+            Debug.Log("Event Type: " + RN + "/" + eventIndex.Count + "/" + rollingChance + "\tSpecific: " + specificEvent + "/" + (eventIndex[RN].Length - 1) + " (" + eventIndex[RN][specificEvent] + ")");
+
+            return executeEvent(eventIndex[RN][specificEvent]);
         }
         else
         {

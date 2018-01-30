@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour {
     public Animator loadingBarAnimator;
     public AnimationClip loadingInAn;
     public AnimationClip fillingAn;
+    bool currentlyExecutingActivity = false;
     eventHandler Events;
 
     [Header("Permanent Stuff")]
@@ -578,30 +579,35 @@ public class GameManager : MonoBehaviour {
     //Activity and stuff
     public void executeActivity(ActivityClass activity)
     {
-        tempActivity = activity;
-        if (!activity.isItShop && !activity.paysService)
+        if (!currentlyExecutingActivity)
         {
-            enqueuePopUp(activity);
-            houseStats.modMoney(-activity.cost);
+            tempActivity = activity;
+            currentlyExecutingActivity = true;
 
-            for (int n = 0; n < Constants.familySize; n++)
+            if (!activity.isItShop && !activity.paysService)
             {
-                Family[n].moraleChange(activity.moraleChange[n]);
+                enqueuePopUp(activity);
+                houseStats.modMoney(-activity.cost);
+
+                for (int n = 0; n < Constants.familySize; n++)
+                {
+                    Family[n].moraleChange(activity.moraleChange[n]);
+                }
+
+                finishActivityAndCheckEvents();
             }
+            else if (activity.paysService)
+            {
+                enqueuePopUp(activity);
+                houseStats.modMoney(-activity.cost);
+                houseStats.servicesPaid = true;
 
-            finishActivityAndCheckEvents();
-        }
-        else if (activity.paysService)
-        {
-            enqueuePopUp(activity);
-            houseStats.modMoney(-activity.cost);
-            houseStats.servicesPaid = true;
-
-            finishActivityAndCheckEvents();
-        }
-        else if (activity.isItShop)
-        {
-            changeScreen(1, activity.shopAttached);
+                finishActivityAndCheckEvents();
+            }
+            else if (activity.isItShop)
+            {
+                changeScreen(1, activity.shopAttached);
+            }
         }
     }
 
@@ -657,6 +663,8 @@ public class GameManager : MonoBehaviour {
 
     public void concludeActivity()
     {
+        currentlyExecutingActivity = false;
+
         addTimeTransition();
 
         if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
