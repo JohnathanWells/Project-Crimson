@@ -205,7 +205,7 @@ public class eventHandler{
             {
                 manager.addTimeTransition();
 
-                manager.toggleGone(vars.kidnappedMember, "You leave a pack of bills inside the trash can of a public park and wait in the car for about forty five minutes. " + manager.Family[vars.kidnappedMember].firstName + " shows up running to the car, crying, skinny and covered in bruises. You take them back home.", false);
+                manager.toggleGone(vars.kidnappedMember, "You leave a pack of bills inside the trash can of a public park and wait in the car for about forty five minutes. " + manager.Family[vars.kidnappedMember].firstName + " shows up running to the car, crying, skinny and covered in bruises. You take " + manager.Family[vars.kidnappedMember].sex.ToString() + " back home.", false);
 
                 vars.kidnappedMember = -1;
             }
@@ -409,14 +409,14 @@ public class eventHandler{
 
                                 if (Random.Range(0, 4) > 2)
                                 {
-                                    descriptionText += "Fortunately, you manage to take them to the emergency room of the hospital and they manage to save their life.";
+                                    descriptionText += "Fortunately, you manage to take " + manager.Family[n].sex.ToString() + " to the emergency room of the hospital and they manage to save " + manager.Family[n].firstName + "'s life.";
 
                                     foreach (FamilyMembers f in manager.Family)
                                         f.moraleChange(moraleEffect);
                                 }
                                 else
                                 {
-                                    manager.Kill(n, "The bullet pierces the lungs. " + manager.Family[n].firstName + " dies in your arms drowned in their own blood.");
+                                    manager.Kill(n, "The bullet pierces the lungs. " + manager.Family[n].firstName + " dies in your arms drowned in " + ((manager.Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " own blood.");
 
                                     foreach (FamilyMembers f in manager.Family)
                                         f.moraleChange(moraleEffect * 2);
@@ -545,7 +545,7 @@ public class eventHandler{
 
                     vars.kidnappedAlready = true;
 
-                    manager.enqueuePopUp("When you get home you receive a strange phone call that tells you " + manager.Family[n].firstName + " has been kidnapped. You pay the rescue and a couple hours later they are delivered on a public park with little more than a couple bruises.", pictureUsed);
+                    manager.enqueuePopUp("When you get home you receive a strange phone call that tells you " + manager.Family[n].firstName + " has been kidnapped. You pay the rescue and a couple hours later " + ((manager.Family[n].sex == FamilyMembers.gender.him) ? "he" : "she") + " is delivered on a public park with little more than a couple bruises.", pictureUsed);
 
                     return true;
                 }
@@ -810,7 +810,7 @@ public class eventHandler{
 
             if (!manager.Family[randomNum].dead && !manager.Family[randomNum].gone)
             {
-                manager.Kill(randomNum, "During your regular activities, a gang war breaks loose nearby. " + manager.Family[randomNum].firstName + " is hit by a lost bullet. They die shortly after in the hospital.");
+                manager.Kill(randomNum, "During your regular activities, a gang war breaks loose nearby. " + manager.Family[randomNum].firstName + " is hit by a lost bullet. " + ((manager.Family[randomNum].sex == FamilyMembers.gender.him) ? "He" : "She") + " dies shortly after in the hospital.");
 
                 return true;
             }
@@ -858,7 +858,7 @@ public class eventHandler{
         {
             manager.houseStats.modMoney(vars.priceOfKidnapping);
 
-            manager.toggleGone(vars.kidnappedMember, "You hear a knock on your door. When you answer it " + manager.Family[vars.kidnappedMember].firstName + " covered in bruises, tears and dirt. You embrace them as they tell you how they escaped. You don't have to worry about the captors anymore.", false);
+            manager.toggleGone(vars.kidnappedMember, "You hear a knock on your door. When you answer it " + manager.Family[vars.kidnappedMember].firstName + " covered in bruises, tears and dirt. You embrace " + manager.Family[vars.kidnappedMember].sex.ToString() + " as " + ((manager.Family[vars.kidnappedMember].sex == FamilyMembers.gender.him) ? "he" : "she") + " tells you about the scape. You don't have to worry about the captors anymore.", false);
 
             vars.kidnappedMember = -1;
 

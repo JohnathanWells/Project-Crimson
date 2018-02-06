@@ -21,6 +21,19 @@ public class ActivityMenuScript : MonoBehaviour {
     private ActivityClass[] noonAct;
     private ActivityClass[] evnAct;
 
+    [Header("Pointers")]
+    public Transform [] MapPointers;
+    public Transform cityMap;
+    public Transform blockingFilm;
+
+    void Awake()
+    {
+        for (int n = 0; n < Mathf.Min(MapPointers.Length, ActivityButtons.Length); n++)
+        {
+            ActivityButtons[n].GetComponent<activityButtonScript>().correspondingPointer = MapPointers[n];
+        }
+    }
+
     public void updateMenu()
     {
         mornAct = Manager.mornActivities.ToArray();
@@ -39,7 +52,12 @@ public class ActivityMenuScript : MonoBehaviour {
 
         //Debug.Log(time);
 
+        toggleFilm(false);
+
         categoryButtons[(int)Category].SendMessage("turnOn");
+
+        foreach (Transform t in MapPointers)
+            t.gameObject.SetActive(true);
 
         if (time == timeOfDay.morning)
         {
@@ -59,6 +77,11 @@ public class ActivityMenuScript : MonoBehaviour {
             if (temp[n].activityCategory == selectedCategory)
             {
                 ActivityButtons[count].SendMessage("setActivity", temp[n]);
+
+                //Statements regarding the pointers
+                MapPointers[count].SendMessage("setActivity", temp[n]);
+                MapPointers[count].position = cityMap.transform.TransformPoint(new Vector2( temp[n].locationOnMap[0], temp[n].locationOnMap[1]));
+
                 count++;
             }
 
@@ -67,6 +90,7 @@ public class ActivityMenuScript : MonoBehaviour {
         for (; count < ActivityButtons.Length; count++)
         {
             ActivityButtons[count].SendMessage("setEmpty");
+            MapPointers[count].gameObject.SetActive(false);
         }
 
             return;
@@ -74,7 +98,6 @@ public class ActivityMenuScript : MonoBehaviour {
 
     public void executeActivity(ActivityClass activity)
     {
-
         Manager.SendMessage("executeActivity", activity);
     }
 
@@ -86,5 +109,16 @@ public class ActivityMenuScript : MonoBehaviour {
     public int getHouseMoney()
     {
         return Manager.houseStats.getMoney();
+    }
+
+    public void hideAllPointers()
+    {
+        foreach (Transform t in MapPointers)
+            t.gameObject.SetActive(false);
+    }
+
+    public void toggleFilm(bool enabled)
+    {
+        blockingFilm.gameObject.SetActive(enabled);
     }
 }

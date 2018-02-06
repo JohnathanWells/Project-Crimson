@@ -9,9 +9,11 @@ public class FamilyMembers
 
     public enum famMember {Dad, Mom, Dau, Son, unknown};
     public enum emotionalHealth { Healthy, Depressed, Unstable };
+    public enum gender { him, her};
     public famMember member;
     public string firstName;
     public string lastName;
+    public gender sex;
     public int morale;
     public int health;
     public int meanHealth;
@@ -40,6 +42,12 @@ public class FamilyMembers
     public FamilyMembers(famMember familyMember)
     {
         member = familyMember;
+
+        if (familyMember == famMember.Dad || familyMember == famMember.Son)
+            sex = gender.him;
+        else
+            sex = gender.her;
+
         morale = 100;
         health = 100;
         medicine = 0;

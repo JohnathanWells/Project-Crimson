@@ -12,9 +12,11 @@ public class ActivityClass{
     public int cost;
     public int[] moraleChange = new int [4];
     public bool[] timeOfDayAvailability = new bool [3];
+    public float[] locationOnMap = new float [2];
     public bool isItShop = false;
     public bool paysService = false;
     public ShopClass shopAttached;
+    
 
     public string postActivityDescription = "ERROR";
     public int pictureNumberUsed = 0;
@@ -51,5 +53,11 @@ public class ActivityClass{
     {
         postActivityDescription = description;
         pictureNumberUsed = pictureUsed;
+    }
+
+    public void setPointerLocation(float[] location)
+    {
+        for(int n = 0; n < location.Length; n++)
+            locationOnMap[n] = location[n];
     }
 }

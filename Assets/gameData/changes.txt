@@ -1,5 +1,5 @@
 10	1	1	0	0	0
-10	6	10	0	0	0	//This is only for testing
+10	2	10	10	10	10	//This is only for testing
 10	31	2	2	0	0
 11	5	2	2	1	1
 11	20	3	2	1	1

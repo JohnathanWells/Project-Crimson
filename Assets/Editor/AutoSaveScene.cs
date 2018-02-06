@@ -57,7 +57,8 @@ public class AutoSaveScene
 		var newName = GetNewSceneName(EditorSceneManager.GetActiveScene().name);
 		var folder = Path.Combine("Assets", SAVE_FOLDER);
 
-        EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(),Path.Combine(folder, newName), true);
+        if (!Application.isPlaying)
+            EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(),Path.Combine(folder, newName), true);
 		AssetDatabase.SaveAssets();
 	}
 

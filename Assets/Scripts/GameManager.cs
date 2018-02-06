@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
     Queue<notificationClass> notificationQueue = new Queue<notificationClass>();
 
     [Header("Pictures")]
-    [Tooltip("0 = Error\n 1 = fight, 2 = member leaves house, 3 = suicide, 4 = murder, 5 = asylum, 6 = general death, 7 = information\n 8 = sick alert, 9 = item alert, 10 = services alert\n11 to 20 = Events\n21 to 100 = Activities")]
+    [Tooltip("0 = Error\n 1 = fight, 2 = member leaves house, 3 = suicide, 4 = murder, 5 = asylum, 6 = general death, 7 = information\n 8 = sick alert, 9 = item alert, 10 = services alert\n11 to 25 = Events\n26 to 100 = Activities")]
     public Sprite[] popUpIllustrations;
     public Sprite[] newsIllustrations;
 
@@ -94,6 +94,9 @@ public class GameManager : MonoBehaviour {
     int[] itemPrices = new int[4];
     List<ObituaryClass> Obituaries = new List<ObituaryClass>();
 
+    ////Tools for activity position
+    //int selectedActivity = 0;
+    //List<string> actNames;
 
     public ActivityClass tempActivity;
     bool GAME_OVER = false;
@@ -152,7 +155,36 @@ public class GameManager : MonoBehaviour {
 
         //TODO REMOVE THIS AND REPLACE WITH SOMETHING BETTER    
         map.color = timeColors[(int)currentTime];
+
+        /*string []list = activityFile.text.Split('\n');
+        actNames = new List<string>();
+        foreach(string s in list)
+        {
+            actNames.Add(s.Split('\t')[0]);
+        }*/
     }
+
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        Debug.Log(actNames[selectedActivity] + " Pos: " + map.transform.InverseTransformPoint(GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition)));
+    //    }
+
+    //    if (Input.GetKeyDown(KeyCode.DownArrow))
+    //    {
+    //        if (selectedActivity < actNames.Count - 1)
+    //            selectedActivity++;
+    //        Debug.Log("Selected Activity: " + actNames[selectedActivity]); 
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.UpArrow))
+    //    {
+    //        if (selectedActivity > 0)
+    //            selectedActivity--;
+
+    //        Debug.Log("Selected Activity: " + actNames[selectedActivity]);
+    //    }
+    //}
 
     #region Time Progression
     //Time stuff
@@ -268,6 +300,9 @@ public class GameManager : MonoBehaviour {
         dailyHealthAndMoraleDrift();
 
         saveData();
+
+        if (notificationQueue.Count > 0)
+            openPopUp(notificationQueue.Peek());
     }
 
     public void updateComponents()
@@ -331,7 +366,7 @@ public class GameManager : MonoBehaviour {
                 {
                     chosenSickness = Random.Range(1, worseAvailableSickness);
                     Family[chosenFamilyMember].getsSick(sicknesses[chosenSickness]);
-                    enqueuePopUp((Family[chosenFamilyMember].firstName + " hasn't been feeling well lately. Maybe you should check on them."), 8);
+                    enqueuePopUp((Family[chosenFamilyMember].firstName + " hasn't been feeling well lately. Maybe you should check on " + Family[chosenFamilyMember].sex.ToString() + "."), 8);
                 }
             }
         }
@@ -350,7 +385,7 @@ public class GameManager : MonoBehaviour {
                 foodConsumed = Family[n].food;
 
                 if (foodConsumed <= 0)
-                    enqueuePopUp(Family[n].firstName + " did not eat yesterday. Their health will deteriorate as a result.", 0);
+                    enqueuePopUp(Family[n].firstName + " did not eat yesterday, " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " health will deteriorate as a result.", 0);
 
                 if (houseStats.getFoodQ() > 0)
                 {
@@ -449,7 +484,7 @@ public class GameManager : MonoBehaviour {
                     }
                     else if (temp == 2) //There is a 25% chance the character leaves the house.
                     {
-                        enqueuePopUp("During the night, when everyone was sleeping, " + Family[n].firstName + " secretly packed all of their things and left the house.", 2, Color.yellow);
+                        enqueuePopUp("During the night, when everyone was sleeping, " + Family[n].firstName + " secretly packed all of " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " things and left the house.", 2, Color.yellow);
                         missingLevel += Family[n].leavesTheHouse();
                     }
                     else if (temp == 3) //There is a 10% chance the character kills themselves
@@ -518,7 +553,7 @@ public class GameManager : MonoBehaviour {
                 {
                     if (Family[n].status.ID != 0)
                     {
-                        enqueuePopUp(Family[n].firstName + " wakes up dead that morning. #n The coroner says they died from <i> " + Family[n].status.name + " </i> .", 6, Color.red);
+                        enqueuePopUp(Family[n].firstName + " wakes up dead that morning. #n The cause of death is <i> " + Family[n].status.name + " </i> .", 6, Color.red);
                         Family[n].deathCause = Family[n].status.name;
 
                         if (n == 0)
@@ -526,7 +561,7 @@ public class GameManager : MonoBehaviour {
                     }
                     else
                     {
-                        enqueuePopUp(Family[n].firstName + " didn't wake up that morning. #n They starved to death.", 6, Color.red);
+                        enqueuePopUp(Family[n].firstName + " didn't wake up that morning. #n The cause of death is starvation.", 6, Color.red);
                         Family[n].deathCause = "Starved";
 
                         if (n == 0)
@@ -931,13 +966,25 @@ public class GameManager : MonoBehaviour {
                     else
                         return "no one";
                 case '0':
-                    return Family[0].firstName;
+                    if (str.Length > 2 && str[2] == 'g')
+                        return Family[0].sex.ToString();
+                    else
+                        return Family[0].firstName;
                 case '1':
-                    return Family[1].firstName;
+                    if (str.Length > 2 && str[2] == 'g')
+                        return Family[0].sex.ToString();
+                    else
+                        return Family[1].firstName;
                 case '2':
-                    return Family[2].firstName;
+                    if (str.Length > 2 && str[2] == 'g')
+                        return Family[0].sex.ToString();
+                    else
+                        return Family[2].firstName;
                 case '3':
-                    return Family[3].firstName;
+                    if (str.Length > 2 && str[2] == 'g')
+                        return Family[0].sex.ToString();
+                    else
+                        return Family[3].firstName;
                 case 'k': //Refering to the kids only
                     {
                         if (!Family[2].dead && !Family[2].gone && !Family[3].dead && !Family[3].gone)
@@ -1153,6 +1200,12 @@ public class GameManager : MonoBehaviour {
             tempActivity = new ActivityClass(activityName, tempSec, tempCat, tempCost, tempMorale, tempAva, tempShop);
 
             tempActivity.setNotiInfo(numbers[12], int.Parse(numbers[13]));
+
+            //This section puts the location in the object
+            string[] coors = numbers[14].Split(',');
+
+            if (coors.Length >= 2)
+                tempActivity.setPointerLocation(new float[]{ float.Parse(coors[0]), float.Parse(coors[1]) } );
 
             if (tempActivity.isItShop)
             {

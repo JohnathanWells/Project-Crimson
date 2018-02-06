@@ -9,13 +9,17 @@ public class activityButtonScript : MonoBehaviour {
     public TextMesh textDisplay;
     public Color enabledColor = new Color(1, 1, 1, 1);
     public Color disabledColor = new Color(1, 1, 1, 1);
+    public bool isAlsoPointer = false;
+    public Transform correspondingPointer;
+    
     bool active = false;
     bool isAvailable = true;
     ActivityClass assignedActivity;
 
     void Start()
     {
-        textDisplay = gameObject.GetComponentInChildren<TextMesh>();
+        if (!isAlsoPointer)
+            textDisplay = gameObject.GetComponentInChildren<TextMesh>();
     }
 
     void OnMouseOver()
@@ -24,6 +28,7 @@ public class activityButtonScript : MonoBehaviour {
         {
             statDisplay.gameObject.SetActive(true);
             statDisplay.SendMessage("setActivity", assignedActivity);
+            highLightPointer(true);
         }
     }
 
@@ -32,8 +37,11 @@ public class activityButtonScript : MonoBehaviour {
             
         if (active && isAvailable)
         {
+            menuManager.toggleFilm(true);
             menuManager.SendMessage("executeActivity", assignedActivity);
             statDisplay.gameObject.SetActive(false);
+            highLightPointer(false);
+
             //menuManager.executeActivity(assignedActivity);
         }
     }
@@ -41,18 +49,25 @@ public class activityButtonScript : MonoBehaviour {
     void OnMouseExit()
     {
         statDisplay.gameObject.SetActive(false);
+        highLightPointer(false);
     }
 
     public void setEmpty()
     {
-        active = false;
-        textDisplay.text = " ";
+        if (!isAlsoPointer)
+        {
+            active = false;
+            textDisplay.text = " ";
+        }
     }
 
     public void setActivity(ActivityClass newAssign)
     {
         active = true;
         assignedActivity = newAssign;
+
+        if (!isAlsoPointer)
+            highLightPointer(false);
 
         if (textDisplay != null && !assignedActivity.paysService)
             textDisplay.text = assignedActivity.activityName;
@@ -61,13 +76,19 @@ public class activityButtonScript : MonoBehaviour {
         {
             isAvailable = true;
 
-            textDisplay.color = enabledColor;
+            if (!isAlsoPointer)
+                textDisplay.color = enabledColor;
+            else
+                gameObject.SetActive(true);
         }
         else
         {
             isAvailable = false;
 
-            textDisplay.color = disabledColor;
+            if (!isAlsoPointer)
+                textDisplay.color = disabledColor;
+            else
+                gameObject.SetActive(false);
         }
         //statDisplay.SendMessage("setActivity", assignedActivity);
     }
@@ -83,6 +104,32 @@ public class activityButtonScript : MonoBehaviour {
         {
             textDisplay.color = disabledColor;
             active = false;
+        }
+    }
+
+    public void highLightPointer(bool on)
+    {
+        if (on)
+        {
+            if (isAlsoPointer)
+            {
+                GetComponent<SpriteRenderer>().color = enabledColor;
+            }
+            else
+            {
+                correspondingPointer.SendMessage("highLightPointer", true);
+            }
+        }
+        else
+        {
+            if (isAlsoPointer)
+            {
+                GetComponent<SpriteRenderer>().color = disabledColor;
+            }
+            else
+            {
+                correspondingPointer.SendMessage("highLightPointer", false, SendMessageOptions.DontRequireReceiver);
+            }
         }
     }
 }
