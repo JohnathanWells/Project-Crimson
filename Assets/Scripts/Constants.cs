@@ -19,5 +19,6 @@ public static class Constants{
     public static int[] unstabilityEventsProbability = { 50, 25, 15, 10, 5 };
 
 
-    //
+    //Music constants
+    public static int lengthOfPlaylist = 7;
 }

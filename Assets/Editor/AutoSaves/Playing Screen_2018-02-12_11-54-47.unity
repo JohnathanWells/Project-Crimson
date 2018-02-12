@@ -6684,7 +6684,7 @@ GameObject:
   - component: {fileID: 555629789}
   m_Layer: 0
   m_Name: Menu
-  m_TagString: Game Manager
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6995,9 +6995,6 @@ MonoBehaviour:
   loadingBarAnimator: {fileID: 1308890007}
   loadingInAn: {fileID: 7400000, guid: fc77bde335e148b489c07b18f4c8d087, type: 2}
   fillingAn: {fileID: 7400000, guid: 8a00d6078162bc444b11ddf0939e59cb, type: 2}
-  currentlyExecutingActivity: 0
-  loadingSound: {fileID: 8300000, guid: a1b89fa2c4faeee4f874a3e63bf69679, type: 3}
-  misstepSound: {fileID: 8300000, guid: 52b4daf21012837458b22ca422e32bec, type: 3}
   dadStartsSick: 0
   createSessionAtStart: 1
   mornActivities: []
@@ -11739,34 +11736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe9c54c558bf1b4fb376981ea7997f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableSongs:
-  - {fileID: 8300000, guid: 5202c6710099e5842a70f2473c5997c8, type: 3}
-  - {fileID: 8300000, guid: becac76baf09b704397a1d735aebb6ec, type: 3}
-  - {fileID: 8300000, guid: 61f47b92c4ec696458db0ee4f999fa54, type: 3}
-  - {fileID: 8300000, guid: fedb24665a7ce754daf84bb4d49ebf5f, type: 3}
-  - {fileID: 8300000, guid: 143223cb24608074f9c08cd12e566c85, type: 3}
-  - {fileID: 8300000, guid: 5f541f4db95dfcf40a1b9afd408b6b43, type: 3}
-  - {fileID: 8300000, guid: 6aa4cb01a9f61ee4c82eaf435912d8f6, type: 3}
-  - {fileID: 8300000, guid: 45591eb7e7e547d4ba7af1498791b2f1, type: 3}
-  - {fileID: 8300000, guid: 223889b8b6dcf7e4aa882712e9ddeb2f, type: 3}
-  - {fileID: 8300000, guid: c94f73c3e32a3774ab6b25f31eb41d2e, type: 3}
-  - {fileID: 8300000, guid: 13c9210d028b345499261aa58271dcdb, type: 3}
-  - {fileID: 8300000, guid: 0a04f969b36da1f4fbdd485a621d3076, type: 3}
-  - {fileID: 8300000, guid: 5e122697413d77b419f7844281c262f5, type: 3}
-  - {fileID: 8300000, guid: a651b2fff51e46c40a26eff01d6891cf, type: 3}
-  - {fileID: 8300000, guid: ee0867dfd3863764cb62e24871c427da, type: 3}
-  - {fileID: 8300000, guid: e69e17d974552514e8cfd626889f30fa, type: 3}
-  - {fileID: 8300000, guid: 4f837d163f1741c4297c0029207f6c74, type: 3}
-  - {fileID: 8300000, guid: 4768d8048ed6dc44aaf0b6a32a363802, type: 3}
-  - {fileID: 8300000, guid: 8a892d653ed81274d85c2c1c2af2059e, type: 3}
-  - {fileID: 8300000, guid: 4880178d75239264f95e352d61542a52, type: 3}
-  - {fileID: 8300000, guid: 71c31eab12296e8469c4e2fe49e0f5d7, type: 3}
-  - {fileID: 8300000, guid: a22a2b9e512a7874c999fe06023415d0, type: 3}
-  - {fileID: 8300000, guid: 8c05da43315b08142b109c6687a8f4b3, type: 3}
-  - {fileID: 8300000, guid: baf91573fde16304baae3f10b80fcd68, type: 3}
-  - {fileID: 8300000, guid: 556af7db621ab5c45b9d21d1b43d688d, type: 3}
-  - {fileID: 8300000, guid: 965df05793c77134780112dae5283ab0, type: 3}
-  currentSong: 0
+  availableSongs: []
 --- !u!82 &813323472
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11856,8 +11826,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1072339851}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15748,115 +15717,6 @@ Transform:
   m_Father: {fileID: 1617005139}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!1 &1072339850
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1072339851}
-  - component: {fileID: 1072339852}
-  m_Layer: 0
-  m_Name: Music Player
-  m_TagString: musicSource
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1072339851
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1072339850}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 813323473}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1072339852
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1072339850}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!1 &1078024617
 GameObject:
   m_ObjectHideFlags: 0
@@ -22396,10 +22256,6 @@ MonoBehaviour:
   - {fileID: 968004557}
   - {fileID: 469301472}
   - {fileID: 1656421477}
-  highlightSound: {fileID: 8300000, guid: e97a8f0b08f27a740a3daad8673e1cb5, type: 3}
-  executeSound: {fileID: 8300000, guid: 0c1217d6394cc5244b86940c603b7607, type: 3}
-  failedExecuteSound: {fileID: 8300000, guid: 9e21e9eb1a4ae9045bb85d72f685b3d9, type: 3}
-  categoryChangeSound: {fileID: 8300000, guid: 5a4a97f49a2fa304cb99169b5d50f24b, type: 3}
   Manager: {fileID: 555629791}
   MapPointers:
   - {fileID: 158443835}
@@ -26018,7 +25874,7 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1846945955}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0

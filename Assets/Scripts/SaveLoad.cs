@@ -8,13 +8,23 @@ public static class SaveLoad
 {
 
     public static savefileClass savedGame;
+    public static int[] playlist;
 
     public static void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
+
+
         FileStream file = File.Create(Application.persistentDataPath + "/progress.sp");
         bf.Serialize(file, SaveLoad.savedGame);
+
         file.Close();
+
+
+        FileStream playlistFile = File.Create(Application.persistentDataPath + "/musicPlaylist.sp");
+        bf.Serialize(playlistFile, SaveLoad.playlist);
+
+        playlistFile.Close();
     }
 
     public static void Load()
@@ -22,18 +32,42 @@ public static class SaveLoad
         if (!File.Exists(Application.persistentDataPath + "/progress.sp"))
         {
             savedGame = new savefileClass();
+
+
+            if (!File.Exists(Application.persistentDataPath + "/musicPlaylist.sp"))
+            {
+                Debug.Log("Gotta create");
+
+                playlist = new int[Constants.lengthOfPlaylist];
+                for (int n = 0; n < playlist.Length; n++)
+                    playlist[n] = n;
+
+                Debug.Log(playlist[0]);
+            }
+
             Save();
         }
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/progress.sp", FileMode.Open);
         SaveLoad.savedGame = (savefileClass)bf.Deserialize(file);
+
         file.Close();
+
+        FileStream musicPlaylist = File.Open(Application.persistentDataPath + "/musicPlaylist.sp", FileMode.Open);
+        SaveLoad.playlist = (int[])bf.Deserialize(musicPlaylist);
+
+        musicPlaylist.Close();
     }
 
     public static void Delete()
     {
         savedGame = new savefileClass();
+
+        playlist = new int[Constants.lengthOfPlaylist];
+        for (int n = 0; n < playlist.Length; n++)
+            playlist[n] = 6;
+
         Save();
     }
 }

@@ -11,7 +11,8 @@ public class activityButtonScript : MonoBehaviour {
     public Color disabledColor = new Color(1, 1, 1, 1);
     public bool isAlsoPointer = false;
     public Transform correspondingPointer;
-    
+
+    bool highlit = false;
     bool active = false;
     bool isAvailable = true;
     ActivityClass assignedActivity;
@@ -34,7 +35,6 @@ public class activityButtonScript : MonoBehaviour {
 
     void OnMouseDown()
     {
-            
         if (active && isAvailable)
         {
             menuManager.toggleFilm(true);
@@ -111,6 +111,9 @@ public class activityButtonScript : MonoBehaviour {
     {
         if (on)
         {
+            if (!highlit)
+                menuManager.SendMessage("playHighlightSound");
+
             if (isAlsoPointer)
             {
                 GetComponent<SpriteRenderer>().color = enabledColor;
@@ -119,6 +122,8 @@ public class activityButtonScript : MonoBehaviour {
             {
                 correspondingPointer.SendMessage("highLightPointer", true);
             }
+
+            highlit = true;
         }
         else
         {
@@ -130,6 +135,8 @@ public class activityButtonScript : MonoBehaviour {
             {
                 correspondingPointer.SendMessage("highLightPointer", false, SendMessageOptions.DontRequireReceiver);
             }
+
+            highlit = false;
         }
     }
 }

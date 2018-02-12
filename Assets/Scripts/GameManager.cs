@@ -78,8 +78,12 @@ public class GameManager : MonoBehaviour {
     public Animator loadingBarAnimator;
     public AnimationClip loadingInAn;
     public AnimationClip fillingAn;
-    bool currentlyExecutingActivity = false;
+    public bool currentlyExecutingActivity = false;
     eventHandler Events;
+
+    [Header("Sounds")]
+    public AudioClip loadingSound;
+    public AudioClip misstepSound;
 
     [Header("Permanent Stuff")]
     public bool dadStartsSick = false;
@@ -650,7 +654,7 @@ public class GameManager : MonoBehaviour {
     void finishActivityAndCheckEvents()
     {
         bool eventDetected = Events.eventCheck(); //This one will get the bool from the event function
-
+        
         StartCoroutine(pauseOrNotPause(eventDetected));
 
         //Call animation that starts loading bar
@@ -662,6 +666,7 @@ public class GameManager : MonoBehaviour {
     IEnumerator pauseOrNotPause(bool eventDetected)
     {
         togglePauseLoadingAnimator(false);
+        audioManager.playSFX(loadingSound);
 
         if (eventDetected)
         {
@@ -669,6 +674,7 @@ public class GameManager : MonoBehaviour {
             loadingBarAnimator.Play("loadingIn");
             yield return new WaitForSeconds(pauseTime);
             togglePauseLoadingAnimator(true);
+            audioManager.playSFX(misstepSound);
             concludeActivity();
         }
         else
@@ -676,6 +682,7 @@ public class GameManager : MonoBehaviour {
             float pauseTime = loadingInAn.length + fillingAn.length;
             loadingBarAnimator.Play("loadingIn");
             yield return new WaitForSeconds(pauseTime);
+            audioManager.stopSFX();
             concludeActivity();
         }
     }
@@ -1355,6 +1362,20 @@ public class GameManager : MonoBehaviour {
     {
         savedObject.saveNewObituaty(ob);
         saveData();
+    }
+
+
+    public void savePlaylist(List<int> from)
+    {
+        SaveLoad.playlist = from.ToArray();
+    }
+
+    public void loadPlaylist(List<int> to)
+    {
+        SaveLoad.Load();
+
+        for (int n = 0; n < SaveLoad.playlist.Length; n++)
+            to.Add(SaveLoad.playlist[n]);
     }
 
     #endregion

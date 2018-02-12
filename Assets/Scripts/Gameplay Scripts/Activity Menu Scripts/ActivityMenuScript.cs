@@ -8,6 +8,12 @@ public class ActivityMenuScript : MonoBehaviour {
     public Transform[] ActivityButtons;
     public CategoryScript[] categoryButtons;
 
+    [Header("Sounds")]
+    public AudioClip highlightSound;
+    public AudioClip executeSound;
+    public AudioClip failedExecuteSound;
+    public AudioClip categoryChangeSound;
+
     [Header("References")]
     public GameManager Manager;
 
@@ -51,6 +57,8 @@ public class ActivityMenuScript : MonoBehaviour {
         int count = 0;
 
         //Debug.Log(time);
+
+        Manager.audioManager.SendMessage("playSFX", categoryChangeSound);
 
         toggleFilm(false);
 
@@ -98,7 +106,21 @@ public class ActivityMenuScript : MonoBehaviour {
 
     public void executeActivity(ActivityClass activity)
     {
-        Manager.SendMessage("executeActivity", activity);
+        if (!Manager.currentlyExecutingActivity)
+        {
+            Manager.SendMessage("executeActivity", activity);
+            Manager.audioManager.SendMessage("playSFX", executeSound);
+        }
+        else
+        {
+            Manager.audioManager.SendMessage("playSFX", failedExecuteSound);
+        }
+    }
+
+    public void playHighlightSound()
+    {
+        if (!Manager.currentlyExecutingActivity)
+            Manager.audioManager.SendMessage("playSFX", highlightSound);
     }
 
     public GameManager getGameManagerReference()
