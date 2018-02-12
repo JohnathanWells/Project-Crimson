@@ -88,6 +88,7 @@
      <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\PhoneMenuScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\phoneScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\Phone Scripts\wikiScript.cs" />
+     <Compile Include="Assets\Scripts\Gameplay Scripts\soundScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\tabKeeperScript.cs" />
      <Compile Include="Assets\Scripts\Gameplay Scripts\windowClose.cs" />
      <Compile Include="Assets\Scripts\Main Menu Scripts\mainMenuScript.cs" />

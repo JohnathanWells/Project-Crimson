@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour {
     public phoneScript Phone;
     public HouseScript House;
     public ActivityMenuScript Activities;
+    public soundScript audioManager;
 
     [Header("Data to Pass")]
     public FamilyMembers[] Family = new FamilyMembers[Constants.familySize];
@@ -266,7 +267,7 @@ public class GameManager : MonoBehaviour {
             if (houseStats.getCleaningQ() <= 0)
             {
                 houseStats.setCleaning(0);
-                enqueuePopUp("You ran out of cleaning items!", 11);
+                enqueuePopUp("You ran out of cleaning items!", 9);
             }
         }
 
@@ -277,7 +278,7 @@ public class GameManager : MonoBehaviour {
             if (houseStats.getHygiene() <= 0)
             {
                 houseStats.setHygiene(0);
-                enqueuePopUp("You ran out of hygiene items!", 11);
+                enqueuePopUp("You ran out of hygiene items!", 9);
             }
         }
 
@@ -385,7 +386,7 @@ public class GameManager : MonoBehaviour {
                 foodConsumed = Family[n].food;
 
                 if (foodConsumed <= 0)
-                    enqueuePopUp(Family[n].firstName + " did not eat yesterday, " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " health will deteriorate as a result.", 0);
+                    enqueuePopUp("<color=red> " + Family[n].firstName + " did not eat yesterday, " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " health will deteriorate as a result. </>", 9);
 
                 if (houseStats.getFoodQ() > 0)
                 {
@@ -743,7 +744,7 @@ public class GameManager : MonoBehaviour {
         servicePayActivity.paysService = true;
     }
 
-    public void Kill(int famMember, string message)
+    public void Kill(int famMember, string message, int pictureUsed)
     {
         if (famMember >= 0 && famMember < Family.Length && !Family[famMember].dead)
         {
@@ -761,15 +762,16 @@ public class GameManager : MonoBehaviour {
                     f.missingAdd(1);
             }
 
-            enqueuePopUp(message, 6);
+            enqueuePopUp(message, pictureUsed);
 
             if (famMember == 0)
                 GAME_OVER = true;
         }
     }
 
-    public void toggleGone(int famMember, string message, bool inOUT)
+    public void toggleGone(int famMember, string message, bool inOUT, int pictureUsed)
     {
+
         if (famMember >= 0 && famMember < Family.Length && !Family[famMember].dead)
         {
             if (inOUT && !Family[famMember].gone)
@@ -782,7 +784,7 @@ public class GameManager : MonoBehaviour {
                     f.missingAdd(1);
                 }
 
-                enqueuePopUp(message, 0);
+                enqueuePopUp(message, pictureUsed);
             }
             else if (inOUT && !Family[famMember].gone)
             {
@@ -794,7 +796,7 @@ public class GameManager : MonoBehaviour {
                     f.missingAdd(-1);
                 }
 
-                enqueuePopUp(message, 0);
+                enqueuePopUp(message, pictureUsed);
             }
         }
     }
@@ -1056,7 +1058,7 @@ public class GameManager : MonoBehaviour {
 
         storeSupplying();
 
-        enqueuePopUp("You can find more information about the game in your phone [WORK IN PROGRESS].", 0);
+        enqueuePopUp("You can find more information about the game in your phone [WORK IN PROGRESS].", 7);
 
         savedObject.getObituaries(Obituaries);
         sortListOfDays(Obituaries);

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Activity Button
   - MainMenuObject
+  - AudioManager
   layers:
   - Default
   - TransparentFX
