@@ -2256,7 +2256,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b0a49a598dd68ac46967a2baba4ff218, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.128}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.447}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6723,7 +6723,7 @@ SpriteRenderer:
   m_SortingLayerID: -1613987099
   m_SortingLayer: -3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c74ffab57778276458d1273210143785, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cd52264f8ba98214a8369eb52c2a7ec2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -18385,7 +18385,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1299477372}
-  m_Text: Kromi Market
+  m_Text: Purchase
   m_OffsetZ: 0
   m_CharacterSize: 0.005
   m_LineSpacing: 1

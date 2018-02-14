@@ -16,13 +16,14 @@ public static class SaveLoad
 
 
         FileStream file = File.Create(Application.persistentDataPath + "/progress.sp");
-        bf.Serialize(file, SaveLoad.savedGame);
+        bf.Serialize(file, savedGame);
 
         file.Close();
 
+        bf = new BinaryFormatter();
 
         FileStream playlistFile = File.Create(Application.persistentDataPath + "/musicPlaylist.sp");
-        bf.Serialize(playlistFile, SaveLoad.playlist);
+        bf.Serialize(playlistFile, playlist);
 
         playlistFile.Close();
     }
@@ -50,12 +51,14 @@ public static class SaveLoad
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(Application.persistentDataPath + "/progress.sp", FileMode.Open);
-        SaveLoad.savedGame = (savefileClass)bf.Deserialize(file);
+        savedGame = (savefileClass)bf.Deserialize(file);
 
         file.Close();
 
+
+        bf = new BinaryFormatter();
         FileStream musicPlaylist = File.Open(Application.persistentDataPath + "/musicPlaylist.sp", FileMode.Open);
-        SaveLoad.playlist = (int[])bf.Deserialize(musicPlaylist);
+        playlist = (int[])bf.Deserialize(musicPlaylist);
 
         musicPlaylist.Close();
     }

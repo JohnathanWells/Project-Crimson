@@ -84,7 +84,8 @@ public class storeScript : MonoBehaviour {
 
         manager.houseStats.modMoney(-calculateTotal());
 
-        manager.SendMessage("finishShopping");
+        manager.finishShopping();
+        //manager.SendMessage("finishShopping");
     }
 
     int calculateTotal()

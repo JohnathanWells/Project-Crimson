@@ -152,7 +152,7 @@ public class eventHandler{
         {
             int specificEvent = Random.Range(0, eventIndex[RN].Length - 1);
 
-            Debug.Log("Event Type: " + RN + "/" + eventIndex.Count + "/" + rollingChance + "\tSpecific: " + specificEvent + "/" + (eventIndex[RN].Length - 1) + " (" + eventIndex[RN][specificEvent] + ")");
+            //Debug.Log("Event Type: " + RN + "/" + eventIndex.Count + "/" + rollingChance + "\tSpecific: " + specificEvent + "/" + (eventIndex[RN].Length - 1) + " (" + eventIndex[RN][specificEvent] + ")");
 
             return executeEvent(eventIndex[RN][specificEvent]);
         }
@@ -246,6 +246,7 @@ public class eventHandler{
         }
         float triggerMax = (currentDistrictCrime * manager.City.currentCrime / 2);
 
+        Debug.Log("pickpocketing being tested: \nTrigger: " + triggerMax + "/100   " + minTimePassed + "<?" + vars.daysSinceLastRobbery + "()" + (minTimePassed < vars.daysSinceLastRobbery));
 
         if (Random.Range(0, 100) < triggerMax && minTimePassed < vars.daysSinceLastRobbery)
         {
@@ -295,7 +296,9 @@ public class eventHandler{
         bool isSpecificTime = (manager.currentTime == timeOfDay.evening);
         float triggerMax = (manager.City.districts[(int)manager.tempActivity.area].baseCrimeRateEvening) * manager.City.currentCrime;
 
-        if (minTimePassed < vars.daysSinceLastRobbery && isSpecificTime && isSpecificSector && Random.Range(0, 100) < triggerMax)
+        Debug.Log("discreteMugging being tested: \nTrigger: " + triggerMax + "/100 \n " + minTimePassed + "/" + vars.daysSinceLastRobbery + "  " + isSpecificTime/* + "  " + isSpecificSector*/);
+
+        if (minTimePassed < vars.daysSinceLastRobbery && isSpecificTime && /*isSpecificSector &&*/ Random.Range(0, 100) < triggerMax)
         {
             string descriptionText = "";
 
@@ -371,6 +374,8 @@ public class eventHandler{
                 break;
         }
         float triggerMax = (currentDistrictCrime * manager.City.currentCrime);
+
+        Debug.Log("violentMug being tested: \nTrigger: " + triggerMax + "/100");
 
         if (manager.City.currentChaos > exMinChaos && minTimePassed < vars.daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
         {
@@ -488,6 +493,8 @@ public class eventHandler{
         }
         float triggerMax = (currentDistrictCrime);
 
+        Debug.Log("lethalMug being tested: \nTrigger: " + triggerMax + "/100");
+
         if (manager.City.currentChaos > exMinChaos && manager.City.currentCrime > exMinCrime && minTimePassed < vars.daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
         {
             string descriptionText = "";
@@ -537,6 +544,8 @@ public class eventHandler{
         //Semi constant
         float triggerMax = manager.City.districts[3].currentCREvening;
 
+        Debug.Log("expKid being tested: \nTrigger: " + triggerMax + "/100");
+
         if (!vars.kidnappedAlready && manager.membersInHouse > 1 && manager.City.currentCrime > exMinCrime && manager.City.currentChaos > exMinChaos && Random.Range(0, 100) < triggerMax)
         {
             manager.addTimeTransition();
@@ -574,6 +583,8 @@ public class eventHandler{
 
         //Semi constant
         float triggerMax = manager.City.districts[3].currentCREvening;
+
+        Debug.Log("desperateKid being tested: \nTrigger: " + triggerMax + "/100");
 
         if (!vars.kidnappedAlready && manager.membersInHouse > 1 && manager.City.currentCrime > exMinCrime && manager.City.currentChaos > exMinChaos && Random.Range(0, 100) < triggerMax)
         {
@@ -621,6 +632,8 @@ public class eventHandler{
         //Dinamic constants
         float triggerMax = ((manager.City.currentChaos + manager.City.districts[(int)manager.tempActivity.area].traffic) * 10) / 2;
 
+        Debug.Log("blockedRoad being tested: \nTrigger: " + triggerMax + "/100");
+
         if (manager.currentTime != timeOfDay.evening && manager.City.currentChaos > exMinChaos && vars.daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
         {
             manager.addTimeTransition();
@@ -650,6 +663,8 @@ public class eventHandler{
 
         //Dinamic constants
         float triggerMax = ((manager.City.currentChaos + manager.City.districts[(int)manager.tempActivity.area].traffic) * 5) / 3;
+
+        Debug.Log("smallCarAccident being tested: \nTrigger: " + triggerMax + "/100");
 
         if (manager.currentTime != timeOfDay.evening && manager.City.currentChaos > exMinChaos && vars.daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
         {
@@ -683,6 +698,8 @@ public class eventHandler{
         timeOfDay requiredTime = timeOfDay.morning;
         int pictureUsed = 19;
 
+        Debug.Log("disservice being tested: \nTrigger: " + triggerMax + "/100");
+
         if (manager.currentTime == requiredTime && manager.City.currentChaos > exMinChaos && minTimeForDisservice < vars.daysSinceNegligence && Random.Range(0, 100) < triggerMax)
         {
             manager.enqueuePopUp("That morning you wake up with no water or electricity. You call the providers who insist the issue will be today.", pictureUsed);
@@ -704,6 +721,8 @@ public class eventHandler{
         int duration = 7;
         timeOfDay requiredTime = timeOfDay.morning;
         int pictureUsed = 19;
+
+        Debug.Log("uselessness being tested: \nTrigger: " + triggerMax + "/100");
 
         if (manager.currentTime == requiredTime && manager.City.currentChaos > exMinChaos && minTimeForDisservice < vars.daysSinceNegligence && Random.Range(0, 100) < triggerMax)
         {
@@ -754,6 +773,8 @@ public class eventHandler{
         int moraleDrop = -10;
         int pictureUsed = 21;
 
+        Debug.Log("flood being tested: \nTrigger: " + triggerMax + "/100");
+
         if (exMinChaos > manager.City.currentChaos && vars.daysSinceLastEvent > minTimeSinceLastEvent && Random.Range(0, 100) < triggerMax)
         {
             manager.houseStats.modMoney(moneyLost);
@@ -782,6 +803,8 @@ public class eventHandler{
 
         //Semi constant
         bool correctTime = (manager.currentTime == timeOfDay.morning);
+
+        Debug.Log("cousinDeath being tested: \nTrigger: " + triggerMax + "/100\n " + correctTime + " " + (manager.City.currentCrime > exMinCrime));
 
         if (correctTime && manager.City.currentCrime > exMinCrime && Random.Range(0, 100) < triggerMax)
         {
@@ -813,6 +836,8 @@ public class eventHandler{
         bool correctCat = manager.tempActivity.activityCategory == ActivityClass.category.Family;
         int pictureUsed = 6;
 
+        Debug.Log("lostBullet being tested: \nTrigger: " + triggerMax + "/100");
+
         if (correctCat && manager.City.currentChaos > exMinChaos && manager.City.currentCrime > exMinCrime && Random.Range(0, 100) < triggerMax)
         {
             int randomNum = Random.Range(1, 3);
@@ -842,6 +867,8 @@ public class eventHandler{
         int gainedMoney = 400;
         int pictureUsed = 24;
 
+        Debug.Log("jerkUncleDeath being tested: \nTrigger: " + triggerMax + "/100");
+
         if (manager.City.currentFilth > minFilth && manager.houseStats.getMoney() < maxMoney &&
             vars.daysSinceLastEvent < maxTimeSinceLastEvent && Random.Range(0, 100) < triggerMax)
         {
@@ -863,6 +890,7 @@ public class eventHandler{
         int triggerMax = 80;
         int pictureUsed = 25;
 
+        Debug.Log("kidnappedEscape being tested: \nTrigger: " + triggerMax + "/100");
 
         if (vars.kidnappedMember > 0 && manager.Family[0].morale < maxFatherMood && Random.Range(0, 100) < triggerMax)
         {

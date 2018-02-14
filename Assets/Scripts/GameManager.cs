@@ -110,6 +110,8 @@ public class GameManager : MonoBehaviour {
     {
         Resources.UnloadUnusedAssets();
 
+        //Debug.Log(Time.time + "At start of start");
+
         //if (createSessionAtStart)
         //    newSession();
         //else
@@ -167,6 +169,10 @@ public class GameManager : MonoBehaviour {
         {
             actNames.Add(s.Split('\t')[0]);
         }*/
+
+        //Debug.Log(Time.time + "At end of start");
+
+        Resources.UnloadUnusedAssets();
     }
 
     //void Update()
@@ -390,7 +396,7 @@ public class GameManager : MonoBehaviour {
                 foodConsumed = Family[n].food;
 
                 if (foodConsumed <= 0)
-                    enqueuePopUp("<color=red> " + Family[n].firstName + " did not eat yesterday, " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " health will deteriorate as a result. </>", 9);
+                    enqueuePopUp("<color=red> " + Family[n].firstName + " did not eat yesterday, " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " health will deteriorate as a result. </color>", 9);
 
                 if (houseStats.getFoodQ() > 0)
                 {
@@ -646,6 +652,7 @@ public class GameManager : MonoBehaviour {
             }
             else if (activity.isItShop)
             {
+                enqueuePopUp(activity);
                 changeScreen(1, activity.shopAttached);
             }
         }
@@ -675,7 +682,6 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForSeconds(pauseTime);
             togglePauseLoadingAnimator(true);
             audioManager.playSFX(misstepSound);
-            concludeActivity();
         }
         else
         {
@@ -683,8 +689,9 @@ public class GameManager : MonoBehaviour {
             loadingBarAnimator.Play("loadingIn");
             yield return new WaitForSeconds(pauseTime);
             audioManager.stopSFX();
-            concludeActivity();
         }
+
+        concludeActivity();
     }
 
     void togglePauseLoadingAnimator(bool pause)
