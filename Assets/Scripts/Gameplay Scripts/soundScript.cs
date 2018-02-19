@@ -31,7 +31,8 @@ public class soundScript : MonoBehaviour {
 
     public void playSFX(AudioClip sfx)
     {
-        source.PlayOneShot(sfx);
+        if (source != null)
+            source.PlayOneShot(sfx);
     }
 
     public void stopSFX()
@@ -60,7 +61,7 @@ public class soundScript : MonoBehaviour {
 
     public void updateSong()
     {
-        Debug.Log(playlist[0] + ", " + playlist[1]);
+        //Debug.Log(playlist[0] + ", " + playlist[1]);
         musicSource.clip = availableSongs[playlist[currentSong]];
     }
 

@@ -167,17 +167,23 @@ public class savefileClass{
         {
             into.Clear();
             foreach (newsClass n in newList)
+            {
                 into.Add(n);
+                //Debug.Log(into[0].title);
+            }
         }
     }
 
     public void saveNews(List<newsClass> from)
     {
-        if (newList.Count > 0)
+        if (from.Count > 0)
         {
             newList.Clear();
             foreach (newsClass n in from)
+            {
                 newList.Add(n);
+                //Debug.Log(n.title);
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ public class wikiScript : MonoBehaviour {
 
     //Data regarding articles
     wikiClass masterArticle = new wikiClass();
-    List<int> navigationIndexes = new List<int>();
+    public List<int> navigationIndexes = new List<int>();
 
     bool hasBeenOpened = false;
 

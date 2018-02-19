@@ -13,12 +13,15 @@ public class navigationButtonScript : MonoBehaviour {
     wikiClass linkedArticle;
 
 
-    void OnMouseDown()
+    void OnMouseOver()
     {
-        //List<int> instructions = new List<int>();
-
-        wikiMnager.SendMessage("addToInstructions", buttonNumber);
-        wikiMnager.SendMessage("updateArticle", linkedArticle);
+        if (Input.GetMouseButtonDown(0))
+        {
+            //List<int> instructions = new List<int>();
+            //Debug.Log("click on " + text.text);
+            wikiMnager.SendMessage("addToInstructions", buttonNumber);
+            wikiMnager.SendMessage("updateArticle", linkedArticle);
+        }
     }
 
     public void setButton(wikiClass article)

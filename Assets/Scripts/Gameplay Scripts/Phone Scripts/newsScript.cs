@@ -18,7 +18,7 @@ public class newsScript : MonoBehaviour {
 
     public void updateInfo(GameManager manager)
     {
-        newsList = manager.News;
+        updateNewsList(manager);
         //Debug.Log(currentNews + "/" + newsList.Count);
 
         //Debug.Log(manager.currentDay.dayCount + " " + newsList[currentNews + 1].date.dayCount);
@@ -46,6 +46,11 @@ public class newsScript : MonoBehaviour {
         updateArticle(manager);
     }
 
+    public void updateNewsList(GameManager manager)
+    {
+        newsList = manager.News;
+    }
+
     public void updateArticle(GameManager manager)
     {
         StartCoroutine(refreshText());
@@ -56,7 +61,7 @@ public class newsScript : MonoBehaviour {
 
         newsHeader.text = temp.title;
 
-        picture.sprite = temp.imageAttached;
+        picture.sprite = manager.newsIllustrations[temp.imageAttached];
         newsText.text = transormStringKeywords(temp.content, manager);
     }
 

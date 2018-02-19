@@ -14,6 +14,7 @@ public class HouseScript : MonoBehaviour {
 
     [Header("Icons")]
     public Transform notificationIcon;
+    public Animator buttonAnimator;
 
     [Header("Drawer")]
     public Transform familyDrawer;
@@ -74,6 +75,9 @@ public class HouseScript : MonoBehaviour {
         }
         else if (Input.GetMouseButtonDown(0))
         {
+            buttonAnimator.SetTrigger("ButtonClicked");
+            //buttonAnimator.ResetTrigger("ButtonClicked");
+
             if (!openWindow)
             {
                 openHouseMenu();

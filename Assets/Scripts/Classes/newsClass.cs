@@ -7,7 +7,7 @@ public class newsClass{
     public DayClass date;
     public string title;
     public string content;
-    public Sprite imageAttached;
+    public int imageAttached;
 
     public newsClass()
     {
@@ -23,7 +23,7 @@ public class newsClass{
     //    content = c;
     //}
 
-    public newsClass(DayClass d, string t, string c, Sprite picture)
+    public newsClass(DayClass d, string t, string c, int picture)
     {
         date = d;
         title = t;

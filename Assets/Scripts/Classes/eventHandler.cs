@@ -23,7 +23,7 @@ public class eventHandler{
         public bool kidnappedAlready = false;
         public int timeBeforeRescue = -1;
         public int kidnappedMember;
-        public int priceOfKidnapping = 1000;
+        public int priceOfKidnapping = 300;
 
         public int daysSinceLastTraffic = 0;
 
@@ -199,7 +199,9 @@ public class eventHandler{
             {
                 manager.addTimeTransition();
 
-                manager.Kill(vars.kidnappedMember, "You leave a pack of bills inside the trash can of a public park and wait in the car for about forty five minutes. #n Then two hours. #n You never see " + manager.Family[vars.kidnappedMember].firstName + " again.", pictureUsedForBetrayal);
+                manager.Kill(vars.kidnappedMember, "You leave a pack of bills in the place and wait for about forty five minutes.", pictureUsedForBetrayal);
+                manager.enqueuePopUp("#n Then two hours. ", pictureUsedForBetrayal);
+                manager.enqueuePopUp("<color=red> You never see " + manager.Family[vars.kidnappedMember].firstName + " again. </color>", pictureUsedForBetrayal);
 
                 vars.kidnappedMember = -1;
             }
@@ -207,7 +209,9 @@ public class eventHandler{
             {
                 manager.addTimeTransition();
 
-                manager.toggleGone(vars.kidnappedMember, "You leave a pack of bills inside the trash can of a public park and wait in the car for about forty five minutes. " + manager.Family[vars.kidnappedMember].firstName + " shows up running to the car, crying, skinny and covered in bruises. You take " + manager.Family[vars.kidnappedMember].sex.ToString() + " back home.", false, pictureUsedForRescue);
+                manager.toggleGone(vars.kidnappedMember, "You leave a pack of bills in the place and wait in the car for about forty five minutes. ", false, pictureUsedForRescue);
+                manager.enqueuePopUp(manager.Family[vars.kidnappedMember].firstName + " shows up running, crying, skinny and covered in bruises.", pictureUsedForRescue);
+                manager.enqueuePopUp("You take " + manager.Family[vars.kidnappedMember].sex.ToString() + " back home.", pictureUsedForRescue);
 
                 vars.kidnappedMember = -1;
             }
@@ -511,8 +515,8 @@ public class eventHandler{
             //Money text variants
             if (a - b < maxSpareMoney)
             {
-                descriptionText += "The mugger takes your wallet and notices you don't even have " + maxSpareMoney + " on you. He gets angry and starts shouting at you.";
-                manager.Kill(0, "You see a flash of light and fall dead on the floor.", pictureUsed);
+                descriptionText += "The mugger takes your wallet and notices you don't even have " + maxSpareMoney + " on you.";
+                manager.Kill(0, "You see a flash of light and fall dead on the floor.", pictureUsedForDeath);
 
             }
             else
@@ -559,7 +563,9 @@ public class eventHandler{
 
                     vars.kidnappedAlready = true;
 
-                    manager.enqueuePopUp("When you get home you receive a strange phone call that tells you " + manager.Family[n].firstName + " has been kidnapped. You pay the rescue and a couple hours later " + ((manager.Family[n].sex == FamilyMembers.gender.him) ? "he" : "she") + " is delivered on a public park with little more than a couple bruises.", pictureUsed);
+                    manager.enqueuePopUp("When you get home you receive a strange phone call that tells you " + manager.Family[n].firstName + " has been kidnapped.", pictureUsed);
+
+                    manager.enqueuePopUp("You pay the rescue and a couple hours later " + ((manager.Family[n].sex == FamilyMembers.gender.him) ? "he" : "she") + " is delivered on a public park with little more than a couple bruises.", pictureUsed);
 
                     return true;
                 }
@@ -578,7 +584,7 @@ public class eventHandler{
         float exMinCrime = 6;
         int daysCaptive = 7;
         int moraleDropForEverybody = -15;
-        int moraleDropForKidnapped = -15;
+        int moraleDropForKidnapped = -30;
         int pictureUsed = 16;
 
         //Semi constant
@@ -596,7 +602,9 @@ public class eventHandler{
                 {
                     manager.addTimeTransition();
 
-                    manager.toggleGone(n, "When you get home you receive a strange phone call that tells you " + manager.Family[n].firstName + " has been kidnapped. The kidnapper tells a date and place " + daysCaptive + " days later where you need to leave the money.", true, pictureUsed);
+                    manager.toggleGone(n, "When you get home you receive a strange phone call that tells you " + manager.Family[n].firstName + " has been kidnapped.", true, pictureUsed);
+
+                    manager.enqueuePopUp("The kidnapper tells a date and place where you need to drop the money " + daysCaptive + " days later.", pictureUsed);
 
                     vars.timeBeforeRescue = daysCaptive;
 
@@ -642,7 +650,7 @@ public class eventHandler{
 
             vars.daysSinceLastTraffic = -1;
 
-            manager.enqueuePopUp("Apparently a jerk t-boned another car in the main avenue. You'll be stuck in traffic for a while.", pictureUsed);
+            manager.enqueuePopUp("Apparently there was a crash in the main avenue. You'll be here for a while.", pictureUsed);
 
             return true;
         }
@@ -674,7 +682,7 @@ public class eventHandler{
 
             vars.daysSinceLastTraffic = -1;
 
-            manager.enqueuePopUp("A jerk t-boned you in the main avenue. You'll be stuck here for a while until someone tows you away.", pictureUsed);
+            manager.enqueuePopUp("A jerk t-boned you in the main avenue. You'll be stuck here for a while.", pictureUsed);
 
             manager.houseStats.modMoney(moneyLost);
 
@@ -693,16 +701,17 @@ public class eventHandler{
         //Constants
         int minTimeForDisservice = 30;
         int exMinChaos = 2;
-        float triggerMax = manager.City.currentChaos * 5;
         int duration = 1;
         timeOfDay requiredTime = timeOfDay.morning;
         int pictureUsed = 19;
+
+        float triggerMax = manager.City.currentChaos * 5;
 
         Debug.Log("disservice being tested: \nTrigger: " + triggerMax + "/100");
 
         if (manager.currentTime == requiredTime && manager.City.currentChaos > exMinChaos && minTimeForDisservice < vars.daysSinceNegligence && Random.Range(0, 100) < triggerMax)
         {
-            manager.enqueuePopUp("That morning you wake up with no water or electricity. You call the providers who insist the issue will be today.", pictureUsed);
+            manager.enqueuePopUp("Due to incompetence, you are left a day without water or electricity.", pictureUsed);
 
             vars.daysForServiceFix = duration;
 
@@ -717,16 +726,17 @@ public class eventHandler{
         //Constants
         int minTimeForDisservice = 30;
         int exMinChaos = 5;
-        float triggerMax = manager.City.currentChaos;
         int duration = 7;
         timeOfDay requiredTime = timeOfDay.morning;
         int pictureUsed = 19;
+
+        float triggerMax = manager.City.currentChaos * 3;
 
         Debug.Log("uselessness being tested: \nTrigger: " + triggerMax + "/100");
 
         if (manager.currentTime == requiredTime && manager.City.currentChaos > exMinChaos && minTimeForDisservice < vars.daysSinceNegligence && Random.Range(0, 100) < triggerMax)
         {
-            manager.enqueuePopUp("That morning you wake up with no water or electricity. You call the providers who insist the issue will be solved soon. You have a hunch they are full of it.", pictureUsed);
+            manager.enqueuePopUp("You wake up with no water or electricity. You don't think it will be solved soon.", pictureUsed);
 
             vars.daysForServiceFix = duration;
 
@@ -746,12 +756,13 @@ public class eventHandler{
         bool correctDayAndTime = (temp.month == 12 && (temp.day == 24 || temp.day == 31) && manager.currentTime == timeOfDay.evening);
         bool correctActivity = (manager.tempActivity.activityCategory != ActivityClass.category.Family);
         float randomNum = Random.Range(0, 50);
-        int indexA = 30, indexB = 35;
+        int indexA = 10, indexB = 35;
         int pictureUsed = 20;
 
         if (manager.membersAlive > 1 && manager.membersInHouse > 1 && correctDayAndTime && correctActivity && randomNum >= indexA && randomNum <= indexB)
         {
-            manager.enqueuePopUp("You decide to spend the holiday on your own. You hear the fireworks in the distance as the night comes to an end. When you get back home you find yourself in front of a house burning to the ground with your family inside. The firefighters never arrived.", pictureUsed);
+            manager.enqueuePopUp("You decide to spend the holiday on your own. You hear the fireworks in the distance as the night comes to an end.", pictureUsed);
+            manager.enqueuePopUp("When you get back home you find yourself in front of a house burning to the ground with your family inside. The firefighters never arrived.", pictureUsed);
 
             for (int n = 1; n < 4; n++)
                 manager.Kill(n, manager.Family[n].firstName + " died in the fire.", pictureUsed);
@@ -784,7 +795,7 @@ public class eventHandler{
                 f.moraleChange(moraleDrop);
             }
 
-            manager.enqueuePopUp("On the way back it suddenly starts raining hard. By the time you home the whole house is flooded after a nearby storm drain got clogged.", pictureUsed);
+            manager.enqueuePopUp("On the way back it suddenly starts raining hard. The whole house is flooded after a nearby drain got clogged.", pictureUsed);
 
             return true;
         }
@@ -819,7 +830,8 @@ public class eventHandler{
             manager.addTimeTransition();
             manager.addTimeTransition();
 
-            manager.enqueuePopUp("You receive a call from one of your multiple uncles as soon as you wake up. Apparently one of your cousins was shot dead after someone tried to mug him. You tell #f of the funeral.", pictureUsed);
+            manager.enqueuePopUp("You receive a call from one of your multiple uncles as soon as you wake up.", pictureUsed);
+            manager.enqueuePopUp("Apparently one of your cousins was shot dead after someone tried to mug him. You tell #f of the funeral.", pictureUsed);
 
             return true;
         }
@@ -844,7 +856,8 @@ public class eventHandler{
 
             if (!manager.Family[randomNum].dead && !manager.Family[randomNum].gone)
             {
-                manager.Kill(randomNum, "During your regular activities, a gang war breaks loose nearby. " + manager.Family[randomNum].firstName + " is hit by a lost bullet. " + ((manager.Family[randomNum].sex == FamilyMembers.gender.him) ? "He" : "She") + " dies shortly after in the hospital.", pictureUsed);
+                manager.Kill(randomNum, "During your regular activities, a gang war breaks loose nearby. ", pictureUsed);
+                manager.enqueuePopUp(manager.Family[randomNum].firstName + " is hit by a lost bullet. " + ((manager.Family[randomNum].sex == FamilyMembers.gender.him) ? "He" : "She") + " dies shortly after in the hospital.", pictureUsed);
 
                 return true;
             }
@@ -874,7 +887,8 @@ public class eventHandler{
         {
             manager.houseStats.modMoney(gainedMoney);
 
-            manager.enqueuePopUp("One of your relatives, an awful human being liked by no one in your family, has suddenly passed away from one of the pandemics of " + manager.City.stateName + ". Due to some legal shenanigans, you end up inheriting a small part of his will.", pictureUsed);
+            manager.enqueuePopUp("One of your scummiest relatives has suddenly passed away. ", pictureUsed);
+            manager.enqueuePopUp("Due to some legal loop hole, you end up inheriting a small part of his will.", pictureUsed);
 
             return true;
         }
@@ -896,7 +910,8 @@ public class eventHandler{
         {
             manager.houseStats.modMoney(vars.priceOfKidnapping);
 
-            manager.toggleGone(vars.kidnappedMember, "You hear a knock on your door. When you answer it " + manager.Family[vars.kidnappedMember].firstName + " covered in bruises, tears and dirt. You embrace " + manager.Family[vars.kidnappedMember].sex.ToString() + " as " + ((manager.Family[vars.kidnappedMember].sex == FamilyMembers.gender.him) ? "he" : "she") + " tells you about the scape. You don't have to worry about the captors anymore.", false, pictureUsed);
+            manager.toggleGone(vars.kidnappedMember, "You hear a knock on your door. You open and see " + manager.Family[vars.kidnappedMember].firstName + " covered in bruises, tears and dirt.", false, pictureUsed);
+            manager.enqueuePopUp("You embrace " + manager.Family[vars.kidnappedMember].sex.ToString() + " as " + ((manager.Family[vars.kidnappedMember].sex == FamilyMembers.gender.him) ? "he" : "she") + " tells you about the escape.vYou don't have to worry about the captors anymore.", pictureUsed);
 
             vars.kidnappedMember = -1;
 

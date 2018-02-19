@@ -6,6 +6,7 @@ public class phoneScript : MonoBehaviour {
 
     //References to other scripts
     public GameManager manager;
+    public newsScript newsScript;
     //The phone screen references
     public Transform phoneScreen;
     public SpriteRenderer phoneScreenBackground;
@@ -87,6 +88,7 @@ public class phoneScript : MonoBehaviour {
             phoneScreen.gameObject.SetActive(true);
             animator.Play(openingAnimName);
             phoneZoomed = true;
+            newsScript.updateInfo(manager);
             phoneScreen.SendMessage("openMenu");
         }
     }

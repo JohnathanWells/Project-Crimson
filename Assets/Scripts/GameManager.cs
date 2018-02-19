@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour {
     [Header("Screens")]
     public Transform mainGameplayScreen;
     public Transform shopScreen;
+    public Animator timeTransitionAnimator;
 
     [Header("Pop-Up")]
     public Transform popUpWindow;
@@ -172,6 +173,8 @@ public class GameManager : MonoBehaviour {
 
         //Debug.Log(Time.time + "At end of start");
 
+        //Debug.Log(News[0].title);
+
         Resources.UnloadUnusedAssets();
     }
 
@@ -215,7 +218,8 @@ public class GameManager : MonoBehaviour {
             }
 
             //TODO REMOVE THIS AND REPLACE WITH SOMETHING BETTER    
-            map.color = timeColors[(int)currentTime];
+            //map.color = timeColors[(int)currentTime];
+            timeTransitionAnimator.SetInteger("TimeOfDay", ((int)currentTime + 1));
 
             if (GAME_OVER)
                 SaveLoad.Delete();
@@ -396,7 +400,7 @@ public class GameManager : MonoBehaviour {
                 foodConsumed = Family[n].food;
 
                 if (foodConsumed <= 0)
-                    enqueuePopUp("<color=red> " + Family[n].firstName + " did not eat yesterday, " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " health will deteriorate as a result. </color>", 9);
+                    enqueuePopUp("<color=red> " + Family[n].firstName + " did not eat yesterday, " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " health will deteriorate as a result. </color>", 27);
 
                 if (houseStats.getFoodQ() > 0)
                 {
@@ -1265,7 +1269,7 @@ public class GameManager : MonoBehaviour {
             //Debug.Log(str);
 
             if (parts.Length > 4)
-                News.Add(new newsClass(dateForCurrentNew, parts[2], parts[3], newsIllustrations[int.Parse(parts[4])]));
+                News.Add(new newsClass(dateForCurrentNew, parts[2], parts[3], int.Parse(parts[4])));
             else
                 Debug.Log("ERROR reading news");
         }
