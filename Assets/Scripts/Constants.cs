@@ -20,5 +20,5 @@ public static class Constants{
 
 
     //Music constants
-    public static int lengthOfPlaylist = 7;
+    public static int lengthOfPlaylist = 15;
 }

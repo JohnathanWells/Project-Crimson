@@ -20,7 +20,7 @@ public class ActivityMenuScript : MonoBehaviour {
     [Header("Time Stuff")]
     private DayClass currentDay;
     private timeOfDay time;
-    private ActivityClass.category selectedCategory;
+    public ActivityClass.category selectedCategory;
 
     [Header("Activities")]
     private ActivityClass[] mornAct;
@@ -47,7 +47,7 @@ public class ActivityMenuScript : MonoBehaviour {
         evnAct = Manager.evenActivities.ToArray();
 
         time = Manager.currentTime;
-        changeActCat(ActivityClass.category.Work);
+        changeActCat(ActivityClass.category.ALL);
     }
 
     public void changeActCat(ActivityClass.category Category)
@@ -62,7 +62,10 @@ public class ActivityMenuScript : MonoBehaviour {
 
         toggleFilm(false);
 
-        categoryButtons[(int)Category].SendMessage("turnOn");
+        if (Category != ActivityClass.category.ALL)
+            categoryButtons[(int)Category].SendMessage("turnOn");
+        else
+            categoryButtons[0].SendMessage("turnOff");
 
         foreach (Transform t in MapPointers)
             t.gameObject.SetActive(true);
@@ -82,7 +85,7 @@ public class ActivityMenuScript : MonoBehaviour {
 
         for (int n = 0; n < temp.Length && count < ActivityButtons.Length; n++)
         {
-            if (temp[n].activityCategory == selectedCategory)
+            if (temp[n].activityCategory == selectedCategory || selectedCategory == ActivityClass.category.ALL)
             {
                 ActivityButtons[count].SendMessage("setActivity", temp[n]);
 

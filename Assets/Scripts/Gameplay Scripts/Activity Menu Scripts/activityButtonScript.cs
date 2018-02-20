@@ -7,8 +7,10 @@ public class activityButtonScript : MonoBehaviour {
     public Transform statDisplay;
     public ActivityMenuScript menuManager;
     public TextMesh textDisplay;
+    public int maxCharLength = 14;
     public Color enabledColor = new Color(1, 1, 1, 1);
     public Color disabledColor = new Color(1, 1, 1, 1);
+    public Color highlitButtonColor = new Color(1, 1, 1, 1);
     public bool isAlsoPointer = false;
     public Transform correspondingPointer;
 
@@ -28,7 +30,7 @@ public class activityButtonScript : MonoBehaviour {
         if (active)
         {
             statDisplay.gameObject.SetActive(true);
-            statDisplay.SendMessage("setActivity", assignedActivity);
+            statDisplay.SendMessage("setActivity", assignedActivity, SendMessageOptions.DontRequireReceiver);
             highLightPointer(true);
         }
     }
@@ -70,7 +72,12 @@ public class activityButtonScript : MonoBehaviour {
             highLightPointer(false);
 
         if (textDisplay != null && !assignedActivity.paysService)
-            textDisplay.text = assignedActivity.activityName;
+        {
+            if (assignedActivity.activityName.Length > maxCharLength)
+                textDisplay.text = assignedActivity.activityName.Remove(maxCharLength);
+            else
+                textDisplay.text = assignedActivity.activityName;
+        }
 
         if (assignedActivity.cost <= menuManager.getHouseMoney())
         {
@@ -112,7 +119,7 @@ public class activityButtonScript : MonoBehaviour {
         if (on)
         {
             if (!highlit)
-                menuManager.SendMessage("playHighlightSound");
+                menuManager.SendMessage("playHighlightSound", SendMessageOptions.DontRequireReceiver);
 
             if (isAlsoPointer)
             {
@@ -121,6 +128,7 @@ public class activityButtonScript : MonoBehaviour {
             else
             {
                 correspondingPointer.SendMessage("highLightPointer", true);
+                textDisplay.color = highlitButtonColor;
             }
 
             highlit = true;
@@ -134,6 +142,7 @@ public class activityButtonScript : MonoBehaviour {
             else
             {
                 correspondingPointer.SendMessage("highLightPointer", false, SendMessageOptions.DontRequireReceiver);
+                textDisplay.color = enabledColor;
             }
 
             highlit = false;

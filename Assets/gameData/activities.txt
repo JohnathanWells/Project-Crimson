@@ -1,27 +1,24 @@
 Office  	3	1	-20	0	0	0	0	1	0	0	0	You spend what feels like eight endless hours filling forms in your office.	30	0.1,-0.2,-93.1
-Overtime	3	1	-20	-5	-5	-3	-3	0	0	1	0	After a dozen cups of coffee, you manage to work an extra shift in your office. 	30	0.1,-0.2,-93.1
-Lottery Seller	2	1	-15	-5	-3	0	0	0	1	0	0	You spend your #T breathing car smoke and selling lottery tickets in the central avenue of #Cn .	30	-2.5,0.5,-93.1
-Ice Cream Car	6	1	-5	-3	-5	0	0	1	1	0	0	You help your cousin with his ice cream business. #n "Blood is thicker than water" you think.   	30	4.3,-0.6,-93.1
-Motel Lobby	5	1	-5	-2	0	0	0	0	1	0	0	You spend the whole #T helping a friend with his motel.	0	3.6,-1.1,-93.1
-Panda Mart	1	2	0	0	0	0	0	1	1	0	1	--	0	-4.1,2.0,-93.1
+Overtime	3	1	-20	-8	-8	-4	-4	0	0	1	0	After a dozen cups of coffee, you manage to work an extra shift in your office. 	30	0.1,-0.2,-93.1
+Lottery Job	2	1	-15	-5	-3	0	0	0	1	0	0	You spend your #T breathing car smoke and selling lottery tickets in the central avenue of #Cn .	30	-2.5,0.5,-93.1
+Food Car	6	1	-15	-3	-5	0	0	1	0	0	0	You help your cousin with his hot dog business, he pays you for your help.  	30	4.3,-0.6,-93.1
+Panda Mart	1	2	0	0	0	0	0	1	0	0	1	--	0	-4.1,2.0,-93.1
 Super Kromi	2	2	0	0	0	0	0	1	1	0	1	--	0	-2.1,2.1,-93.1
-All Pharma	3	2	0	0	0	0	0	1	1	0	1	--	0	0.1,-1.1,-93.1
+All Pharma	3	2	0	0	0	0	0	0	1	1	1	--	0	0.1,-1.1,-93.1
 Local P 	4	2	0	0	0	0	0	1	1	1	1	--	0	-1.0,-1.0,-93.1
-The Galileo	5	2	0	0	0	0	0	1	1	1	1	--	0	3.1,-1.9,-93.1
-Yoni's Corner	6	2	0	0	0	0	0	1	1	1	1	--	0	3.9,0.3,-93.1
-Park    	1	3	0	2	2	3	2	1	1	0	0	You take #f to a quiet park. You have a good #T watching the kids play. 	30	-3.7,2.3,-93.1
-Park    	2	3	0	2	2	3	2	1	1	0	0	You take #f to the city park. Even though it's a little cramped, you have a good time.  	30	-1.8,0.5,-93.1
-Dinner  	2	3	20	3	3	3	3	0	1	1	0	You take #f to a fancy italian restaurant in #Cn . The food help you forget about your struggles.	30	-3.3,1.4,-93.1
-Sighseeing	1	3	10	3	3	2	2	0	1	0	0	You and #f take walk around the mountains and enjoy the views of the #T .	30	-4.9,1.4,-93.1
-Kite flying	5	3	10	2	2	3	3	0	1	0	0	You take #f to a nice open place and fly kites with the kids for a bit. 	30	-5.4,0.8,-93.1
-Ditoland	5	3	100	5	5	7	7	0	1	0	0	Ditoland was decent fiften years ago, before the Revolution. But hey, it's the only park around.	30	3.6,-1.6,-93.1
-Pool    	4	3	10	3	3	3	4	0	1	0	0	You and #f go to the pool. The water looks weird, but the kids seem enjoy it anyways.	30	-0.8,-1.3,-93.1
-Cable Car	6	3	50	5	5	4	4	0	1	0	0	You take #k to see the cable car. You hope a lost bullet doesn't hit it.	30	3.1,2.3,-93.1
+The Galileo	5	2	0	0	0	0	0	1	0	1	1	--	0	3.1,-1.9,-93.1
+Yoni's Corner	6	2	0	0	0	0	0	0	1	1	1	--	0	3.9,0.3,-93.1
+Quiet Park    	1	3	0	2	2	3	2	1	0	0	0	You take #f to a quiet park to relax and walk around. 	30	-3.7,2.3,-93.1
+City Park    	2	3	0	2	2	3	2	0	1	0	0	You take #f to the city park. Even though it's a little cramped, you have a good time.  	30	-1.8,0.5,-93.1
+Dinner  	2	3	20	3	3	3	3	0	0	1	0	You take #f to a fancy italian restaurant in #Cn . The food help you forget about your struggles.	30	-3.3,1.4,-93.1
+Sighseeing	1	3	10	3	3	2	2	1	1	0	0	You and #f take walk around the mountains and enjoy the views of the #T .	30	-4.9,1.4,-93.1
+Ditoland	5	3	100	5	5	7	7	0	1	0	0	Ditoland was decent fiften years ago. But hey, it's the only park around.	30	3.6,-1.6,-93.1
+Cable Car	6	3	50	5	5	4	4	1	0	0	0	You take #k to see the cable car and enjoy the views.	30	3.1,2.3,-93.1
 Mall    	2	3	50	1	2	1	2	0	1	1	0	#f drags you to the mall. You end up buying a bunch of small things.	30	1.2,2.3,-93.1
 Home    	4	3	0	1	1	1	1	1	1	1	0	You spend some time at home with #f .	30	-1.7,-1.9,-93.1
-Drink   	3	4	5	6	-2	-1	-1	1	1	1	0	"Screw everything" #n You think as you go back home after the sixth vodka of the #T .	30	-0.6,-0.2,-93.1
-Visit Grandma	5	4	0	1	0	0	0	1	1	0	0	You decide to go to your senile mother's house and spend some time with her.	30	3.8,-2.9,-93.1
-Social Drinking	3	4	10	2	-1	0	0	0	0	1	0	You and some work friends go to the bar in #Cn . You get wasted and are sent home for the night.	30	-0.6,-0.2,-93.1
-Hiking  	1	4	5	4	0	0	0	0	1	0	0	You and your friends go on a hike trip accross the mountains.	30	-5.8,-2.3,-93.1
-Strip Club	3	4	20	9	-9	0	0	0	0	1	0	You and a couple of friends have some drinks at the strip club.	30	0.7,-1.8,-93.1
+Drink Alone   	3	4	5	6	-2	-1	-1	1	1	1	0	After sixteen shots of vodka a taxi drops you home drunk. You pass out in the living room.	30	-0.6,-0.2,-93.1
+Visit Grandma	5	4	0	1	0	0	0	1	0	0	0	You decide to go to your senile mother's house and spend some time with her.	30	3.8,-2.9,-93.1
+Social Drink	3	4	10	2	-1	0	0	0	0	1	0	You and some work friends go to the bar in #Cn and have some drinks.	30	-0.6,-0.2,-93.1
+Hiking  	1	4	5	4	0	0	0	0	1	0	0	You and your friends go on a hike trip accross the mountains. It helps you relax.	30	-5.8,-2.3,-93.1
+Strip Club	3	4	20	9	-9	0	0	0	0	1	0	You and a couple of friends enjoy your stay at the strip club.	30	0.7,-1.8,-93.1
 Whore House	5	4	50	15	-15	-5	-5	0	0	1	0	"She won't find out." #n You tell yourself.	30	2.6,-0.8,-93.1

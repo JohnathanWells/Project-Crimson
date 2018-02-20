@@ -77,29 +77,29 @@ public class newsScript : MonoBehaviour {
             {
                 switch (word)
                 {
-                    case "#dn":
+                    case "#dn": //Day Number
                         tmp = manager.currentDay.day.ToString();
                         break;
-                    case "#mn":
+                    case "#mn": //Month number
                         tmp = manager.currentDay.month.ToString();
                         break;
-                    case "#d":
+                    case "#d": //Day of Week
                         tmp = manager.currentDay.calculateDayOfWeek().ToString();
                         break;
-                    case "#m":
+                    case "#m": //Month name
                         tmp = manager.currentDay.calculateMonth();
                         break;
-                    case "#t":
+                    case "#t": //current Time of day
                         tmp = manager.currentTime.ToString();
                         break;
                         //case "#"
-                    case "#NL":
+                    case "#NL": //new line
                         tmp = "\b\n";
                         break;
-                    case "#c":
+                    case "#c": //City name
                         tmp = manager.City.stateName;
                         break;
-                    case "#d1":
+                    case "#d1": //District 1 name and so on
                         if (manager.City.districts.Length > 0)
                             tmp = manager.City.districts[0].districtName;
                         break;

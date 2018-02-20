@@ -478,9 +478,62 @@ public class GameManager : MonoBehaviour {
             {
                 temp = Family[n].moraleHealthDrop(houseStats.servicesPaid, houseStats.getHygiene() > 0);
 
-                if (n != 0 && membersInHouse > 1) //This can never happen to the father
+                if (n == 0 && Family[n].psyche != FamilyMembers.emotionalHealth.Healthy)
                 {
-                    if (temp == 1) //The member of the family gets in a fight with other characters. 50% chance.
+                    if (Family[n].psyche == FamilyMembers.emotionalHealth.Unstable)
+                    {
+                        switch (Random.Range(1, 7))
+                        {
+                            case 1:
+                                enqueuePopUp("You find yourself screaming in the shower every morning.", 7);
+                                break;
+                            case 2:
+                                enqueuePopUp("You don't try to avoid a stray dog on the road.", 7);
+                                break;
+                            case 3:
+                                enqueuePopUp("You had a dream where you kill someone.", 7);
+                                break;
+                            case 4:
+                                enqueuePopUp("You cried yourself to sleep last night.", 7);
+                                break;
+                            case 5:
+                                enqueuePopUp("You find yourself screaming in the shower this morning.", 7);
+                                break;
+                            default:
+                                enqueuePopUp("You are not feeling well.", 7);
+                                break;
+                        }
+                    }
+                    else if (Family[n].psyche == FamilyMembers.emotionalHealth.Depressed)
+                    {
+                        switch (Random.Range(1, 7))
+                        {
+                            case 1:
+                                enqueuePopUp("You are not feeling hungry this morning.", 7);
+                                break;
+                            case 2:
+                                enqueuePopUp("You are always sleepy.", 7);
+                                break;
+                            case 3:
+                                enqueuePopUp("You had a nightmare where you kill someone.", 7);
+                                break;
+                            case 4:
+                                enqueuePopUp("You cried last night.", 7);
+                                break;
+                            case 5:
+                                enqueuePopUp("You find yourself standing motionless in the shower for hours this morning.", 7);
+                                break;
+                            default:
+                                enqueuePopUp("You might need some rest.", 7);
+                                break;
+                        }
+                    }
+                }
+
+                if(temp > 0)
+                //if (n != 0 && membersInHouse > 1) //This was so it could never happen to the father
+                {
+                    if (temp == 1 && n != 0) //The member of the family gets in a fight with other characters. 50% chance.
                     {
                         if (membersInHouse >= 3) //If there are three or more people in the house, the character gets in fight with two
                         {
@@ -497,7 +550,7 @@ public class GameManager : MonoBehaviour {
                             Family[temp2].moraleChange(-5); //The people they get in a fight with loses 5 morale
                         }
                     }
-                    else if (temp == 2) //There is a 25% chance the character leaves the house.
+                    else if (temp == 2 && n != 0) //There is a 25% chance the character leaves the house.
                     {
                         enqueuePopUp("During the night, when everyone was sleeping, " + Family[n].firstName + " secretly packed all of " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " things and left the house.", 2, Color.yellow);
                         missingLevel += Family[n].leavesTheHouse();
@@ -507,22 +560,37 @@ public class GameManager : MonoBehaviour {
                         enqueuePopUp(Family[n].firstName + " has commited suicide.", 3, Color.red);
                         mourningLevel += Family[n].dies();
                         missingLevel += 1;
+
+                        if (n == 0)
+                        {
+                            GAME_OVER = true;
+                        }
+
+                        Family[n].deathCause = "Suicide";
                     }
                     else if (temp == 4 || temp == 5) //There is a 5% chance they kill someone else
                     {
                         Debug.Log("Murder happening");
-                        if (membersInHouse >= 3) //If there are more than 2 people in the house
+                        if (membersInHouse >= 3) //If there are at least 2 people in the house
                         {
                             int temp2;
 
                             do
                             {
-                                temp2 = Random.Range(1, 3);
+                                temp2 = Random.Range(0, 3);
                             } while (Family[temp2].dead || Family[temp2].gone || temp2 == n); //We make sure the selected member isnt dead or gone or is the character we are currently looking at
 
                             enqueuePopUp("During a particularly heated discussion, " + Family[temp2].firstName + " is killed by " + Family[n].firstName + ".", 4, Color.red);
                             mourningLevel += Family[temp2].dies(); //The selected character dies
                             missingLevel += 1;
+
+                            if (temp2 == 0)
+                            {
+                                GAME_OVER = true;
+                            }
+
+
+                            Family[temp2].deathCause = "Murder";
                         }
                         else //If there are only two people in the house and one of them is unstable enough to commit murder, game over
                         {
@@ -539,9 +607,14 @@ public class GameManager : MonoBehaviour {
                         }
                         else
                         {
-                            enqueuePopUp("Moved by guilt and sorrow over the death of her child, " + Family[n].firstName + " commits suicide.", 3, Color.red);
+                            enqueuePopUp("Moved by guilt and sorrow over the death of the child, " + Family[n].firstName + " commits suicide.", 3, Color.red);
                             mourningLevel += Family[n].dies(); //If a character is the mother, they kill themselves
                             missingLevel += 1;
+
+                            if (n == 0)
+                                GAME_OVER = true;
+
+                            Family[n].deathCause = "Suicide";
                         }
 
                     }
@@ -636,7 +709,6 @@ public class GameManager : MonoBehaviour {
 
             if (!activity.isItShop && !activity.paysService)
             {
-                enqueuePopUp(activity);
                 houseStats.modMoney(-activity.cost);
 
                 for (int n = 0; n < Constants.familySize; n++)
@@ -645,6 +717,8 @@ public class GameManager : MonoBehaviour {
                 }
 
                 finishActivityAndCheckEvents();
+
+                enqueuePopUp(activity);
             }
             else if (activity.paysService)
             {
@@ -1076,7 +1150,15 @@ public class GameManager : MonoBehaviour {
 
         storeSupplying();
 
-        enqueuePopUp("You can find more information about the game in your phone [WORK IN PROGRESS].", 7);
+        enqueuePopUp("Welcome to Little Venice. #n A proper introduction awaits if you click on the phone icon.", 7);
+
+        enqueuePopUp("You can start by exploring the information tab of the phone menu.", 7);
+
+        enqueuePopUp("You can see your inventory and manipulate consumption in the house menu.", 7);
+
+        enqueuePopUp("Once you are done, I would appreciate if you could leave some feedback. You can find a link in the main menu.", 7);
+
+        enqueuePopUp("#n I hope you enjoy your stay!.", 7);
 
         savedObject.getObituaries(Obituaries);
         sortListOfDays(Obituaries);

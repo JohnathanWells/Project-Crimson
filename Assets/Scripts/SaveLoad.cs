@@ -69,7 +69,7 @@ public static class SaveLoad
 
         playlist = new int[Constants.lengthOfPlaylist];
         for (int n = 0; n < playlist.Length; n++)
-            playlist[n] = 6;
+            playlist[n] = n;
 
         Save();
     }

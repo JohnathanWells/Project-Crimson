@@ -12,13 +12,21 @@ public class CategoryScript : MonoBehaviour {
 
     void OnMouseDown()
     {
-        MenuScript.SendMessage("changeActCat", Category);
-        turnOn();
+        if (MenuScript.selectedCategory != Category)
+        {
+            MenuScript.SendMessage("changeActCat", Category);
+            turnOn();
+        }
+        else
+        {
+            MenuScript.SendMessage("changeActCat", ActivityClass.category.ALL);
+            turnOff();
+        }
     }
 
     public void turnOff()
     {
-        animator.SetBool(0, false);
+        animator.SetInteger("Selection", 0);
     }
 
     public void turnOn()

@@ -68,14 +68,14 @@ public class HouseMenuScript : MonoBehaviour {
 
         if (yourHouse.servicesPaid)
         {
-            serviceStatusDisplay.text = "PAID\n(Next Bill in " + yourHouse.timeLeftForPayment + " Days)";
+            serviceStatusDisplay.text = "PAID (" + yourHouse.timeLeftForPayment + " Days Left)";
             serviceStatusDisplay.color = goodColor;
 
             servicePayActivityButton.gameObject.SetActive(false);
         }
         else
         {
-            serviceStatusDisplay.text = "NOT PAID\n(Next Bill in " + yourHouse.timeLeftForPayment + " Days)";
+            serviceStatusDisplay.text = "NOT PAID \n(Next Bill in " + yourHouse.timeLeftForPayment + " Days)";
             serviceStatusDisplay.color = badColor;
 
             servicePayActivityButton.gameObject.SetActive(true);
