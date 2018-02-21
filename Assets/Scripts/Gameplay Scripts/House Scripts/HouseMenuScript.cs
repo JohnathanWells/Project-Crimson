@@ -83,28 +83,28 @@ public class HouseMenuScript : MonoBehaviour {
             servicePayActivityButton.SendMessage("updateActivityStatus", manager.currentTime);
         }
 
-        foodQuantity.text = "" + yourHouse.getFoodQ() + " Kg.";
+        foodQuantity.text = "x" + yourHouse.getFoodQ() + "";
 
         if (yourHouse.getFoodQ() == 0)
             foodQuantity.color = badColor;
         else
             foodQuantity.color = new Color(1, 1, 1, 1);
 
-        medicineQuantity.text = "" + yourHouse.getMedicines() + " Mg.";
+        medicineQuantity.text = "x" + yourHouse.getMedicines() + "";
 
         if (yourHouse.getMedicines() == 0)
             medicineQuantity.color = badColor;
         else
             medicineQuantity.color = new Color(1, 1, 1, 1);
 
-        hygieneQuantity.text = "" + yourHouse.getHygiene() + " items.";
+        hygieneQuantity.text = "x" + yourHouse.getHygiene() + "";
 
         if (yourHouse.getHygiene() == 0)
             hygieneQuantity.color = badColor;
         else
             hygieneQuantity.color = new Color(1, 1, 1, 1);
         
-        cleanQuantity.text = "" + yourHouse.getCleaningQ() + " Liters.";
+        cleanQuantity.text = "x" + yourHouse.getCleaningQ() + "";
 
         if (yourHouse.getCleaningQ() == 0)
             cleanQuantity.color = badColor;
@@ -152,7 +152,7 @@ public class HouseMenuScript : MonoBehaviour {
 
             if (tempInt > 75 && tempInt <= 100)
             {
-                healthStatus[number].text = "Excelent";
+                healthStatus[number].text = "Excellent";
                 healthStatus[number].color = healthColors[4];
             }
             else if (tempInt > 50 && tempInt <= 75)

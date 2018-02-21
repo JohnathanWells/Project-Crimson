@@ -12,26 +12,24 @@ public class newsScript : MonoBehaviour {
 
 
     //Data regarding news
-    List<newsClass> newsList;
+    List<newsClass> newsList = new List<newsClass>();
     List<ObituaryClass> Obituaries = new List<ObituaryClass>();
     int currentNews = 0;
 
-    public void updateInfo(GameManager manager)
+    public bool updateInfo(GameManager manager)
     {
         updateNewsList(manager);
         //Debug.Log(currentNews + "/" + newsList.Count);
 
         //Debug.Log(manager.currentDay.dayCount + " " + newsList[currentNews + 1].date.dayCount);
 
-        if (currentNews + 1 < newsList.Count && currentNews + 1>= 0)
+        if (checkIfTheresNews(manager.currentDay))
         {
-            if (manager.currentDay.dayCount >= newsList[currentNews + 1].date.dayCount)
-            {
-                //Debug.Log(newsList[currentNews].title);
                 currentNews++;
-                //updateArticle(manager);
-                //return;
-            }
+
+                updateArticle(manager);
+
+                return true;
         }
         //else if (currentNews >= 0 && newsList.Count > 0)
         //{
@@ -44,6 +42,21 @@ public class newsScript : MonoBehaviour {
         //}
 
         updateArticle(manager);
+
+        return false;
+    }
+
+    public bool checkIfTheresNews(DayClass current_Day)
+    {
+        if (currentNews + 1 < newsList.Count)
+        {
+            if (current_Day.dayCount >= newsList[currentNews + 1].date.dayCount)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
     }
 
     public void updateNewsList(GameManager manager)

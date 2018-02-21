@@ -7,6 +7,8 @@ public class phoneScript : MonoBehaviour {
     //References to other scripts
     public GameManager manager;
     public newsScript newsScript;
+    //Reference to transforma
+    public Transform notificationIcon;
     //The phone screen references
     public Transform phoneScreen;
     public SpriteRenderer phoneScreenBackground;
@@ -34,6 +36,9 @@ public class phoneScript : MonoBehaviour {
     {
         setDate();
         setTime();
+
+        if (newsScript.checkIfTheresNews(manager.currentDay))
+            showNotificationIcon(true);
     }
 
     public void setDate()
@@ -85,6 +90,7 @@ public class phoneScript : MonoBehaviour {
     {
         if (!phoneZoomed)
         {
+            notificationIcon.gameObject.SetActive(false);
             phoneScreen.gameObject.SetActive(true);
             animator.Play(openingAnimName);
             phoneZoomed = true;
@@ -106,5 +112,10 @@ public class phoneScript : MonoBehaviour {
         phoneZoomed = false;
         phoneScreen.gameObject.SetActive(false);
         manager.phoneOpen = false;
+    }
+
+    public void showNotificationIcon(bool enabled)
+    {
+        notificationIcon.gameObject.SetActive(enabled);
     }
 }

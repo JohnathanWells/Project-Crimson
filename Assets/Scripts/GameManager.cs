@@ -1165,11 +1165,11 @@ public class GameManager : MonoBehaviour {
 
         storeSupplying();
 
-        enqueuePopUp("Welcome to Little Venice. #n The poverty simulator.", 7);
+        enqueuePopUp("Welcome to Little Venice. #n You can start by clicking on the house icon or the phone icon, or by clicking on an activity on screen.", 7);
 
-        enqueuePopUp("You can start by clicking on the house icon or the phone icon, or by clicking on an activity on screen.", 7);
+        //enqueuePopUp("You can start by clicking on the house icon or the phone icon, or by clicking on an activity on screen.", 7);
 
-        enqueuePopUp("For more information, please read the info section of the phone menu.", 7);
+        enqueuePopUp("#n For more information, please read the info section of the phone menu.", 7);
 
         enqueuePopUp("Once you are done, I would appreciate if you could leave some feedback. You can find a link in options section of the phone.", 7);
 
