@@ -20,12 +20,12 @@ public static class SaveLoad
 
         file.Close();
 
-        bf = new BinaryFormatter();
+        //bf = new BinaryFormatter();
 
-        FileStream playlistFile = File.Create(Application.persistentDataPath + "/musicPlaylist.sp");
-        bf.Serialize(playlistFile, playlist);
+        //FileStream playlistFile = File.Create(Application.persistentDataPath + "/musicPlaylist.sp");
+        //bf.Serialize(playlistFile, playlist);
 
-        playlistFile.Close();
+        //playlistFile.Close();
     }
 
     public static void Load()
@@ -37,13 +37,12 @@ public static class SaveLoad
 
             if (!File.Exists(Application.persistentDataPath + "/musicPlaylist.sp"))
             {
-                Debug.Log("Gotta create");
+                //Debug.Log("Gotta create");
 
                 playlist = new int[Constants.lengthOfPlaylist];
                 for (int n = 0; n < playlist.Length; n++)
                     playlist[n] = n;
-
-                Debug.Log(playlist[0]);
+                
             }
 
             Save();

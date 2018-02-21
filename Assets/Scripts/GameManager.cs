@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour {
     public ActivityClass servicePayActivity;
     public int membersAlive = Constants.familySize;
     public int membersInHouse = Constants.familySize;
+    public bool phoneOpen = false;
 
     [Header("Files")]
     public TextAsset activityFile;
@@ -89,6 +90,7 @@ public class GameManager : MonoBehaviour {
     [Header("Permanent Stuff")]
     public bool dadStartsSick = false;
     public bool createSessionAtStart = false;
+    public bool savingEnabled = true;
     public List<ActivityClass> mornActivities = new List<ActivityClass>();
     public List<ActivityClass> noonActivities = new List<ActivityClass>();
     public List<ActivityClass> evenActivities = new List<ActivityClass>();
@@ -120,30 +122,37 @@ public class GameManager : MonoBehaviour {
 
         newGameClass loadObject = new newGameClass();
 
-        if (GameObject.FindWithTag("MainMenuObject") != null)
+        if (savingEnabled)
         {
-            Transform obj = GameObject.FindWithTag("MainMenuObject").transform;
-            obj.SendMessage("getClass", loadObject);
-
-            if (loadObject.newGame)
+            if (GameObject.FindWithTag("MainMenuObject") != null)
             {
-                newSession(loadObject);
+                Transform obj = GameObject.FindWithTag("MainMenuObject").transform;
+                obj.SendMessage("getClass", loadObject);
+
+                if (loadObject.newGame)
+                {
+                    newSession(loadObject);
+                }
+                else
+                {
+                    loadData();
+                }
+
+
+                obj.SendMessage("signalLoaded");
             }
             else
             {
-                loadData();
+                SaveLoad.Load();
+                if (createSessionAtStart || SaveLoad.savedGame == null || SaveLoad.savedGame.empty)
+                    newSession(null);
+                else
+                    loadData();
             }
-
-
-            obj.SendMessage("signalLoaded");
         }
         else
         {
-            SaveLoad.Load();
-            if (createSessionAtStart || SaveLoad.savedGame == null || SaveLoad.savedGame.empty)
-                newSession(null);
-            else
-                loadData();
+            newSession(null);
         }
 
         //to here
@@ -162,7 +171,10 @@ public class GameManager : MonoBehaviour {
             openPopUp(notificationQueue.Peek());
 
         //TODO REMOVE THIS AND REPLACE WITH SOMETHING BETTER    
-        map.color = timeColors[(int)currentTime];
+        //map.color = timeColors[(int)currentTime];
+        timeTransitionAnimator.SetInteger("TimeOfDay", ((int)currentTime + 1));
+
+        //audioManager.StartAudio();
 
         /*string []list = activityFile.text.Split('\n');
         actNames = new List<string>();
@@ -175,7 +187,7 @@ public class GameManager : MonoBehaviour {
 
         //Debug.Log(News[0].title);
 
-        Resources.UnloadUnusedAssets();
+        //Resources.UnloadUnusedAssets();
     }
 
     //void Update()
@@ -222,7 +234,10 @@ public class GameManager : MonoBehaviour {
             timeTransitionAnimator.SetInteger("TimeOfDay", ((int)currentTime + 1));
 
             if (GAME_OVER)
-                SaveLoad.Delete();
+            {
+                if (savingEnabled)
+                    SaveLoad.Delete();
+            }
             else
             {
                 saveData();
@@ -1150,15 +1165,13 @@ public class GameManager : MonoBehaviour {
 
         storeSupplying();
 
-        enqueuePopUp("Welcome to Little Venice. #n A proper introduction awaits if you click on the phone icon.", 7);
+        enqueuePopUp("Welcome to Little Venice. #n The poverty simulator.", 7);
 
-        enqueuePopUp("You can start by exploring the information tab of the phone menu.", 7);
+        enqueuePopUp("You can start by clicking on the house icon or the phone icon, or by clicking on an activity on screen.", 7);
 
-        enqueuePopUp("You can see your inventory and manipulate consumption in the house menu.", 7);
+        enqueuePopUp("For more information, please read the info section of the phone menu.", 7);
 
-        enqueuePopUp("Once you are done, I would appreciate if you could leave some feedback. You can find a link in the main menu.", 7);
-
-        enqueuePopUp("#n I hope you enjoy your stay!.", 7);
+        enqueuePopUp("Once you are done, I would appreciate if you could leave some feedback. You can find a link in options section of the phone.", 7);
 
         savedObject.getObituaries(Obituaries);
         sortListOfDays(Obituaries);
@@ -1405,22 +1418,27 @@ public class GameManager : MonoBehaviour {
 
     public void saveData()
     {
-        savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores, Events.vars);
-        savedObject.saveObituaries(Obituaries);
-        savedObject.saveNews(News);
-        SaveLoad.Save();
+        if (savingEnabled)
+        {
+            savedObject.saveData(City, houseStats, currentDay, currentTime, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores, Events.vars);
+            savedObject.saveObituaries(Obituaries);
+            savedObject.saveNews(News);
+        }
     }
 
     public void loadData()
     {
-        City = new cityClass();
-        Events = new eventHandler(this, new eventHandler.variables());
-        SaveLoad.Load();
-        SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores, Events.vars);
-        currentTime = SaveLoad.savedGame.getSavedTime();
-        SaveLoad.savedGame.getObituaries(Obituaries);
-        SaveLoad.savedGame.getNews(News);
-        //Debug.Log(currentTime);
+        if (savingEnabled)
+        {
+            City = new cityClass();
+            Events = new eventHandler(this, new eventHandler.variables());
+            SaveLoad.Load();
+            SaveLoad.savedGame.copyData(City, houseStats, currentDay, Family, mornActivities, noonActivities, evenActivities, sicknesses, notificationQueue, itemPrices, stores, Events.vars);
+            currentTime = SaveLoad.savedGame.getSavedTime();
+            SaveLoad.savedGame.getObituaries(Obituaries);
+            SaveLoad.savedGame.getNews(News);
+            //Debug.Log(currentTime);
+        }
     }
 
     void setItemPrices()

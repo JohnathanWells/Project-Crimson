@@ -68,7 +68,10 @@ public class actInfoBox : MonoBehaviour {
         else
             shopStatus.text = " ";
 
-        cost.text = -highlightedActivity.cost + "$";
+        if (highlightedActivity.cost > 0)
+            cost.text = -highlightedActivity.cost + "$";
+        else
+            cost.text = "+" + -highlightedActivity.cost + "$";
 
         if (highlightedActivity.cost > 0)
         {

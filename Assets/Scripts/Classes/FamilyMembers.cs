@@ -194,7 +194,7 @@ public class FamilyMembers
                     {
                         if (randomnum < Constants.unstabilityEventsProbability[3])
                         {
-                            if (member == famMember.Mom)
+                            if (member == famMember.Mom || member == famMember.Dad)
                             {
                                 return 4;
                             }

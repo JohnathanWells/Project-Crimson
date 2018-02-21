@@ -14,6 +14,8 @@ public class soundScript : MonoBehaviour {
 
     AudioSource source;
     AudioSource musicSource;
+
+    bool readyForTransition;
     
 
     void Start()
@@ -42,6 +44,7 @@ public class soundScript : MonoBehaviour {
 
     public void togglePauseMusic(bool pause)
     {
+        Debug.Log("pause music");
         if (pause)
         {
             musicSource.Pause();
@@ -56,6 +59,8 @@ public class soundScript : MonoBehaviour {
 
         updateSong();
 
+        StartCoroutine(countForTransition(availableSongs[playlist[currentSong]].length));
+
         musicSource.Play();
     }
 
@@ -67,6 +72,7 @@ public class soundScript : MonoBehaviour {
 
     public void changePlaylistTo(int[] newPL)
     {
+        //Debug.Log("aaaa");
         playlist.Clear();
 
         foreach (int i in newPL)
@@ -77,7 +83,18 @@ public class soundScript : MonoBehaviour {
 
     void advanceIfNecessary()
     {
-        if (!musicSource.isPlaying)
-            changeSong(playlist[++currentSong]);
+        if (!musicSource.isPlaying && readyForTransition)
+        {
+            currentSong++;
+            changeSong(currentSong);
+            Debug.Log(currentSong);
+        }
+    }
+
+    IEnumerator countForTransition(float time)
+    {
+        readyForTransition = false;
+        yield return new WaitForSeconds(time);
+        readyForTransition = true;
     }
 }

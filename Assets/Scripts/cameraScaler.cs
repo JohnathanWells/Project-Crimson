@@ -15,7 +15,7 @@ public class cameraScaler : MonoBehaviour {
     void Start()
     {
 
-        Screen.SetResolution(Mathf.RoundToInt(resolutions[selectedRes].x), Mathf.RoundToInt(resolutions[selectedRes].y), false);
+        //Screen.SetResolution(Mathf.RoundToInt(resolutions[selectedRes].x), Mathf.RoundToInt(resolutions[selectedRes].y), false);
         size = 5.4f;
 
         //// set the desired aspect ratio (the values in this example are
@@ -69,11 +69,17 @@ public class cameraScaler : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.F5))
         {
             selectedRes = (selectedRes + 1) % resolutions.Length;
             Screen.SetResolution(Mathf.RoundToInt(resolutions[selectedRes].x), Mathf.RoundToInt(resolutions[selectedRes].y), false);
             //updateSize();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/Screenshots/" + System.DateTime.Now.Day + "-" + System.DateTime.Now.Month + "-" + System.DateTime.Now.Year + "_" + System.DateTime.Now.Hour + "-" + System.DateTime.Now.Minute + "-" + System.DateTime.Now.Second + ".png");
+            Debug.Log("Captured " + Application.persistentDataPath + "/Screenshots/" + System.DateTime.Now.Day + "-" + System.DateTime.Now.Month + "-" + System.DateTime.Now.Year + "_" + System.DateTime.Now.Hour + "-" + System.DateTime.Now.Minute + "-" + System.DateTime.Now.Second);
         }
     }
 

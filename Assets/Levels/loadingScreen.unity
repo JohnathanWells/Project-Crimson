@@ -270,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelToLoad: Playing Screen
   refreshRate: 0
-  showProgress: 1
+  showProgress: 0
   progressTeller: {fileID: 1883453245}
 --- !u!1 &1598239657
 GameObject:
@@ -362,7 +362,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1883453244
 RectTransform:
   m_ObjectHideFlags: 0

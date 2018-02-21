@@ -90,6 +90,7 @@ public class phoneScript : MonoBehaviour {
             phoneZoomed = true;
             newsScript.updateInfo(manager);
             phoneScreen.SendMessage("openMenu");
+            manager.phoneOpen = true;
         }
     }
 
@@ -104,5 +105,6 @@ public class phoneScript : MonoBehaviour {
         yield return new WaitForSeconds(closingAnimation.length);
         phoneZoomed = false;
         phoneScreen.gameObject.SetActive(false);
+        manager.phoneOpen = false;
     }
 }

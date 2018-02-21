@@ -165,6 +165,7 @@ public class mainMenuScript : MonoBehaviour {
     public void signalLoaded()
     {
         dataLoaded = true;
+        Destroy(gameObject);
     }
 
     IEnumerator killObject()

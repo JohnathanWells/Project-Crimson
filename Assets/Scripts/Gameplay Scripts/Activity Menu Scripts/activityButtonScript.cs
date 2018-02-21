@@ -27,7 +27,7 @@ public class activityButtonScript : MonoBehaviour {
 
     void OnMouseOver()
     {
-        if (active)
+        if (active && !menuManager.Manager.phoneOpen)
         {
             statDisplay.gameObject.SetActive(true);
             statDisplay.SendMessage("setActivity", assignedActivity, SendMessageOptions.DontRequireReceiver);
@@ -37,7 +37,7 @@ public class activityButtonScript : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (active && isAvailable)
+        if (active && isAvailable && !menuManager.Manager.phoneOpen)
         {
             menuManager.toggleFilm(true);
             menuManager.SendMessage("executeActivity", assignedActivity);
