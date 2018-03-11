@@ -86,7 +86,7 @@ public class newsScript : MonoBehaviour {
 
         foreach (string word in words)
         {
-            if (word[0] == '#')
+            if (word.Length > 0 && word[0] == '#')
             {
                 switch (word)
                 {

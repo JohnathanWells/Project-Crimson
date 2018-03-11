@@ -87,6 +87,21 @@ public class HouseScript : MonoBehaviour {
                 closeHouseMenu();
             }
         }
+        else if (Input.GetMouseButtonDown(2))
+        {
+            buttonAnimator.SetTrigger("ButtonClicked");
+            //buttonAnimator.ResetTrigger("ButtonClicked");
+
+            if (!openWindow)
+            {
+                openHouseMenu();
+                MenuManagementScript.SendMessage("updateTab", 1);
+            }
+            else
+            {
+                closeHouseMenu();
+            }
+        }
     }
 
     //This function is called to update the family icons with the current information

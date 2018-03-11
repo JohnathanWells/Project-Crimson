@@ -127,7 +127,7 @@ public class activityButtonScript : MonoBehaviour {
             }
             else
             {
-                correspondingPointer.SendMessage("highLightPointer", true);
+                correspondingPointer.SendMessage("highLightPointer", true, SendMessageOptions.DontRequireReceiver);
                 textDisplay.color = highlitButtonColor;
             }
 

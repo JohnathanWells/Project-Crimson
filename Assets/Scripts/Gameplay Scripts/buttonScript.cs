@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class buttonScript : MonoBehaviour {
 
@@ -11,6 +12,11 @@ public class buttonScript : MonoBehaviour {
     public Transform scriptLocation;
     public clickType type;
 
+    public bool highlightOnHover = false;
+    public Color defaultColor = Color.white;
+    public Color highlitColor = Color.white;
+    public Text textToHighlight;
+
     void OnMouseDown()
     {
         if ((type == clickType.leftClick && Input.GetMouseButtonDown(0))
@@ -20,6 +26,18 @@ public class buttonScript : MonoBehaviour {
             scriptLocation.SendMessage(functionName, valueToSend);
         }
 
+    }
+
+    void OnMouseOver()
+    {
+        if (highlightOnHover)
+            textToHighlight.color = highlitColor;
+    }
+
+    void OnMouseExit()
+    {
+        if (highlightOnHover)
+            textToHighlight.color = defaultColor;
     }
 
 }

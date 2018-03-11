@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour {
     public TextAsset pricesFile;
     public TextAsset newsFile;
     public TextAsset wikiFile;
+    public TextAsset decisionEventsFile;
 
     [Header("Day Stuff")]
     public DayClass currentDay;
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour {
     public AnimationClip loadingInAn;
     public AnimationClip fillingAn;
     public bool currentlyExecutingActivity = false;
+    public Transform decisionEventWindow;
     eventHandler Events;
 
     [Header("Sounds")]
@@ -101,6 +103,7 @@ public class GameManager : MonoBehaviour {
     savefileClass savedObject = new savefileClass();
     int[] itemPrices = new int[4];
     List<ObituaryClass> Obituaries = new List<ObituaryClass>();
+    List<decisionEventClass> decisionEvents = new List<decisionEventClass>();
 
     ////Tools for activity position
     //int selectedActivity = 0;
@@ -158,6 +161,8 @@ public class GameManager : MonoBehaviour {
         //to here
 
         readWikiFile();
+
+        readDecisions();
 
         updateComponents();
 
@@ -341,6 +346,7 @@ public class GameManager : MonoBehaviour {
         House.SendMessage("closeHouseMenu");
         House.SendMessage("familyUpdate", Family);
         Activities.SendMessage("updateMenu");
+        Events.decisionEvents = decisionEvents;
     }
 
     void storeSupplying()
@@ -733,7 +739,7 @@ public class GameManager : MonoBehaviour {
 
                 finishActivityAndCheckEvents();
 
-                enqueuePopUp(activity);
+//                enqueuePopUp(activity);
             }
             else if (activity.paysService)
             {
@@ -746,7 +752,7 @@ public class GameManager : MonoBehaviour {
             else if (activity.isItShop)
             {
                 enqueuePopUp(activity);
-                changeScreen(1, activity.shopAttached);
+//                changeScreen(1, activity.shopAttached);
             }
         }
     }
@@ -784,7 +790,10 @@ public class GameManager : MonoBehaviour {
             audioManager.stopSFX();
         }
 
-        concludeActivity();
+        if (notificationQueue.Count == 0 || (notificationQueue.Count > 0 && notificationQueue.Peek().type != notificationType.Decision))
+            concludeActivity();
+        else
+            openPopUp(notificationQueue.Peek());
     }
 
     void togglePauseLoadingAnimator(bool pause)
@@ -807,6 +816,8 @@ public class GameManager : MonoBehaviour {
     public void concludeActivity()
     {
         currentlyExecutingActivity = false;
+        
+        enqueuePopUp(tempActivity);
 
         addTimeTransition();
 
@@ -928,51 +939,65 @@ public class GameManager : MonoBehaviour {
         notificationQueue.Enqueue(new notificationClass(activity));
     }
 
+    public void enqueuePopUp(int decisionID)
+    {
+        notificationQueue.Enqueue(new notificationClass(decisionID));
+    }
+
     public void openPopUp(notificationClass not)
     {
-        popUpWindow.gameObject.SetActive(true);
-        popUpPicture.sprite = popUpIllustrations[Mathf.Clamp(not.pictureNum, 0, popUpIllustrations.Length - 1)];
-        popUpText.text = warppedText(popUpParagraphWidth, not.text);
-        //int arrowTemp = 0;
-
-        popUpText.color = not.color();
-
-        if (not.type == notificationType.ActivityDescription)
+        if (not.type == notificationType.Decision)
         {
-            popUpFamilyStats.gameObject.SetActive(true);
-
-            for (int n = 0; n < Constants.familySize; n++)
-            {
-                if (!Family[n].dead && !Family[n].gone)
-                {
-                    string mc = not.moodChange[n].ToString();
-
-                    if (not.moodChange[n] > 0)
-                        mc = "+" + mc;
-
-                    popUpMoraleNumbers[n].text = mc; //Error here
-
-                    if (not.moodChange[n] > 0)
-                        popUpMoraleNumbers[n].color = colors[2];
-                    else if (not.moodChange[n] == 0)
-                        popUpMoraleNumbers[n].color = colors[1];
-                    else
-                        popUpMoraleNumbers[n].color = colors[0];
-
-
-                    //popUpMoraleArrows[n].sprite = popUpArrowSprites[arrowTemp];
-                }
-                else
-                {
-                    popUpFamilyMembers[n].gameObject.SetActive(false);
-                    //popUpMoraleArrows[n].gameObject.SetActive(false);
-                    //popUpMoraleNumbers[n].gameObject.SetActive(false);
-                }
-            }
+            popUpWindow.gameObject.SetActive(false);
+            decisionEventWindow.gameObject.SetActive(true);
+            decisionEventWindow.SendMessage("displayDecision", Events.getDecEvt(int.Parse(not.text)));
         }
         else
         {
-            popUpFamilyStats.gameObject.SetActive(false);
+            popUpWindow.gameObject.SetActive(true);
+            popUpPicture.sprite = popUpIllustrations[Mathf.Clamp(not.pictureNum, 0, popUpIllustrations.Length - 1)];
+            popUpText.text = warppedText(popUpParagraphWidth, not.text);
+            //int arrowTemp = 0;
+
+            popUpText.color = not.color();
+
+            if (not.type == notificationType.ActivityDescription)
+            {
+                popUpFamilyStats.gameObject.SetActive(true);
+
+                for (int n = 0; n < Constants.familySize; n++)
+                {
+                    if (!Family[n].dead && !Family[n].gone)
+                    {
+                        string mc = not.moodChange[n].ToString();
+
+                        if (not.moodChange[n] > 0)
+                            mc = "+" + mc;
+
+                        popUpMoraleNumbers[n].text = mc; //Error here
+
+                        if (not.moodChange[n] > 0)
+                            popUpMoraleNumbers[n].color = colors[2];
+                        else if (not.moodChange[n] == 0)
+                            popUpMoraleNumbers[n].color = colors[1];
+                        else
+                            popUpMoraleNumbers[n].color = colors[0];
+
+
+                        //popUpMoraleArrows[n].sprite = popUpArrowSprites[arrowTemp];
+                    }
+                    else
+                    {
+                        popUpFamilyMembers[n].gameObject.SetActive(false);
+                        //popUpMoraleArrows[n].gameObject.SetActive(false);
+                        //popUpMoraleNumbers[n].gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                popUpFamilyStats.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -982,6 +1007,7 @@ public class GameManager : MonoBehaviour {
         notificationClass temp;
 
         popUpWindow.gameObject.SetActive(false);
+        decisionEventWindow.gameObject.SetActive(false);
 
         if (notificationQueue.Count > 0 && notificationQueue.Peek() != null)
         { 
@@ -1414,6 +1440,16 @@ public class GameManager : MonoBehaviour {
         }
 
         //Debug.Log(wikiDatabase.subordinates.Count + " main categories in total");
+    }
+
+    public void readDecisions()
+    {
+        string[] lines = decisionEventsFile.text.Split('\n');
+
+        foreach (string s in lines)
+        {
+            decisionEvents.Add(new decisionEventClass(s));
+        }
     }
 
     public void saveData()

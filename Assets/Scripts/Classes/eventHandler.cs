@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class eventHandler{
 
     GameManager manager;
     public variables vars;
     List<string[]> eventIndex;
+    public List<decisionEventClass> decisionEvents;
 
     [System.Serializable]
     public class variables
@@ -142,23 +144,48 @@ public class eventHandler{
 
     public bool eventCheck()
     {
-        //Constants
-        int rollingChance = 10;
-
-
-        int RN = Random.Range(0, rollingChance);
-    
-        if (RN < eventIndex.Count)
+        switch (Random.Range(0, 3))
         {
-            int specificEvent = Random.Range(0, eventIndex[RN].Length - 1);
+            case 0:
+                {
+                    int rollingChance = 10;
 
-            //Debug.Log("Event Type: " + RN + "/" + eventIndex.Count + "/" + rollingChance + "\tSpecific: " + specificEvent + "/" + (eventIndex[RN].Length - 1) + " (" + eventIndex[RN][specificEvent] + ")");
 
-            return executeEvent(eventIndex[RN][specificEvent]);
-        }
-        else
-        {
-            return false;
+                    int RN = Random.Range(0, rollingChance);
+
+                    if (RN < decisionEvents.Count)
+                    {
+                        return executeDecisionEvent(RN);
+                    }
+                    else
+                        return false;
+                    break;
+                }
+            case 1:
+                {
+                    //Constants
+                    int rollingChance = 10;
+
+
+                    int RN = Random.Range(0, rollingChance);
+
+                    if (RN < eventIndex.Count)
+                    {
+                        int specificEvent = Random.Range(0, eventIndex[RN].Length - 1);
+
+                        //Debug.Log("Event Type: " + RN + "/" + eventIndex.Count + "/" + rollingChance + "\tSpecific: " + specificEvent + "/" + (eventIndex[RN].Length - 1) + " (" + eventIndex[RN][specificEvent] + ")");
+
+                        return executeEvent(eventIndex[RN][specificEvent]);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                break;
+            default:
+                return false;
+
         }
     }
     
@@ -220,6 +247,48 @@ public class eventHandler{
     }
 
 
+    bool executeDecisionEvent(int number)
+    {
+        string expression = decisionEvents[number].triggerMax;
+
+        expression = replaceNumberReferences(expression);
+
+        int RN = Random.Range(0, 100);
+
+        Debug.Log("Testing for decision event " + decisionEvents[number].name + " : " + RN + "/" + expression);
+
+        if (RN < ExpressionEvaluator.Evaluate<int>(expression))
+        {
+            manager.enqueuePopUp(number);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    string replaceNumberReferences(string inString)
+    {
+        inString = inString.Replace("#Ccr", manager.City.currentCrime.ToString());
+        inString = inString.Replace("#Cch", manager.City.currentChaos.ToString());
+        inString = inString.Replace("#Cin", manager.City.currentInflation.ToString());
+        inString = inString.Replace("#Cf", manager.City.currentFilth.ToString());
+        inString = inString.Replace("#Cdt", manager.City.districts[(int)manager.tempActivity.area].traffic.ToString());
+
+        switch (manager.currentTime)
+        {
+            case (timeOfDay.morning):
+                inString = inString.Replace("#Cdcr", manager.City.districts[(int)manager.tempActivity.area].currentCRMorning.ToString());
+                break;
+            case (timeOfDay.afternoon):
+                inString = inString.Replace("#Cdcr", manager.City.districts[(int)manager.tempActivity.area].currentCRNoon.ToString());
+                break;
+            case (timeOfDay.evening):
+                inString = inString.Replace("#Cdcr", manager.City.districts[(int)manager.tempActivity.area].currentCREvening.ToString());
+                break;
+        }
+
+        return inString;
+    }
 
     //Robbery Events
     bool pickpocketing()
@@ -596,7 +665,7 @@ public class eventHandler{
         {
             manager.addTimeTransition();
 
-            for (int n = 3; n > 0; n++)
+            for (int n = 3; n < Constants.familySize; n++)
             {
                 if (!manager.Family[n].dead && !manager.Family[n].gone)
                 {
@@ -953,5 +1022,15 @@ public class eventHandler{
     public int getFixTime()
     {
         return vars.daysForServiceFix;
+    }
+
+    public decisionEventClass getDecEvt(int number)
+    {
+        if (number < decisionEvents.Count)
+        {
+            return decisionEvents[number];
+        }
+        else
+            return null;
     }
 }

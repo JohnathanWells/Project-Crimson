@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum notificationType{SimpleText, ActivityDescription};
+public enum notificationType{SimpleText, ActivityDescription, Decision};
 
 [System.Serializable]
 public class notificationClass{
@@ -14,17 +14,11 @@ public class notificationClass{
     public notificationType type;
     public float[] rgb = new float[4];
 
-    public notificationClass(int premade)
+    public notificationClass(int decision)
     {
-        if (premade == 0)
-        {
-            text = "Another day passes.";
-            type = notificationType.SimpleText;
-        }
-        else
-        {
-            text = "ERROR";
-        }
+        type = notificationType.Decision;
+
+        text = decision.ToString();
 
         rgb[0] = 1;
         rgb[1] = 1;
