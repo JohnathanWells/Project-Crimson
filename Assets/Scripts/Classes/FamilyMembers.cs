@@ -176,6 +176,13 @@ public class FamilyMembers
         //Psyche morale and health drop
         moraleDropQuantity += moraleDropsAccordingToPsyche[(int)psyche];
 
+        //Morale increases if they are not sick and consume medicine
+        if (status.ID == 0 && medicine > 0)
+        {
+            medicine--;
+            moraleDropQuantity += moraleDropsAccordingToPsyche[(int)psyche];
+        }
+
         //Morale is affected by how many people have left the house
         moraleDropQuantity += missingLevel;
 

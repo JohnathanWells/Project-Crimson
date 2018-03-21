@@ -8,6 +8,7 @@ public class storeScript : MonoBehaviour {
     public GameManager manager;
     public ShopClass store;
     public amountButton[] shoppingButtons = new amountButton[4];
+    public Transform[] itemsInShop = new Transform[4];
     public TextMesh[] stockText = new TextMesh[4];
     public TextMesh[] totalCosts = new TextMesh[4];
     public TextMesh[] itemNames = new TextMesh[4];
@@ -24,11 +25,19 @@ public class storeScript : MonoBehaviour {
         
         for (int n = 0; n < 4; n++)
         {
-            stockText[n].text = "/ " + store.inventory[n].getStock();
-            itemNames[n].text = store.inventory[n].getType().ToString();
-            selectedUnits[n] = 0;
-            totalCosts[n].text = 0 + "$";
-            shoppingButtons[n].SendMessage("updateNumber", 0, SendMessageOptions.RequireReceiver);
+            if (store.inventory[n].getStock() > 0)
+            {
+                itemsInShop[n].gameObject.SetActive(true);
+                stockText[n].text = " / " + store.inventory[n].getStock();
+                itemNames[n].text = store.inventory[n].getType().ToString();
+                selectedUnits[n] = 0;
+                totalCosts[n].text = 0 + "$";
+                shoppingButtons[n].SendMessage("updateNumber", 0, SendMessageOptions.RequireReceiver);
+            }
+            else
+            {
+                itemsInShop[n].gameObject.SetActive(false);
+            }
         }
 
         receipt.text = manager.houseStats.getMoney() + "\n -0$\n " + manager.houseStats.getMoney();
@@ -44,7 +53,7 @@ public class storeScript : MonoBehaviour {
         {
             selectedUnits[ID] += caller.change;
             shoppingButtons[ID].SendMessage("updateNumber", selectedUnits[ID]);
-            stockText[ID].text = "/ " + (store.inventory[ID].getStock() - selectedUnits[ID]);
+            stockText[ID].text = " / " + (store.inventory[ID].getStock() - selectedUnits[ID]);
             totalCostN[ID] = selectedUnits[ID] * store.inventory[ID].getCost();
             totalCosts[ID].text = totalCostN[ID] + "$";
 

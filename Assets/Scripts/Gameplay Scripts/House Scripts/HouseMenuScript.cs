@@ -41,10 +41,13 @@ public class HouseMenuScript : MonoBehaviour {
     public Transform[] tabKeepers;
     int currentTab = -1;
 
+    GameManager gameManager;
+
     public void Start()
     {
         healthColors = mainHouseScript.healthColors;
         moraleColors = mainHouseScript.moraleColors;
+        gameManager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
     }
 
     //Menu Open
@@ -234,6 +237,15 @@ public class HouseMenuScript : MonoBehaviour {
     {
         if (foodButton[number].gameObject.activeInHierarchy && medicationButton[number].gameObject.activeInHierarchy)
         {
+            if (gameManager.houseStats.getFoodQ() == 0)
+            {
+                foodButton[number].SendMessage("changeColor", badColor);
+            }
+            else
+            {
+                foodButton[number].SendMessage("changeColor", goodColor);
+            }
+
             medicationButton[number].SendMessage("updateNumber", FamilyMembers[number].medicine);
             foodButton[number].SendMessage("updateNumber", FamilyMembers[number].food);
         }

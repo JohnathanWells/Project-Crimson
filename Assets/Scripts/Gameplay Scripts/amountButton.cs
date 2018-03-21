@@ -60,6 +60,11 @@ public class amountButton : MonoBehaviour {
         display.text = "" + currentNumber;
     }
 
+    public void changeColor(Color to)
+    {
+        display.color = to;
+    }
+
     void activate()
     {
         if (currentNumber + quantityModified <= MAX && currentNumber + quantityModified >= MIN)

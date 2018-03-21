@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour {
     public int membersAlive = Constants.familySize;
     public int membersInHouse = Constants.familySize;
     public bool phoneOpen = false;
+    public bool houseOpen = false;
 
     [Header("Files")]
     public TextAsset activityFile;
@@ -418,10 +419,24 @@ public class GameManager : MonoBehaviour {
         {
             if (!Family[n].dead && !Family[n].gone)
             {
-                foodConsumed = Family[n].food;
-
-                if (foodConsumed <= 0)
+                if (houseStats.getFoodQ() > 0)
+                {
+                    if (houseStats.getFoodQ() >= Family[n].food)
+                    {
+                        foodConsumed = Family[n].food;
+                    }
+                    else
+                    {
+                        foodConsumed = houseStats.getFoodQ();
+                    }
+                }
+                else
+                {
+                    foodConsumed = 0;
                     enqueuePopUp("<color=red> " + Family[n].firstName + " did not eat yesterday, " + ((Family[n].sex == FamilyMembers.gender.him) ? "his" : "her") + " health will deteriorate as a result. </color>", 27);
+
+                }
+
 
                 if (houseStats.getFoodQ() > 0)
                 {
@@ -451,7 +466,7 @@ public class GameManager : MonoBehaviour {
                         if (houseStats.getFoodQ() > 0)
                             enqueuePopUp("You ran out of food!", 9);
 
-                        Family[n].food = houseStats.getFoodQ();
+                        //Family[n].food = houseStats.getFoodQ();
 
                         foodConsumed = Family[n].food;
 
@@ -477,7 +492,7 @@ public class GameManager : MonoBehaviour {
                 }
                 else
                 {
-                    Family[n].food = 0;
+                    //Family[n].food = 0;
                     foodConsumed = 0;
                     Family[n].meanHealth = 0;
                 }
@@ -752,7 +767,7 @@ public class GameManager : MonoBehaviour {
             else if (activity.isItShop)
             {
                 enqueuePopUp(activity);
-//                changeScreen(1, activity.shopAttached);
+                changeScreen(1, activity.shopAttached);
             }
         }
     }

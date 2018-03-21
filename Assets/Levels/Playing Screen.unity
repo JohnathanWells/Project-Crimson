@@ -1815,7 +1815,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &115235322
 Transform:
   m_ObjectHideFlags: 0
@@ -7525,6 +7525,7 @@ MonoBehaviour:
   membersAlive: 4
   membersInHouse: 4
   phoneOpen: 0
+  houseOpen: 0
   activityFile: {fileID: 4900000, guid: ac20ad614e617eb418105138d54586fa, type: 3}
   statChangesFile: {fileID: 4900000, guid: 098709989ae6f9c44925d1e59c504529, type: 3}
   districtStatsFile: {fileID: 4900000, guid: 986fea3f5cf3b4f4aabd869598a488b4, type: 3}
@@ -17936,6 +17937,11 @@ MonoBehaviour:
   - {fileID: 1374720092}
   - {fileID: 1722804472}
   - {fileID: 1733105931}
+  itemsInShop:
+  - {fileID: 2019423452}
+  - {fileID: 1587799592}
+  - {fileID: 1430171187}
+  - {fileID: 329626535}
   stockText:
   - {fileID: 2081784359}
   - {fileID: 1166999117}
@@ -22451,7 +22457,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1503317739
 Transform:
   m_ObjectHideFlags: 0

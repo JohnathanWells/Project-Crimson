@@ -11,7 +11,7 @@ public class eventWindowScript : MonoBehaviour {
 
     decisionEventClass selectedEvent;
 
-    void Start()
+    void Awake()
     {
         if (optionButtons.Length > 0)
         {
@@ -35,7 +35,9 @@ public class eventWindowScript : MonoBehaviour {
         for (n = 0; n < Mathf.Min(optionButtons.Length, selected.optionTexts.Count); n++)
         {
             optionButtons[n].gameObject.SetActive(true);
-            Debug.Log(selected.optionTexts.Count);
+            //Debug.Log(selected.optionTexts.Count + " " + optionButtons.Length + " : " + n);
+            
+            optionTexts[n].gameObject.name = n.ToString();
             optionTexts[n].text = selected.optionTexts[n];
         }
 

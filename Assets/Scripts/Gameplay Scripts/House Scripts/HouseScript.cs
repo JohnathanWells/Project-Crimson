@@ -216,12 +216,16 @@ public class HouseScript : MonoBehaviour {
     //This function open the window
     public void openHouseMenu()
     {
-        window.gameObject.SetActive(true);
-        windowAnimations.Play(windowOpenClip.name);
-        openWindow = true;
-        MenuManagementScript.SendMessage("openMenu", manager.Family);
-        MenuManagementScript.SendMessage("updateHouseInfo", manager);
-        notificationIcon.gameObject.SetActive(false);
+        if (!manager.currentlyExecutingActivity)
+        {
+            manager.houseOpen = true;
+            window.gameObject.SetActive(true);
+            windowAnimations.Play(windowOpenClip.name);
+            openWindow = true;
+            MenuManagementScript.SendMessage("openMenu", manager.Family);
+            MenuManagementScript.SendMessage("updateHouseInfo", manager);
+            notificationIcon.gameObject.SetActive(false);
+        }
     }
 
     //This functions manipulate resource distribution
@@ -263,6 +267,7 @@ public class HouseScript : MonoBehaviour {
         openWindow = false;
         manager.saveData();
         window.gameObject.SetActive(false);
+        manager.houseOpen = false;
     }
 
     public void toggleDrawer()
