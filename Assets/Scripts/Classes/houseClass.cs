@@ -55,7 +55,8 @@ public class houseClass{
                 servicesPaid = false;
             }
 
-            timeLeftForPayment = calculateDaysLeftForServices(currentDay);
+        timeLeftForPayment = calculateDaysLeftForServices(currentDay);
+        //timeLeftForPayment = 1;
         }
 
         public int calculateDaysLeftForServices(DayClass currentDay)

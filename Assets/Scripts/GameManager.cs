@@ -743,6 +743,8 @@ public class GameManager : MonoBehaviour {
             tempActivity = activity;
             currentlyExecutingActivity = true;
 
+            House.closeHouseMenu();
+
             if (!activity.isItShop && !activity.paysService)
             {
                 houseStats.modMoney(-activity.cost);
@@ -874,6 +876,8 @@ public class GameManager : MonoBehaviour {
     void initializeServicePayActivity()
     {
         servicePayActivity = new ActivityClass("Pay Services", ActivityClass.sector.B, ActivityClass.category.Family, costOfServices, new int[] { 0, 0, 0, 0 }, new bool[] { true, true, false }, false);
+        servicePayActivity.postActivityDescription = "You wasted your time in a line to pay the house services.";
+        servicePayActivity.pictureNumberUsed = 30;
         servicePayActivity.paysService = true;
     }
 

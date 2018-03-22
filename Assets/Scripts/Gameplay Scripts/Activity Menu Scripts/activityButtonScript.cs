@@ -37,12 +37,26 @@ public class activityButtonScript : MonoBehaviour {
 
     void OnMouseDown()
     {
-        if (active && isAvailable && !menuManager.Manager.phoneOpen && !menuManager.Manager.houseOpen)
+        if (active && isAvailable && !menuManager.Manager.phoneOpen)
         {
-            menuManager.toggleFilm(true);
-            menuManager.SendMessage("executeActivity", assignedActivity);
-            statDisplay.gameObject.SetActive(false);
-            highLightPointer(false);
+            if (assignedActivity.paysService)
+            {
+                
+                menuManager.toggleFilm(true);
+                menuManager.SendMessage("executeActivity", assignedActivity);
+                statDisplay.gameObject.SetActive(false);
+                highLightPointer(false);
+            }
+            else
+            {
+                if (!menuManager.Manager.houseOpen)
+                {
+                    menuManager.toggleFilm(true);
+                    menuManager.SendMessage("executeActivity", assignedActivity);
+                    statDisplay.gameObject.SetActive(false);
+                    highLightPointer(false);
+                }
+            }
 
             //menuManager.executeActivity(assignedActivity);
         }
@@ -109,6 +123,7 @@ public class activityButtonScript : MonoBehaviour {
         }
         else
         {
+            //Debug.Log("is it here" + assignedActivity.cost);
             textDisplay.color = disabledColor;
             active = false;
         }
@@ -141,7 +156,8 @@ public class activityButtonScript : MonoBehaviour {
             }
             else
             {
-                correspondingPointer.SendMessage("highLightPointer", false, SendMessageOptions.DontRequireReceiver);
+                if (correspondingPointer != null)
+                    correspondingPointer.SendMessage("highLightPointer", false, SendMessageOptions.DontRequireReceiver);
                 textDisplay.color = enabledColor;
             }
 
