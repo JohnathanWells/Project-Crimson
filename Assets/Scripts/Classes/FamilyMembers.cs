@@ -36,8 +36,9 @@ public class FamilyMembers
     int maxHealth;
     int[] healthDecreaseRates = {20, 5, 2, 0};
     int[] healthIncreaseRates = { 0, 2, 5, 10 };
-    int[] healthDropsAccordingToPsyche = { 0, -1, -1 };
-    int[] moraleDropsAccordingToPsyche = { 0, -1, -1 };
+    int[] healthDropsAccordingToPsyche = { 0, -2, -4 };
+    int[] moraleDropsAccordingToPsyche = { 0, -3, -5 };
+    int[] medicineMoraleIncreaseAccordingToPsyche = { 3, 5, 8 };
 
     public FamilyMembers(famMember familyMember)
     {
@@ -179,8 +180,9 @@ public class FamilyMembers
         //Morale increases if they are not sick and consume medicine
         if (status.ID == 0 && medicine > 0)
         {
+            Debug.Log("Medicine increasing morale by " + medicineMoraleIncreaseAccordingToPsyche[(int)psyche]);
             medicine--;
-            moraleDropQuantity += moraleDropsAccordingToPsyche[(int)psyche];
+            moraleDropQuantity += medicineMoraleIncreaseAccordingToPsyche[(int)psyche];
         }
 
         //Morale is affected by how many people have left the house

@@ -13649,8 +13649,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 902166901}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.024, y: -4.596, z: -1}
-  m_LocalScale: {x: 0.5974369, y: 0.1527356, z: 1.9253429}
+  m_LocalPosition: {x: 3.88, y: -4.596, z: 0.049548}
+  m_LocalScale: {x: 0.7261833, y: 0.1856498, z: 2.3402503}
   m_Children:
   - {fileID: 1299477373}
   m_Father: {fileID: 1159329444}
@@ -19538,7 +19538,7 @@ Transform:
   m_GameObject: {fileID: 1299477372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.0066955807, y: 0.10475796, z: -5.1591945}
-  m_LocalScale: {x: 15.620395, y: 61.10036, z: 0.4847033}
+  m_LocalScale: {x: 8.292113, y: 32.43523, z: 0.2573056}
   m_Children: []
   m_Father: {fileID: 902166902}
   m_RootOrder: 0
@@ -19550,12 +19550,12 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1299477372}
-  m_Text: Purchase
+  m_Text: "Purchase and \nExit Store"
   m_OffsetZ: 0
   m_CharacterSize: 0.005
   m_LineSpacing: 1
   m_Anchor: 4
-  m_Alignment: 0
+  m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 100
   m_FontStyle: 1

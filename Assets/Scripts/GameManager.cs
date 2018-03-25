@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour {
             {
                 saveData();
 
-                if (currentDay.month == 04 && currentDay.day == 31)
+                if (currentDay.month == Constants.endDate.month && currentDay.day == Constants.endDate.day)
                 {
                     gameWon();
                 }

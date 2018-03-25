@@ -450,7 +450,7 @@ public class eventHandler{
 
         Debug.Log("violentMug being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (manager.City.currentChaos > exMinChaos && minTimePassed < vars.daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
+        if (/*manager.City.currentChaos > exMinChaos && */minTimePassed < vars.daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
         {
             string descriptionText = "";
 
@@ -568,7 +568,7 @@ public class eventHandler{
 
         Debug.Log("lethalMug being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (manager.City.currentChaos > exMinChaos && manager.City.currentCrime > exMinCrime && minTimePassed < vars.daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
+        if (/*manager.City.currentChaos > exMinChaos && manager.City.currentCrime > exMinCrime && */minTimePassed < vars.daysSinceLastRobbery && Random.Range(0, 100) < triggerMax)
         {
             string descriptionText = "";
 
@@ -619,7 +619,7 @@ public class eventHandler{
 
         Debug.Log("expKid being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (!vars.kidnappedAlready && manager.membersInHouse > 1 && manager.City.currentCrime > exMinCrime && manager.City.currentChaos > exMinChaos && Random.Range(0, 100) < triggerMax)
+        if (!vars.kidnappedAlready && manager.membersInHouse > 1 && /*manager.City.currentCrime > exMinCrime && manager.City.currentChaos > exMinChaos &&*/ Random.Range(0, 100) < triggerMax)
         {
             manager.addTimeTransition();
 
@@ -661,7 +661,7 @@ public class eventHandler{
 
         Debug.Log("desperateKid being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (!vars.kidnappedAlready && manager.membersInHouse > 1 && manager.City.currentCrime > exMinCrime && manager.City.currentChaos > exMinChaos && Random.Range(0, 100) < triggerMax)
+        if (!vars.kidnappedAlready && manager.membersInHouse > 1 /*&& manager.City.currentCrime > exMinCrime && manager.City.currentChaos > exMinChaos */&& Random.Range(0, 100) < triggerMax)
         {
             manager.addTimeTransition();
 
@@ -711,7 +711,7 @@ public class eventHandler{
 
         Debug.Log("blockedRoad being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (manager.currentTime != timeOfDay.evening && manager.City.currentChaos > exMinChaos && vars.daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
+        if (manager.currentTime != timeOfDay.evening && /*manager.City.currentChaos > exMinChaos &&*/ vars.daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
         {
             manager.addTimeTransition();
 
@@ -743,7 +743,7 @@ public class eventHandler{
 
         Debug.Log("smallCarAccident being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (manager.currentTime != timeOfDay.evening && manager.City.currentChaos > exMinChaos && vars.daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
+        if (manager.currentTime != timeOfDay.evening && /*manager.City.currentChaos > exMinChaos &&*/ vars.daysSinceLastTraffic > minTimePassed && Random.Range(0, 100) < triggerMax)
         {
             manager.addTimeTransition();
 
@@ -778,7 +778,7 @@ public class eventHandler{
 
         Debug.Log("disservice being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (manager.currentTime == requiredTime && manager.City.currentChaos > exMinChaos && minTimeForDisservice < vars.daysSinceNegligence && Random.Range(0, 100) < triggerMax)
+        if (manager.currentTime == requiredTime && /*manager.City.currentChaos > exMinChaos &&*/ minTimeForDisservice < vars.daysSinceNegligence && Random.Range(0, 100) < triggerMax)
         {
             manager.enqueuePopUp("Due to incompetence, you are left a day without water or electricity.", pictureUsed);
 
@@ -803,7 +803,7 @@ public class eventHandler{
 
         Debug.Log("uselessness being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (manager.currentTime == requiredTime && manager.City.currentChaos > exMinChaos && minTimeForDisservice < vars.daysSinceNegligence && Random.Range(0, 100) < triggerMax)
+        if (manager.currentTime == requiredTime && /*manager.City.currentChaos > exMinChaos && */minTimeForDisservice < vars.daysSinceNegligence && Random.Range(0, 100) < triggerMax)
         {
             manager.enqueuePopUp("You wake up with no water or electricity. You don't think it will be solved soon.", pictureUsed);
 
@@ -855,7 +855,7 @@ public class eventHandler{
 
         Debug.Log("flood being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (exMinChaos > manager.City.currentChaos && vars.daysSinceLastEvent > minTimeSinceLastEvent && Random.Range(0, 100) < triggerMax)
+        if (/*exMinChaos > manager.City.currentChaos &&*/ vars.daysSinceLastEvent > minTimeSinceLastEvent && Random.Range(0, 100) < triggerMax)
         {
             manager.houseStats.modMoney(moneyLost);
 
@@ -886,7 +886,7 @@ public class eventHandler{
 
         Debug.Log("cousinDeath being tested: \nTrigger: " + triggerMax + "/100\n " + correctTime + " " + (manager.City.currentCrime > exMinCrime));
 
-        if (correctTime && manager.City.currentCrime > exMinCrime && Random.Range(0, 100) < triggerMax)
+        if (correctTime /*&& manager.City.currentCrime > exMinCrime */&& Random.Range(0, 100) < triggerMax)
         {
             foreach (FamilyMembers f in manager.Family)
             {
@@ -919,7 +919,7 @@ public class eventHandler{
 
         Debug.Log("lostBullet being tested: \nTrigger: " + triggerMax + "/100");
 
-        if (correctCat && manager.City.currentChaos > exMinChaos && manager.City.currentCrime > exMinCrime && Random.Range(0, 100) < triggerMax)
+        if (/*correctCat && manager.City.currentChaos > exMinChaos && manager.City.currentCrime > exMinCrime &&*/ Random.Range(0, 100) < triggerMax)
         {
             int randomNum = Random.Range(1, 3);
 
