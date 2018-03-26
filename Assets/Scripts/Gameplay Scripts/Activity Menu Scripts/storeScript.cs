@@ -11,6 +11,7 @@ public class storeScript : MonoBehaviour {
     public Transform[] itemsInShop = new Transform[4];
     public TextMesh[] stockText = new TextMesh[4];
     public TextMesh[] totalCosts = new TextMesh[4];
+    public TextMesh[] individualCosts = new TextMesh[4];
     public TextMesh[] itemNames = new TextMesh[4];
     public TextMesh receipt;
     public Transform purchaseButton;
@@ -31,6 +32,7 @@ public class storeScript : MonoBehaviour {
                 stockText[n].text = " / " + store.inventory[n].getStock();
                 itemNames[n].text = store.inventory[n].getType().ToString();
                 selectedUnits[n] = 0;
+                individualCosts[n].text = "x " + store.inventory[n].getCostPerUnit().ToString() + " =";
                 totalCosts[n].text = 0 + "$";
                 shoppingButtons[n].SendMessage("updateNumber", 0, SendMessageOptions.RequireReceiver);
             }

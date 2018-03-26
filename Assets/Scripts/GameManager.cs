@@ -272,7 +272,7 @@ public class GameManager : MonoBehaviour {
 
         Events.dayAdvance(); //Advance the day within the event handler
 
-        if (currentDay.calculateDayOfWeek() == whenAreStoresResupplied && Random.Range(1, 2) == 1)
+        if (currentDay.calculateDayOfWeek() == whenAreStoresResupplied && Random.Range(1, City.currentChaos) == 1)
         {
             storeSupplying();
         }
@@ -1222,6 +1222,9 @@ public class GameManager : MonoBehaviour {
         sortListOfDays(Obituaries);
         
         Events = new eventHandler(this, new eventHandler.variables());
+
+        foreach (districtClass d in City.districts)
+            Debug.Log(d.districtName + ": " + d.baseCrimeRateMorning + " - " + d.baseCrimeRateNoon + " - " + d.baseCrimeRateEvening);
 
         saveData();
     }

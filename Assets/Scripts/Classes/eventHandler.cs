@@ -148,7 +148,7 @@ public class eventHandler{
         {
             case 0:
                 {
-                    int rollingChance = 10;
+                    int rollingChance = decisionEvents.Count - 1;
 
 
                     int RN = Random.Range(0, rollingChance);
@@ -164,7 +164,7 @@ public class eventHandler{
             case 1:
                 {
                     //Constants
-                    int rollingChance = 10;
+                    int rollingChance = eventIndex.Count - 1;
 
 
                     int RN = Random.Range(0, rollingChance);
@@ -286,6 +286,22 @@ public class eventHandler{
                 inString = inString.Replace("#Cdcr", manager.City.districts[(int)manager.tempActivity.area].currentCREvening.ToString());
                 break;
         }
+
+        for (int n = 0; n < Constants.familySize; n++)
+        {
+            inString = inString.Replace("#F" + (n + 1) + "m", manager.Family[n].morale.ToString());
+            inString = inString.Replace("#F" + (n + 1) + "mU?", (manager.Family[n].psyche == FamilyMembers.emotionalHealth.Unstable) ? 1.ToString() : 0.ToString());
+            inString = inString.Replace("#F" + (n + 1) + "mD?", (manager.Family[n].psyche == FamilyMembers.emotionalHealth.Depressed) ? 1.ToString() : 0.ToString());
+
+            inString = inString.Replace("#F" + (n + 1) + "h", manager.Family[n].health.ToString());
+
+            inString = inString.Replace("#F" + (n + 1) + "S?", (manager.Family[n].status.ID != 0) ? 1.ToString() : 0.ToString());
+
+            //If the only #Fs left have no argument after them, we replace it with a 1 if that member is alive and in the house or a 0 if theyre not
+            inString = inString.Replace("#F" + (n + 1).ToString(), (!manager.Family[n].gone && !manager.Family[n].dead) ? 1.ToString() : 0.ToString());
+        }
+
+        inString = inString.Replace("#M", manager.houseStats.getMoney().ToString());
 
         return inString;
     }

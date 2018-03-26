@@ -29,7 +29,7 @@ public class cityClass{
 
     public string stateName = "Little Venice";
 
-    public districtClass[] districts = new districtClass[5];
+    public districtClass[] districts;
     Queue<changeOfStats> changes = new Queue<changeOfStats>();
 
     //These all go from 1 to 10
@@ -59,19 +59,23 @@ public class cityClass{
         currentChaos = 0;
 
         string[] dStatsLines = districtStatFile.text.Split('\n');
+        districts = new districtClass[dStatsLines.Length];
         string[] statCLines = statChangesFile.text.Split('\n');
         string[] tempValues;
 
-        for (int n = 0; n < 5; n++)
+        for (int n = 0; n < dStatsLines.Length; n++)
         {
             tempValues = dStatsLines[n].Split('\t');
-            districts[n] = new districtClass((n + 1), tempValues[0], float.Parse(tempValues[1]), float.Parse(tempValues[2]), float.Parse(tempValues[3]), float.Parse(tempValues[4]));
+            if (tempValues.Length > 4)
+                districts[n] = new districtClass((n + 1), tempValues[0], float.Parse(tempValues[1]), float.Parse(tempValues[2]), float.Parse(tempValues[3]), float.Parse(tempValues[4]));
         }
 
         for (int a = 0; a < statCLines.Length; a++)
         {
             tempValues = statCLines[a].Split('\t');
-            changes.Enqueue(new changeOfStats(int.Parse(tempValues[0]), int.Parse(tempValues[1]), float.Parse(tempValues[2]), float.Parse(tempValues[3]), float.Parse(tempValues[4]), float.Parse(tempValues[5])));
+
+            if (tempValues.Length > 5)
+                changes.Enqueue(new changeOfStats(int.Parse(tempValues[0]), int.Parse(tempValues[1]), float.Parse(tempValues[2]), float.Parse(tempValues[3]), float.Parse(tempValues[4]), float.Parse(tempValues[5])));
         }
 
         //reorganizeListIntoStack(listChanges);

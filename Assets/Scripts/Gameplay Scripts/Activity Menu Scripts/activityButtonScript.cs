@@ -64,8 +64,11 @@ public class activityButtonScript : MonoBehaviour {
 
     void OnMouseExit()
     {
-        statDisplay.gameObject.SetActive(false);
-        highLightPointer(false);
+        if (isAvailable && active)
+        {
+            statDisplay.gameObject.SetActive(false);
+            highLightPointer(false);
+        }
     }
 
     public void setEmpty()

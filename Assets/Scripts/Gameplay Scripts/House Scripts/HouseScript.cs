@@ -288,8 +288,13 @@ public class HouseScript : MonoBehaviour {
     {
         if (close)
         {
-            drawerAnimations.Play("CloseDrawer");
+            drawerAnimations.Play("Close");
             openDrawer = false;
+        }
+        else
+        {
+            drawerAnimations.Play("Open");
+            openDrawer = true;
         }
     }
 }
