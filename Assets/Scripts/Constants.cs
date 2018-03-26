@@ -14,7 +14,7 @@ public static class Constants{
 
     //Morale Constants
     public static int depressionTop = 20;
-    public static int unpaidServicesMoraleDrop = 2;
+    public static int unpaidServicesMoraleDrop = 5;
     public static int unshowerMoraleDrop = 2;
     public static int[] unstabilityEventsProbability = { 50, 25, 15, 10, 5 };
 

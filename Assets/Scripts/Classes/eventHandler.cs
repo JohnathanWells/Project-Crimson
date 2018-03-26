@@ -255,8 +255,7 @@ public class eventHandler{
 
         int RN = Random.Range(0, 100);
 
-        Debug.Log("Testing for decision event " + decisionEvents[number].name + " : " + RN + "/" + expression);
-
+        Debug.Log("Testing for decision event " + decisionEvents[number].name + " : " + RN + "/" + expression + "\n" + "Testing for decision event " + decisionEvents[number].name + " : " + RN + "/" + ExpressionEvaluator.Evaluate<int>(expression));
         if (RN < ExpressionEvaluator.Evaluate<int>(expression))
         {
             manager.enqueuePopUp(number);
@@ -268,12 +267,7 @@ public class eventHandler{
 
     string replaceNumberReferences(string inString)
     {
-        inString = inString.Replace("#Ccr", manager.City.currentCrime.ToString());
-        inString = inString.Replace("#Cch", manager.City.currentChaos.ToString());
-        inString = inString.Replace("#Cin", manager.City.currentInflation.ToString());
-        inString = inString.Replace("#Cf", manager.City.currentFilth.ToString());
         inString = inString.Replace("#Cdt", manager.City.districts[(int)manager.tempActivity.area].traffic.ToString());
-
         switch (manager.currentTime)
         {
             case (timeOfDay.morning):
@@ -287,11 +281,21 @@ public class eventHandler{
                 break;
         }
 
+        inString = inString.Replace("#Ccr", manager.City.currentCrime.ToString());
+        inString = inString.Replace("#Cch", manager.City.currentChaos.ToString());
+        inString = inString.Replace("#Cin", manager.City.currentInflation.ToString());
+        inString = inString.Replace("#Cf", manager.City.currentFilth.ToString());
+
+
+        inString = inString.Replace("#T0?", (manager.currentTime == timeOfDay.morning) ? 1.ToString() : 0.ToString());
+        inString = inString.Replace("#T1?", (manager.currentTime == timeOfDay.afternoon) ? 1.ToString() : 0.ToString());
+        inString = inString.Replace("#T2?", (manager.currentTime == timeOfDay.evening) ? 1.ToString() : 0.ToString());
+
         for (int n = 0; n < Constants.familySize; n++)
         {
-            inString = inString.Replace("#F" + (n + 1) + "m", manager.Family[n].morale.ToString());
             inString = inString.Replace("#F" + (n + 1) + "mU?", (manager.Family[n].psyche == FamilyMembers.emotionalHealth.Unstable) ? 1.ToString() : 0.ToString());
             inString = inString.Replace("#F" + (n + 1) + "mD?", (manager.Family[n].psyche == FamilyMembers.emotionalHealth.Depressed) ? 1.ToString() : 0.ToString());
+            inString = inString.Replace("#F" + (n + 1) + "m", manager.Family[n].morale.ToString());
 
             inString = inString.Replace("#F" + (n + 1) + "h", manager.Family[n].health.ToString());
 

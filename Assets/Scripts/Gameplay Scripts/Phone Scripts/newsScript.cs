@@ -66,8 +66,6 @@ public class newsScript : MonoBehaviour {
 
     public void updateArticle(GameManager manager)
     {
-        StartCoroutine(refreshText());
-
         newsClass temp = newsList[currentNews];
 
         //Debug.Log(temp.title + ": " + temp.content);
@@ -76,6 +74,9 @@ public class newsScript : MonoBehaviour {
 
         picture.sprite = manager.newsIllustrations[temp.imageAttached];
         newsText.text = transormStringKeywords(temp.content, manager);
+
+
+        StartCoroutine(refreshText());
     }
 
     public string transormStringKeywords(string str, GameManager manager)
@@ -161,7 +162,7 @@ public class newsScript : MonoBehaviour {
                                             break;
                                     }
                                 }
-                                else if (word[4] == 't')
+                                else if (word.Length > 4 && word[4] == 't')
                                     tmp = manager.City.districts[distNum].traffic.ToString();
                                 else
                                     tmp = word;

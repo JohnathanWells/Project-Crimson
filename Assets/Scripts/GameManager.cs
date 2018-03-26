@@ -335,6 +335,8 @@ public class GameManager : MonoBehaviour {
         dailySickEffect();
         dailyHealthAndMoraleDrift();
 
+        Debug.Log("Crime: " + City.currentCrime + "\nChaos: " + City.currentChaos + "\nFilth: " + City.currentFilth);
+
         saveData();
 
         if (notificationQueue.Count > 0)
@@ -1210,13 +1212,15 @@ public class GameManager : MonoBehaviour {
 
         storeSupplying();
 
-        enqueuePopUp("Welcome to Little Venice. #n You can start by clicking on the house icon or the phone icon, or by clicking on an activity on screen.", 7);
+        enqueuePopUp("<b> Welcome to Little Venice.</b> #n In this misery simulator, your objective is to keep yourself and your family alive until <b> Dec 31st </b>.", 7);
+
+        enqueuePopUp("You can keep track of the date and day by looking at the phone on the top right.", 7);
 
         //enqueuePopUp("You can start by clicking on the house icon or the phone icon, or by clicking on an activity on screen.", 7);
 
-        enqueuePopUp("#n For more information, please read the info section of the phone menu.", 7);
+        enqueuePopUp("#n For more information, please read the [I]nfo section of the phone menu.", 7);
 
-        enqueuePopUp("Once you are done, I would appreciate if you could leave some feedback. You can find a link in options section of the phone.", 7);
+        enqueuePopUp("Once you are done, I would appreciate if you could leave some feedback. You can find a link in [O]ptions section of the phone.", 7);
 
         savedObject.getObituaries(Obituaries);
         sortListOfDays(Obituaries);
