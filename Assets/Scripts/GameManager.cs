@@ -271,8 +271,8 @@ public class GameManager : MonoBehaviour {
         daysSinceLastIllnessCheck++;
 
         Events.dayAdvance(); //Advance the day within the event handler
-
-        if (currentDay.calculateDayOfWeek() == whenAreStoresResupplied && Random.Range(1, City.currentChaos) == 1)
+        Debug.Log(currentDay.calculateDayOfWeek().ToString());
+        if (currentDay.calculateDayOfWeek() == whenAreStoresResupplied && Random.Range(1, City.currentChaos + 1) == 1)
         {
             storeSupplying();
         }
@@ -360,6 +360,7 @@ public class GameManager : MonoBehaviour {
         {
             //Debug.Log((float)itemPrices[n] * City.currentInflation);
             inflatedPrices[n] = Mathf.RoundToInt((float)itemPrices[n] * City.currentInflation);
+            Debug.Log(n + " price : " + inflatedPrices[n].ToString());
         }
 
 
@@ -1227,8 +1228,8 @@ public class GameManager : MonoBehaviour {
         
         Events = new eventHandler(this, new eventHandler.variables());
 
-        foreach (districtClass d in City.districts)
-            Debug.Log(d.districtName + ": " + d.baseCrimeRateMorning + " - " + d.baseCrimeRateNoon + " - " + d.baseCrimeRateEvening);
+        //foreach (districtClass d in City.districts)
+        //    Debug.Log(d.districtName + ": " + d.baseCrimeRateMorning + " - " + d.baseCrimeRateNoon + " - " + d.baseCrimeRateEvening);
 
         saveData();
     }

@@ -32,7 +32,8 @@ public class storeScript : MonoBehaviour {
                 stockText[n].text = " / " + store.inventory[n].getStock();
                 itemNames[n].text = store.inventory[n].getType().ToString();
                 selectedUnits[n] = 0;
-                individualCosts[n].text = "x " + (store.inventory[n].getCostPerUnit() * manager.City.currentInflation).ToString() + " =";
+                totalCostN[n] = 0;
+                individualCosts[n].text = "x " + (store.inventory[n].getCostPerUnit()).ToString() + " =";
                 totalCosts[n].text = 0 + "$";
                 shoppingButtons[n].SendMessage("updateNumber", 0, SendMessageOptions.RequireReceiver);
             }
