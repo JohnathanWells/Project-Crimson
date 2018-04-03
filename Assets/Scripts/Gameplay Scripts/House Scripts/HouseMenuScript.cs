@@ -13,6 +13,7 @@ public class HouseMenuScript : MonoBehaviour {
     public TextMesh serviceStatusDisplay;
     public activityButtonScript servicePayActivityButton;
     public Color goodColor = new Color(0, 1, 0, 1);
+    public Color warningColor = Color.yellow;
     public Color badColor = new Color(1, 0, 0, 1);
     public TextMesh plagueRateDisplay;
     public TextMesh foodQuantity;
@@ -71,8 +72,17 @@ public class HouseMenuScript : MonoBehaviour {
 
         if (yourHouse.servicesPaid)
         {
-            serviceStatusDisplay.text = "PAID (" + yourHouse.timeLeftForPayment + " Days Left)";
-            serviceStatusDisplay.color = goodColor;
+
+            if (yourHouse.timeLeftForPayment > 10)
+            {
+                serviceStatusDisplay.text = "PAID (" + yourHouse.timeLeftForPayment + " Days Left)";
+                serviceStatusDisplay.color = goodColor;
+            }
+            else
+            {
+                serviceStatusDisplay.text = "PAID - NEXT BILL SOON\n (" + yourHouse.timeLeftForPayment + " Days Left) [" + manager.costOfServices + "$]";
+                serviceStatusDisplay.color = warningColor;
+            }
 
             servicePayActivityButton.gameObject.SetActive(false);
         }

@@ -51,6 +51,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ExpressionSolver-master\CustomFunction.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\Exception.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\Expression.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\ExpressionSolver.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\SolverTools.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\Symbol.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\SymbolList.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\Tests\ExpressionSolverTests.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\ValidityChecker.cs" />
+     <Compile Include="Assets\ExpressionSolver-master\Variable.cs" />
      <Compile Include="Assets\loadingScreenScript.cs" />
      <Compile Include="Assets\Scripts\cameraScaler.cs" />
      <Compile Include="Assets\Scripts\Classes\ActivityClass.cs" />

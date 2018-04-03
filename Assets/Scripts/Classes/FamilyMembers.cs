@@ -182,7 +182,7 @@ public class FamilyMembers
         {
             Debug.Log("Medicine increasing morale by " + medicineMoraleIncreaseAccordingToPsyche[(int)psyche]);
             medicine--;
-            moraleDropQuantity += medicineMoraleIncreaseAccordingToPsyche[(int)psyche];
+            moraleDropQuantity -= Mathf.RoundToInt(medicineMoraleIncreaseAccordingToPsyche[(int)psyche] * 1.5f);
         }
 
         //Morale is affected by how many people have left the house

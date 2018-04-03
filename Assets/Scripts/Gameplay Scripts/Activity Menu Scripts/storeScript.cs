@@ -28,17 +28,17 @@ public class storeScript : MonoBehaviour {
         {
             if (store.inventory[n].getStock() > 0)
             {
+                totalCostN[n] = 0;
                 itemsInShop[n].gameObject.SetActive(true);
                 stockText[n].text = " / " + store.inventory[n].getStock();
                 itemNames[n].text = store.inventory[n].getType().ToString();
-                selectedUnits[n] = 0;
-                totalCostN[n] = 0;
                 individualCosts[n].text = "x " + (store.inventory[n].getCostPerUnit()).ToString() + " =";
                 totalCosts[n].text = 0 + "$";
                 shoppingButtons[n].SendMessage("updateNumber", 0, SendMessageOptions.RequireReceiver);
             }
             else
             {
+                selectedUnits[n] = 0;
                 itemsInShop[n].gameObject.SetActive(false);
             }
         }
@@ -95,6 +95,9 @@ public class storeScript : MonoBehaviour {
         store.inventory[3].buyItem(selectedUnits[3]);
 
         manager.houseStats.modMoney(-calculateTotal());
+
+        for (int n = 0; n < selectedUnits.Length; n++)
+            selectedUnits[n] = 0;
 
         manager.finishShopping();
         //manager.SendMessage("finishShopping");

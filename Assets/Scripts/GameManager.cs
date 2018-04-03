@@ -763,7 +763,7 @@ public class GameManager : MonoBehaviour {
             }
             else if (activity.paysService)
             {
-                enqueuePopUp(activity);
+               // enqueuePopUp(activity);
                 houseStats.modMoney(-activity.cost);
                 houseStats.servicesPaid = true;
 
@@ -771,7 +771,7 @@ public class GameManager : MonoBehaviour {
             }
             else if (activity.isItShop)
             {
-                enqueuePopUp(activity);
+                //enqueuePopUp(activity);
                 changeScreen(1, activity.shopAttached);
             }
         }

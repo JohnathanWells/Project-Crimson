@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class eventHandler{
 
@@ -9,6 +8,8 @@ public class eventHandler{
     public variables vars;
     List<string[]> eventIndex;
     public List<decisionEventClass> decisionEvents;
+
+    AK.ExpressionSolver solver = new AK.ExpressionSolver();
 
     [System.Serializable]
     public class variables
@@ -144,7 +145,7 @@ public class eventHandler{
 
     public bool eventCheck()
     {
-        switch (Random.Range(0, 3))
+        switch (Random.Range(0, 1))
         {
             case 0:
                 {
@@ -255,8 +256,10 @@ public class eventHandler{
 
         int RN = Random.Range(0, 100);
 
-        Debug.Log("Testing for decision event " + decisionEvents[number].name + " : " + RN + "/" + expression + "\n" + "Testing for decision event " + decisionEvents[number].name + " : " + RN + "/" + ExpressionEvaluator.Evaluate<int>(expression));
-        if (RN < ExpressionEvaluator.Evaluate<int>(expression))
+        var requiredNumber = solver.SymbolicateExpression(expression);
+
+        //Debug.Log("Testing for decision event " + decisionEvents[number].name + " : " + RN + "/" + expression + "\n" + "Testing for decision event " + decisionEvents[number].name + " : " + RN + "/" + ExpressionEvaluator.Evaluate<int>(expression));
+        if (RN < requiredNumber.Evaluate())
         {
             manager.enqueuePopUp(number);
             return true;
