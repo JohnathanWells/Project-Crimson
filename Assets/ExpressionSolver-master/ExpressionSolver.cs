@@ -472,7 +472,11 @@ namespace AK
 					globalConstants.Add(valueName,v);
 					return new Symbol(v);
 				default:
-					throw new ESUnknownExpressionException(valueName);
+                    {
+                        //throw new ESUnknownExpressionException(valueName);
+                        return new Symbol(1);
+                    }
+
 			}
 		}
 

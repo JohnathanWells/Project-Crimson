@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\EndCreditScript.cs" />
      <Compile Include="Assets\ExpressionSolver-master\CustomFunction.cs" />
      <Compile Include="Assets\ExpressionSolver-master\Exception.cs" />
      <Compile Include="Assets\ExpressionSolver-master\Expression.cs" />

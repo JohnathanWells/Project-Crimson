@@ -9,6 +9,7 @@ public class phoneScript : MonoBehaviour {
     public newsScript newsScript;
     //Reference to transforma
     public Transform notificationIcon;
+    public AudioClip notificationSound;
     //The phone screen references
     public Transform phoneScreen;
     public SpriteRenderer phoneScreenBackground;
@@ -155,6 +156,10 @@ public class phoneScript : MonoBehaviour {
 
     public void showNotificationIcon(bool enabled)
     {
-        notificationIcon.gameObject.SetActive(enabled);
+        if (notificationIcon.gameObject.activeInHierarchy != enabled)
+        {
+            notificationIcon.gameObject.SetActive(enabled);
+            manager.audioManager.playSFX(notificationSound);
+        }
     }
 }

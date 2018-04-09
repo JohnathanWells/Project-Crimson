@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour {
 
     public ActivityClass tempActivity;
     bool GAME_OVER = false;
+    bool GAME_WON = false;
 
     void Start()
     {
@@ -235,10 +236,6 @@ public class GameManager : MonoBehaviour {
                 currentTime += 1;
             }
 
-            //TODO REMOVE THIS AND REPLACE WITH SOMETHING BETTER    
-            //map.color = timeColors[(int)currentTime];
-            timeTransitionAnimator.SetInteger("TimeOfDay", ((int)currentTime + 1));
-
             if (GAME_OVER)
             {
                 if (savingEnabled)
@@ -250,10 +247,12 @@ public class GameManager : MonoBehaviour {
 
                 if (currentDay.month == Constants.endDate.month && currentDay.day == Constants.endDate.day)
                 {
-                    gameWon();
+                    GAME_WON = true;
+                    //gameWon();
                 }
                 else
                 {
+                    timeTransitionAnimator.SetInteger("TimeOfDay", ((int)currentTime + 1));
                     transitionTime();
                 }
             }
@@ -730,6 +729,9 @@ public class GameManager : MonoBehaviour {
 
     public void gameWon()
     {
+        House.closeHouseMenu();
+        Phone.closePhone();
+        currentlyExecutingActivity = true;
         gameOverScreen.gameObject.SetActive(true);
         gameOverScreen.SendMessage("setFamily", Family);
         gameOverScreen.SendMessage("setDay", currentDay);
@@ -1039,6 +1041,10 @@ public class GameManager : MonoBehaviour {
         else if (GAME_OVER)
         {
             gameOver();
+        }
+        else if (GAME_WON)
+        {
+            gameWon();
         }
         else
         {

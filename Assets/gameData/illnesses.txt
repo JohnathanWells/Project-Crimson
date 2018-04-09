@@ -6,5 +6,5 @@ AH1N1	-2	-3	10	5	20	Cough,Headache,Fever
 GlndFvr	-5	-4	14	7	30	Pharyngitis,Headaches,Fever
 Dengue	-5	-5	20	10	35	Headache,Fever,Vomit
 Cholera	-5	-10	6	3	60	Vomit,Diarrhea
-Rabies	-15	-20	4	2	80	Headache,Fever,Vomit,Paranoia
-Ebola	-15	-20	10	5	90	Headache,Fever,Vomit,Diarrhea
+Ebola	-15	-20	10	5	80	Headache,Fever,Vomit,Diarrhea
+Rabies	-15	-20	4	2	101	Headache,Fever,Vomit,Paranoia

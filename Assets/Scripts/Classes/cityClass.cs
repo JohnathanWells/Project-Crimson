@@ -28,6 +28,7 @@ public class cityClass{
     }
 
     public string stateName = "Little Venice";
+    public string countryName = "Republic of Aurum";
 
     public districtClass[] districts;
     Queue<changeOfStats> changes = new Queue<changeOfStats>();

@@ -7428,7 +7428,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   popUpIllustrations:
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
+  - {fileID: 21300000, guid: 817e30b5799ac4049876add5ecfe78b2, type: 3}
   - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
   - {fileID: 21300000, guid: 96edfe54ac467164d92aa94e51130734, type: 3}
   - {fileID: 21300000, guid: 340552af98917174e93636a9a4695e2f, type: 3}
@@ -7450,23 +7450,23 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e89b05b3753810549a5d1a09d88f0399, type: 3}
   - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
   - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
+  - {fileID: 21300000, guid: e6835bbe3d07ba24495eb733f32fae7b, type: 3}
+  - {fileID: 21300000, guid: 1a56ab98893df7245a81fda2944a65f9, type: 3}
+  - {fileID: 21300000, guid: e6835bbe3d07ba24495eb733f32fae7b, type: 3}
   - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
   - {fileID: 21300000, guid: f8bf0627ec70f1b4088abb549b9c2fc8, type: 3}
   - {fileID: 21300000, guid: ffd60187e02da5940a04f3f0d72289d6, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
+  - {fileID: 21300000, guid: 83e9ac0567751cb48935d419045ec881, type: 3}
+  - {fileID: 21300000, guid: 1667cdc83fabe7849ba61a3189ed5f17, type: 3}
+  - {fileID: 21300000, guid: 817e30b5799ac4049876add5ecfe78b2, type: 3}
+  - {fileID: 21300000, guid: 817e30b5799ac4049876add5ecfe78b2, type: 3}
+  newsIllustrations:
+  - {fileID: 21300000, guid: 817e30b5799ac4049876add5ecfe78b2, type: 3}
   - {fileID: 21300000, guid: 817e30b5799ac4049876add5ecfe78b2, type: 3}
   - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  newsIllustrations:
   - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
-  - {fileID: 21300000, guid: d6aaf5bc98d96d242b461c4695deb860, type: 3}
+  - {fileID: 21300000, guid: dc0455a94be55cc4cb62c4f46d1037a5, type: 3}
+  - {fileID: 21300000, guid: d295f171a372ec744b084c4b541bb19a, type: 3}
   - {fileID: 21300000, guid: 0900cebf1b92f80458865255eaecee7f, type: 3}
   - {fileID: 21300000, guid: 6689d9dc293774f478341d6571f2e431, type: 3}
   - {fileID: 21300000, guid: 1a56ab98893df7245a81fda2944a65f9, type: 3}
@@ -7579,6 +7579,7 @@ MonoBehaviour:
     timeLeftForPayment: 0
   City:
     stateName: Generic
+    countryName: Republic of Aurum
     districts: []
     currentInflation: 0
     currentCrime: 0
@@ -7639,7 +7640,7 @@ MonoBehaviour:
   loadingSound: {fileID: 8300000, guid: a1b89fa2c4faeee4f874a3e63bf69679, type: 3}
   misstepSound: {fileID: 8300000, guid: 52b4daf21012837458b22ca422e32bec, type: 3}
   dadStartsSick: 0
-  createSessionAtStart: 0
+  createSessionAtStart: 1
   savingEnabled: 1
   mornActivities: []
   noonActivities: []
@@ -17189,6 +17190,7 @@ MonoBehaviour:
   manager: {fileID: 555629791}
   newsScript: {fileID: 666468444}
   notificationIcon: {fileID: 1377784674}
+  notificationSound: {fileID: 8300000, guid: c991c86a15db96643b718c3ee2f9b6eb, type: 3}
   phoneScreen: {fileID: 66165525}
   phoneScreenBackground: {fileID: 443513810}
   timeColors:
@@ -21276,8 +21278,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1377784673}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.6, y: 4.78, z: -6}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 5.749, y: 4.872, z: -6}
+  m_LocalScale: {x: 1.199902, y: 1.199902, z: 0.599951}
   m_Children: []
   m_Father: {fileID: 606444919}
   m_RootOrder: 0
@@ -23059,7 +23061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1503317739
 Transform:
   m_ObjectHideFlags: 0
@@ -25537,6 +25539,7 @@ GameObject:
   - component: {fileID: 1695794449}
   - component: {fileID: 1695794448}
   - component: {fileID: 1695794447}
+  - component: {fileID: 1695794451}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -25626,6 +25629,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1440, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1695794451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1695794446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a57eae4fdcc03048b4c41001336d326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creditAnimator: {fileID: 0}
+  creditSong: {fileID: 0}
+  source: {fileID: 0}
+  credits: {fileID: 0}
+  creditText: {fileID: 0}
 --- !u!1 &1698081861
 GameObject:
   m_ObjectHideFlags: 0
@@ -27078,7 +27097,7 @@ Transform:
   m_GameObject: {fileID: 1781526235}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0136598, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1308890005}
   m_RootOrder: 0

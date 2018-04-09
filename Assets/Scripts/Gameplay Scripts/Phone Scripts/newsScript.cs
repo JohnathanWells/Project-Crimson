@@ -70,7 +70,7 @@ public class newsScript : MonoBehaviour {
 
         //Debug.Log(temp.title + ": " + temp.content);
 
-        newsHeader.text = temp.title;
+        newsHeader.text = transormStringKeywords(temp.title, manager);
 
         picture.sprite = manager.newsIllustrations[temp.imageAttached];
         newsText.text = transormStringKeywords(temp.content, manager);
@@ -112,6 +112,9 @@ public class newsScript : MonoBehaviour {
                         break;
                     case "#c": //City name
                         tmp = manager.City.stateName;
+                        break;
+                    case "#co": //Country name
+                        tmp = manager.City.countryName;
                         break;
                     case "#d1": //District 1 name and so on
                         if (manager.City.districts.Length > 0)

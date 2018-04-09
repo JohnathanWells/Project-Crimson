@@ -181,8 +181,9 @@ public class FamilyMembers
         if (status.ID == 0 && medicine > 0)
         {
             Debug.Log("Medicine increasing morale by " + medicineMoraleIncreaseAccordingToPsyche[(int)psyche]);
-            medicine--;
-            moraleDropQuantity -= Mathf.RoundToInt(medicineMoraleIncreaseAccordingToPsyche[(int)psyche] * 1.5f);
+            //medicine--;
+            moraleDropQuantity -= Mathf.RoundToInt(medicineMoraleIncreaseAccordingToPsyche[(int)psyche] * 1.25f * medicine);
+            medicine = 0;
         }
 
         //Morale is affected by how many people have left the house
