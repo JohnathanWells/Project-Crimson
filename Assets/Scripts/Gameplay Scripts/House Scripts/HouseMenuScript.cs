@@ -247,7 +247,12 @@ public class HouseMenuScript : MonoBehaviour {
     {
         if (foodButton[number].gameObject.activeInHierarchy && medicationButton[number].gameObject.activeInHierarchy)
         {
-            if (gameManager.houseStats.getFoodQ() == 0)
+            int foodConsumedToThisPoint = 0;
+
+            for (int n = 0; n <= number; n++)
+                foodConsumedToThisPoint += FamilyMembers[n].food;
+
+            if (gameManager.houseStats.getFoodQ() < foodConsumedToThisPoint)
             {
                 foodButton[number].SendMessage("changeColor", badColor);
             }

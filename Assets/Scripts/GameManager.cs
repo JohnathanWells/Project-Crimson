@@ -520,7 +520,7 @@ public class GameManager : MonoBehaviour {
                 {
                     if (Family[n].psyche == FamilyMembers.emotionalHealth.Unstable)
                     {
-                        switch (Random.Range(1, 7))
+                        switch (Random.Range(1, 10))
                         {
                             case 1:
                                 enqueuePopUp("You find yourself screaming in the shower every morning.", 7);
@@ -537,6 +537,12 @@ public class GameManager : MonoBehaviour {
                             case 5:
                                 enqueuePopUp("You find yourself screaming in the shower this morning.", 7);
                                 break;
+                            case 6:
+                                enqueuePopUp("You almost hit " + (((!Family[1].gone && !Family[1].dead) || (!Family[2].gone && !Family[2].dead) || (!Family[3].gone && !Family[3].dead)) ? " your family " : "someone") + " this morning.", 7);
+                                break;
+                            case 7:
+                                enqueuePopUp("You didn't sleep last night.", 7);
+                                break;
                             default:
                                 enqueuePopUp("You are not feeling well.", 7);
                                 break;
@@ -544,7 +550,7 @@ public class GameManager : MonoBehaviour {
                     }
                     else if (Family[n].psyche == FamilyMembers.emotionalHealth.Depressed)
                     {
-                        switch (Random.Range(1, 7))
+                        switch (Random.Range(1, 10))
                         {
                             case 1:
                                 enqueuePopUp("You are not feeling hungry this morning.", 7);
@@ -560,6 +566,12 @@ public class GameManager : MonoBehaviour {
                                 break;
                             case 5:
                                 enqueuePopUp("You find yourself standing motionless in the shower for hours this morning.", 7);
+                                break;
+                            case 6:
+                                enqueuePopUp("You really want a beer right now.", 7);
+                                break;
+                            case 7:
+                                enqueuePopUp("Why even bother?", 7);
                                 break;
                             default:
                                 enqueuePopUp("You might need some rest.", 7);

@@ -234,7 +234,7 @@ public class HouseScript : MonoBehaviour {
         if (manager.houseStats.getFoodQ() - information.change >= 0)
         {
             manager.Family[information.id].food += information.change;
-            manager.houseStats.modFood(-information.change);
+            //manager.houseStats.modFood(-information.change);
 
             MenuManagementScript.SendMessage("updateFamilyInfo", manager.Family);
             MenuManagementScript.SendMessage("updateHouseInfo", manager);
