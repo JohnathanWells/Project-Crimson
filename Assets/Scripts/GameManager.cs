@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour {
                 if (currentDay.month == Constants.endDate.month && currentDay.day == Constants.endDate.day)
                 {
                     GAME_WON = true;
-                    //gameWon();
+                    gameWon();
                 }
                 else
                 {
@@ -748,6 +748,7 @@ public class GameManager : MonoBehaviour {
         gameOverScreen.SendMessage("setFamily", Family);
         gameOverScreen.SendMessage("setDay", currentDay);
         gameOverScreen.SendMessage("displayVictory");
+        audioManager.SendMessage("stopEverything");
     }
     #endregion
 
@@ -1231,15 +1232,13 @@ public class GameManager : MonoBehaviour {
 
         storeSupplying();
 
-        enqueuePopUp("<b> Welcome to Little Venice.</b> #n In this misery simulator, your objective is to keep yourself and your family alive until <b> Dec 31st </b>.", 7);
+        enqueuePopUp("<b> Welcome to Little Venice.</b> #n In this misery simulator, your objective is to keep yourself and your family alive until <b> Dec 31st </b>.", 38);
 
-        enqueuePopUp("You can keep track of the date and day by looking at the phone on the top right.", 7);
+        enqueuePopUp("You can keep track of the date and time by looking at the phone. #n You may also click on it to read the news, the in-game wiki or change the music. ", 36);
 
-        //enqueuePopUp("You can start by clicking on the house icon or the phone icon, or by clicking on an activity on screen.", 7);
+        enqueuePopUp("You can <b>Right Click</b> the house to see or modify your household inventory, <b>Left Click</b> it to see the quick menu or <b>Middle Click</b> it to open the family menu.", 35);
 
-        enqueuePopUp("#n For more information, please read the [I]nfo section of the phone menu.", 7);
-
-        enqueuePopUp("Once you are done, I would appreciate if you could leave some feedback. You can find a link in [O]ptions section of the phone.", 7);
+        enqueuePopUp("To pass time and earn resources, click on the <i>Activities</i> bellow.", 37);
 
         savedObject.getObituaries(Obituaries);
         sortListOfDays(Obituaries);

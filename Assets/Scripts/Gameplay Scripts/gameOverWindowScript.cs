@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class gameOverWindowScript : MonoBehaviour {
 
-    public TextMesh deathMessage;
+    public Text deathMessage;
     public TextMesh finalDayDisplay;
     public TextMesh[] familyStatuses;
     public TextMesh[] names;
     public int mainMenuID = 0;
+    public int creditID = 3;
     public Color goodColor = Color.green;
     public Color badColor = Color.red;
     public Color couldBeWorseColor = Color.yellow;
     public int maxNameLength = 8;
+
+    bool Victory = false;
 
     DayClass finalDay;
     FamilyMembers[] family;
@@ -57,6 +61,8 @@ public class gameOverWindowScript : MonoBehaviour {
 
     public void displayVictory()
     {
+        Victory = true;
+
         deathMessage.color = goodColor;
         deathMessage.text = trimString(family[0].firstName.Split(' ')[0]) + " " + trimString(family[0].lastName) + " survived to " + finalDay.calculateMonth() + " " + finalDay.day + "th";
         finalDayDisplay.text = "You managed to survive " + finalDay.dayCount + " days.";
@@ -85,8 +91,16 @@ public class gameOverWindowScript : MonoBehaviour {
 
     public void resetGame()
     {
-        SaveLoad.Delete();
-        SceneManager.LoadScene(mainMenuID);
+        if (Victory)
+        {
+            SaveLoad.Delete();
+            SceneManager.LoadScene(creditID);
+        }
+        else
+        {
+            SaveLoad.Delete();
+            SceneManager.LoadScene(mainMenuID);
+        }
     }
 
     string trimString(string str)

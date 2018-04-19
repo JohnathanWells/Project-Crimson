@@ -108,6 +108,7 @@
      <Compile Include="Assets\Scripts\Main Menu Scripts\mainMenuScript.cs" />
      <Compile Include="Assets\Scripts\Main Menu Scripts\newGameClass.cs" />
      <Compile Include="Assets\Scripts\SaveLoad.cs" />
+     <Compile Include="Assets\skipCreditScript.cs" />
      <None Include="Assets\gameData\stores.txt" />
      <None Include="Assets\gameData\activities.txt" />
      <None Include="Assets\gameData\newsArticles.txt" />
@@ -115,6 +116,7 @@
      <None Include="Assets\gameData\wikiArticles.txt" />
      <None Include="Assets\gameData\illnesses.txt" />
      <None Include="Assets\gameData\changes.txt" />
+     <None Include="Assets\gameData\credits.txt" />
      <None Include="Assets\gameData\namesM.txt" />
      <None Include="Assets\gameData\namesF.txt" />
      <None Include="Assets\gameData\districts.txt" />

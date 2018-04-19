@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EndCreditScript : MonoBehaviour {
 
+    public GameManager manager;
     public Animator creditAnimator;
     public AudioClip creditSong;
     public AudioSource source;
     public TextAsset credits;
-    public TextMesh creditText;
+    public Text creditText;
 
     void Start()
     {
@@ -27,6 +29,34 @@ public class EndCreditScript : MonoBehaviour {
                 finalText += "\n" + bits[n];
             }
         }
+
+        creditText.text = finalText;
+
+    }
+
+    public void playCredits()
+    {
+        string summary = "<b>SUMMARY</b>\n";
+
+        for (int n = 0; n < Constants.familySize; n++)
+        {
+            summary += manager.Family[n].firstName + " " + manager.Family[n].lastName + ":\n\t";
+            if (manager.Family[n].dead)
+            {
+                summary += "DEAD [" + manager.Family[n].deathCause + "]";
+            }
+            else if (manager.Family[n].gone && !manager.Family[n].dead)
+            {
+                summary += "GONE";
+            }
+            else
+            {
+                summary += "ALIVE [Morale: " + manager.Family[n].psyche.ToString() + "]";
+            }
+            summary += "\n";
+        }
+
+        creditText.text = summary + creditText.text;
 
         AudioSource[] SOURCES = FindObjectsOfType<AudioSource>();
 

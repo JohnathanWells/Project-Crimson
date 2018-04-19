@@ -7,10 +7,11 @@ public class soundScript : MonoBehaviour {
 
     public AudioClip[] availableSongs;
     public int currentSong = 0;
+    public AudioClip creditSong;
 
     List<int> playlist;
 
-    GameManager manager;
+    public GameManager manager;
 
     AudioSource source;
     AudioSource musicSource;
@@ -18,12 +19,10 @@ public class soundScript : MonoBehaviour {
     bool readyForTransition;
     
 
-    void Start()
+    void Awake()
     {
         source = gameObject.GetComponent<AudioSource>();
         musicSource = GameObject.FindGameObjectWithTag("musicSource").GetComponent<AudioSource>();
-        manager = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManager>();
-
         playlist = new List<int>();
         manager.loadPlaylist(playlist);
         changeSong(0);
@@ -89,6 +88,15 @@ public class soundScript : MonoBehaviour {
             changeSong(currentSong);
             Debug.Log(currentSong);
         }
+    }
+
+    public void stopEverything()
+    {
+
+        AudioSource[] SOURCES = FindObjectsOfType<AudioSource>();
+
+        foreach (AudioSource s in SOURCES)
+            s.Stop();
     }
 
     IEnumerator countForTransition(float time)
