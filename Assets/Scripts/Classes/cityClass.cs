@@ -84,16 +84,23 @@ public class cityClass{
 
     public void applyStatChanges(int currentMonth, int currentDay)
     {
-        changeOfStats tempC = changes.Peek();
+        changeOfStats tempC;
 
-        if (currentMonth >= tempC.date.month && currentDay >= tempC.date.day)
+        if (changes.Count > 0)
         {
-            currentInflation = tempC.inflation;
-            currentCrime = tempC.crime;
-            currentFilth = tempC.filth;
-            currentChaos = tempC.chaos;
+            tempC = changes.Peek();
 
-            changes.Dequeue();  
+            while (changes.Count > 0 && currentMonth >= tempC.date.month && currentDay >= tempC.date.day)
+            {
+                tempC = changes.Peek();
+
+                currentInflation = tempC.inflation;
+                currentCrime = tempC.crime;
+                currentFilth = tempC.filth;
+                currentChaos = tempC.chaos;
+
+                changes.Dequeue();
+            }
         }
     }
 

@@ -1,19 +1,19 @@
-10	1	0	1	0	0	//Intro
-10	5	1	2	1	0	//Body in dumpster
+10	1	1	0	0	0	//Intro
+10	5	2	1	1	0	//Body in dumpster
 10	9	2	2	1	1	//Unclean sewers
-10	10	2	3	1	1	//The blender
-10	13	2	4	1	2	//Chaos news
-10	20	3	4	2	3	//Inflation news
-10	24	3	4	2	2	//Pandemic news
-10	31	4	5	2	4	//Chaotic event
-11	5	4	5	1	3	//Chaos decreases
+10	10	3	2	1	1	//The blender
+10	13	4	2	1	2	//Chaos news
+10	20	4	3	2	3	//Inflation news
+10	24	4	3	2	2	//Pandemic news
+10	31	5	4	2	4	//Chaotic event
+11	5	5	4	1	3	//Chaos decreases
 11	10	5	5	3	3	//Inflation (50%)
 11	13	5	5	4	4	//Chaotic event
 11	17	6	6	4	5	//Inflation and chaos
 11	21	6	6	5	6	//Dead of president
-11	25	4	3	3	3	//Crime drops as elections are being prepared
-12	8	5	7	6	7	//Political fanatics wage war
+11	25	3	4	3	3	//Crime drops as elections are being prepared
+12	8	7	5	6	7	//Political fanatics wage war
 12	10	8	8	7	8	//Political security is abandoned
-12	15	8	9	8	9	//New president is elected and everything is laxer
-12	18	9	10	9	10	//Political unstability due to inflation
-12	31	10	10	10	10	//New year news 
+12	15	9	8	8	9	//New president is elected and everything is laxer
+12	18	10	9	9	10	//Political unstability due to inflation
+12	31	10	20	10	10	//New year news 

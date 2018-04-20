@@ -106,6 +106,7 @@ public class DayClass{
 
     public daysOfWeek calculateDayOfWeek()
     {
+        calculateCurrentDay();
         return ((daysOfWeek)(dayCount % 7));
     }
 

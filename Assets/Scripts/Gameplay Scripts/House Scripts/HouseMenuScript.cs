@@ -143,6 +143,7 @@ public class HouseMenuScript : MonoBehaviour {
 
         if (!FamilyMembers[number].dead && !FamilyMembers[number].gone)
         {
+            //Debug.Log(FamilyMembers[number].firstName);
             familyIcons[number].gameObject.SetActive(true);
             familyNames[number].text = FamilyMembers[number].firstName;
 

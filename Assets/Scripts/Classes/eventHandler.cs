@@ -206,6 +206,7 @@ public class eventHandler{
         subKidnappingCounter();
 
         vars.daysSinceLastEvent++;
+        Debug.Log("Since last robbery: " + vars.daysSinceLastRobbery);
     }
 
     void subKidnappingCounter()

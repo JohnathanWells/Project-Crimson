@@ -63,7 +63,7 @@ public class eventWindowScript : MonoBehaviour {
     public void translateInstruction(string instruction)
     {
         string[] parts = instruction.Split('_');
-        Debug.Log(parts.Length);
+        //Debug.Log(parts.Length);
 
         if (parts.Length > 0)
         {
@@ -100,7 +100,10 @@ public class eventWindowScript : MonoBehaviour {
                     manager.enqueuePopUp(parts[1], int.Parse(parts[2]));
                     break;
                 case "Kill":
-                    manager.Kill(int.Parse(parts[1]), parts[2], int.Parse(parts[3]));
+                    if (parts.Length > 4)
+                        manager.Kill(int.Parse(parts[1]), parts[2], int.Parse(parts[3]), parts[4]);
+                    else
+                        manager.Kill(int.Parse(parts[1]), parts[2], int.Parse(parts[3]));
                     break;
                 case "GameOver":
                     manager.gameOver();

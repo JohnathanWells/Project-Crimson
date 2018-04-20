@@ -7,7 +7,7 @@ public class FamilyMembers
 {
     int minHealthByDepression = 20; //constant variable for keepying the people from dying from depression
 
-    public enum famMember {Dad, Mom, Dau, Son, unknown};
+    public enum famMember {Dad, Mom, Son, Dau, unknown};
     public enum emotionalHealth { Healthy, Depressed, Unstable };
     public enum gender { him, her};
     public famMember member;

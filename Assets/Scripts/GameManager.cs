@@ -113,6 +113,8 @@ public class GameManager : MonoBehaviour {
     public ActivityClass tempActivity;
     bool GAME_OVER = false;
     bool GAME_WON = false;
+    int daysSinceLastResupply = 0;
+    int failSafeResupplyDays = 10;
 
     void Start()
     {
@@ -270,11 +272,16 @@ public class GameManager : MonoBehaviour {
         daysSinceLastIllnessCheck++;
 
         Events.dayAdvance(); //Advance the day within the event handler
-        Debug.Log(currentDay.calculateDayOfWeek().ToString());
-        if (currentDay.calculateDayOfWeek() == whenAreStoresResupplied && Random.Range(1, City.currentChaos + 1) == 1)
+
+        if (((currentDay.calculateDayOfWeek() == whenAreStoresResupplied) && Random.Range(0, Mathf.FloorToInt(City.currentChaos / 2) + 1) == 0) || (daysSinceLastResupply > failSafeResupplyDays))
         {
+            daysSinceLastResupply = 0;
             storeSupplying();
         }
+        else
+            daysSinceLastResupply++;
+
+        Debug.Log(daysSinceLastResupply);
 
         //Stats change according to time
         City.applyStatChanges(currentDay.month, currentDay.day);
@@ -334,7 +341,7 @@ public class GameManager : MonoBehaviour {
         dailySickEffect();
         dailyHealthAndMoraleDrift();
 
-        Debug.Log("Crime: " + City.currentCrime + "\nChaos: " + City.currentChaos + "\nFilth: " + City.currentFilth);
+        Debug.Log("Inflation:" + City.currentInflation +"Crime: " + City.currentCrime + "\nChaos: " + City.currentChaos + "\nFilth: " + City.currentFilth);
 
         saveData();
 
@@ -657,7 +664,7 @@ public class GameManager : MonoBehaviour {
                         }
                         else
                         {
-                            enqueuePopUp("Moved by guilt and sorrow over the death of the child, " + Family[n].firstName + " commits suicide.", 3, Color.red);
+                            enqueuePopUp("Moved by guilt and sorrow over the murder, " + Family[n].firstName + " commits suicide.", 3, Color.red);
                             mourningLevel += Family[n].dies(); //If a character is the mother, they kill themselves
                             missingLevel += 1;
 
@@ -918,6 +925,33 @@ public class GameManager : MonoBehaviour {
             }
 
             enqueuePopUp(message, pictureUsed);
+
+            if (famMember == 0)
+                GAME_OVER = true;
+        }
+    }
+
+    public void Kill(int famMember, string message, int pictureUsed, string cause)
+    {
+        if (famMember >= 0 && famMember < Family.Length && !Family[famMember].dead)
+        {
+            Family[famMember].dies();
+            membersAlive--;
+
+            if (!Family[famMember].gone)
+                membersInHouse--;
+
+            foreach (FamilyMembers f in Family)
+            {
+                f.mourningAdd(1);
+
+                if (!Family[famMember].gone)
+                    f.missingAdd(1);
+            }
+
+            enqueuePopUp(message, pictureUsed);
+
+            Family[famMember].deathCause = cause;
 
             if (famMember == 0)
                 GAME_OVER = true;

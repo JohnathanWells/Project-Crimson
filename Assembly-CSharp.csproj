@@ -63,6 +63,7 @@
      <Compile Include="Assets\ExpressionSolver-master\ValidityChecker.cs" />
      <Compile Include="Assets\ExpressionSolver-master\Variable.cs" />
      <Compile Include="Assets\loadingScreenScript.cs" />
+     <Compile Include="Assets\musicMenuScript.cs" />
      <Compile Include="Assets\Scripts\cameraScaler.cs" />
      <Compile Include="Assets\Scripts\Classes\ActivityClass.cs" />
      <Compile Include="Assets\Scripts\Classes\arrowButtonClass.cs" />

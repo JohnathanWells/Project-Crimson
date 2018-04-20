@@ -9,6 +9,7 @@ TagManager:
   - AudioManager
   - Game Manager
   - musicSource
+  - MusicPhoneTab
   layers:
   - Default
   - TransparentFX

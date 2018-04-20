@@ -23,5 +23,5 @@ public static class Constants{
     public static int lengthOfPlaylist = 15;
 
     //Game Constants
-    public static DayClass endDate = new DayClass(10, 2);
+    public static DayClass endDate = new DayClass(1, 1);
 }

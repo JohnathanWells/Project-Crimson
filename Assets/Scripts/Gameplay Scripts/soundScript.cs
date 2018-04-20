@@ -17,10 +17,13 @@ public class soundScript : MonoBehaviour {
     AudioSource musicSource;
 
     bool readyForTransition;
+    public musicMenuScript phoneMusicManager;
+    bool randomPlaylist = false;
     
 
     void Awake()
     {
+        //phoneMusicManager = GameObject.FindGameObjectWithTag("MusicPhoneTab").GetComponent<musicMenuScript>();
         source = gameObject.GetComponent<AudioSource>();
         musicSource = GameObject.FindGameObjectWithTag("musicSource").GetComponent<AudioSource>();
         playlist = new List<int>();
@@ -43,7 +46,6 @@ public class soundScript : MonoBehaviour {
 
     public void togglePauseMusic(bool pause)
     {
-        Debug.Log("pause music");
         if (pause)
         {
             musicSource.Pause();
@@ -52,9 +54,34 @@ public class soundScript : MonoBehaviour {
             musicSource.UnPause();
     }
 
+    public void togglePauseMusic(int dummy)
+    {
+        bool pause = musicSource.isPlaying;
+        
+        if (pause)
+        {
+            musicSource.Pause();
+        }
+        else
+            musicSource.UnPause();
+    }
+
+    public void toggleRandom()
+    {
+        randomPlaylist = !randomPlaylist;
+    }
+
     public void changeSong(int to)
     {
         currentSong = to % playlist.Count;
+
+        if (currentSong < 0)
+        {
+            currentSong = playlist.Count + currentSong;
+
+            if (currentSong < 0)
+                currentSong = 0;
+        }
 
         updateSong();
 
@@ -67,6 +94,7 @@ public class soundScript : MonoBehaviour {
     {
         //Debug.Log(playlist[0] + ", " + playlist[1]);
         musicSource.clip = availableSongs[playlist[currentSong]];
+        phoneMusicManager.SendMessage("DisplayCurrentSong", null, SendMessageOptions.DontRequireReceiver);
     }
 
     public void changePlaylistTo(int[] newPL)
@@ -84,10 +112,30 @@ public class soundScript : MonoBehaviour {
     {
         if (!musicSource.isPlaying && readyForTransition)
         {
-            currentSong++;
-            changeSong(currentSong);
-            Debug.Log(currentSong);
+            if (!randomPlaylist)
+            {
+                currentSong++;
+                changeSong(currentSong);
+                //Debug.Log(currentSong);
+            }
+            else
+            {
+                currentSong = Random.Range(0, availableSongs.Length - 1);
+                changeSong(currentSong);
+            }
         }
+    }
+
+    public void NextSong()
+    {
+        currentSong++;
+        changeSong(currentSong);
+    }
+
+    public void PrevSong()
+    {
+        currentSong--;
+        changeSong(currentSong);
     }
 
     public void stopEverything()
